@@ -11,27 +11,15 @@ const Portfolio = () => {
     { name: 'Instagram', url: 'https://www.instagram.com/matty.park/' },
   ]
 
-  // Blog posts - easily add new posts here
-  const blogPosts = [
-    {
-      title: 'My Journey as a Young Entrepreneur',
-      date: 'November 2, 2025',
-      description: 'How I started my consulting business at 15 and what I learned along the way.',
-      link: '/blog/young-entrepreneur'
-    },
-    {
-      title: 'Balancing School and Business',
-      date: 'October 15, 2025',
-      description: 'Tips and strategies for managing academic life while building a business.',
-      link: '/blog/balancing-school-business'
-    },
-    {
-      title: 'Getting Started with Sales',
-      date: 'September 28, 2025',
-      description: 'My first 4 months in sales and the lessons I learned about communicating value.',
-      link: '/blog/getting-started-sales'
-    },
-  ]
+  const [currentTime, setCurrentTime] = useState(new Date())
+
+  // Update time every second
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date())
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
 
   const handleEmailCopy = () => {
     navigator.clipboard.writeText('mattyparkbusiness@gmail.com') // Update with your actual email
@@ -89,40 +77,32 @@ const Portfolio = () => {
           </div>
         </section>
 
-        {/* Blog Section */}
-        <section className="mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">Blog posts</h2>
-          
-          <div className="space-y-10 md:space-y-12">
-            {blogPosts.map((post, index) => (
-              <a
-                key={index}
-                href={post.link}
-                className="block group"
-              >
-                <div className="space-y-2">
-                  <h3 className="text-xl md:text-2xl font-semibold group-hover:text-mocha-mousse transition-colors duration-200">
-                    {post.title}
-                  </h3>
-                  <p className="text-sm md:text-base text-gray-500">{post.date}</p>
-                  {post.description && (
-                    <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-                      {post.description}
-                    </p>
-                  )}
-                </div>
-              </a>
-            ))}
-          </div>
+        {/* Navigation Section */}
+        <section className="mb-20">
+          <nav className="space-y-4">
+            <a 
+              href="/posts" 
+              className="block text-2xl md:text-3xl text-gray-600 hover:text-black transition-colors duration-200"
+            >
+              Posts
+            </a>
+            <a 
+              href="/projects" 
+              className="block text-2xl md:text-3xl text-gray-600 hover:text-black transition-colors duration-200"
+            >
+              Projects
+            </a>
+          </nav>
         </section>
 
       </div>
 
       {/* Footer */}
-      <footer className="max-w-4xl mx-auto px-6 sm:px-8 md:px-12 py-12 border-t border-gray-200 mt-20">
-        <p className="text-sm text-gray-500">
-          &copy; {new Date().getFullYear()} Matthew Park. All rights reserved.
-        </p>
+      <footer className="max-w-4xl mx-auto px-6 sm:px-8 md:px-12 py-12 mt-20">
+        <div className="flex justify-between items-center text-sm text-gray-500">
+          <span>📍 Kentucky</span>
+          <span>{currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}</span>
+        </div>
       </footer>
     </div>
   )

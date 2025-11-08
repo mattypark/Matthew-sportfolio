@@ -6,9 +6,10 @@ const Portfolio = () => {
   // Social media links - update with your actual profiles
   const socialLinks = [
     { name: 'YouTube', url: 'https://www.youtube.com/@Mattyparkkk' },
+    { name: 'Instagram', url: 'https://www.instagram.com/matty.park/' },
     { name: 'LinkedIn', url: 'https://www.linkedin.com/in/matthew-park-487889350/' },
     { name: 'X/Twitter', url: 'https://x.com/MattyparkW' },
-    { name: 'Instagram', url: 'https://www.instagram.com/matty.park/' },
+    { name: 'GitHub', url: 'https://github.com/mattypark' },
   ]
 
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -75,7 +76,7 @@ const Portfolio = () => {
               I've been an entrepreneur for 3+ years, building my skills in marketing, sales, and coding. I own a consulting business helping brands scale online.
             </p>
             <p>
-              I love basketball, playing Laufey on my guitar, and creating content.
+              I love basketball, walking around in my neighborhood at sunset, and creating content.
             </p>
           </div>
         </section>

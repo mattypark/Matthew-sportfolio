@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "framer-motion": "^12.23.24",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.20.0"
@@ -22,4 +23,3 @@
     "vite": "^5.2.11"
   }
 }
-

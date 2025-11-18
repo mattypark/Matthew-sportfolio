@@ -11,9 +11,17 @@ const Portfolio = () => {
     return () => clearInterval(timer)
   }, [])
 
+  const getTodaysDate = () => {
+    const today = new Date()
+    const month = String(today.getMonth() + 1).padStart(2, '0')
+    const day = String(today.getDate()).padStart(2, '0')
+    const year = String(today.getFullYear()).slice(-2)
+    return `${month}.${day}.${year}`
+  }
+
   const timelineEvents = [
     {
-      date: '11.17.25',
+      date: getTodaysDate(),
       description: <span className="animate-typing">???</span>,
       link: null,
     },

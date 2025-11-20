@@ -172,6 +172,11 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '11.09.22',
+      description: 'Starts reselling Prime/candy',
+      link: null,
+    },
+    {
       date: '09.01.22',
       description: '3.0 UTR Tennis rank',
       link: null,

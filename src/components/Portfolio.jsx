@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Clapperboard, Guitar, Music, Bot, Gamepad2, Activity, Circle } from 'lucide-react'
 
-const FloatingIcon = ({ children, delay = 0, rotation = 0, offsetY = -10, offsetX = 150, isPulsing = false, floatDuration = 4, floatAmount = 15 }) => {
+const FloatingIcon = ({ children, delay = 0, rotation = 0, offsetY = -10, offsetX = 150, isPulsing = false, floatDuration = 8, floatAmount = 10 }) => {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
@@ -18,11 +18,14 @@ const FloatingIcon = ({ children, delay = 0, rotation = 0, offsetY = -10, offset
         top: `${offsetY}px`,
         right: `-${offsetX}px`,
         rotate: `${rotation}deg`,
-        cursor: 'pointer',
         zIndex: 5
       }}
     >
       <motion.div
+        drag={true}
+        dragConstraints={{ left: 20, right: 600, top: -200, bottom: 200 }}
+        dragElastic={0.2}
+        dragTransition={{ bounceStiffness: 20, bounceDamping: 15 }}
         animate={{
           y: [0, -floatAmount, 0],
           x: [0, floatAmount * 0.3, 0],
@@ -37,6 +40,14 @@ const FloatingIcon = ({ children, delay = 0, rotation = 0, offsetY = -10, offset
           scale: 1.15,
           rotate: rotation + 8,
           transition: { duration: 0.3 }
+        }}
+        whileDrag={{
+          scale: 1.2,
+          cursor: 'grabbing',
+          transition: { duration: 0.1 }
+        }}
+        style={{
+          cursor: 'grab'
         }}
       >
         {isPulsing ? (
@@ -262,42 +273,42 @@ const Portfolio = () => {
             
             {/* Floating Icons */}
             {index === 0 && (
-              <FloatingIcon offsetY={30} offsetX={1000} rotation={-8} delay={0.1} isPulsing={true} floatDuration={3.5} floatAmount={18}>
+              <FloatingIcon offsetY={30} offsetX={1000} rotation={-8} delay={0.1} isPulsing={true} floatDuration={10} floatAmount={8}>
                 <div className="text-6xl font-bold">???</div>
               </FloatingIcon>
             )}
             {index === 1 && (
-              <FloatingIcon offsetY={50} offsetX={300} rotation={12} delay={0.2} floatDuration={4.2} floatAmount={14}>
+              <FloatingIcon offsetY={50} offsetX={300} rotation={12} delay={0.2} floatDuration={11} floatAmount={9}>
                 <Clapperboard size={90} strokeWidth={2} />
               </FloatingIcon>
             )}
             {index === 3 && (
-              <FloatingIcon offsetY={70} offsetX={600} rotation={-15} delay={0.3} floatDuration={5.5} floatAmount={20}>
+              <FloatingIcon offsetY={70} offsetX={600} rotation={-15} delay={0.3} floatDuration={12} floatAmount={10}>
                 <Bot size={110} strokeWidth={2} />
               </FloatingIcon>
             )}
             {index === 11 && (
-              <FloatingIcon offsetY={-80} offsetX={900} rotation={-12} delay={0.7} floatDuration={4.5} floatAmount={19}>
+              <FloatingIcon offsetY={-80} offsetX={900} rotation={-12} delay={0.7} floatDuration={9} floatAmount={11}>
                 <Music size={95} strokeWidth={2} />
               </FloatingIcon>
             )}
             {index === 13 && (
-              <FloatingIcon offsetY={150} offsetX={500} rotation={10} delay={0.8} floatDuration={3.3} floatAmount={13}>
+              <FloatingIcon offsetY={150} offsetX={500} rotation={10} delay={0.8} floatDuration={8} floatAmount={8}>
                 <Gamepad2 size={100} strokeWidth={2} />
               </FloatingIcon>
             )}
             {index === 14 && (
-              <FloatingIcon offsetY={200} offsetX={750} rotation={-8} delay={0.9} floatDuration={5.8} floatAmount={15}>
+              <FloatingIcon offsetY={200} offsetX={750} rotation={-8} delay={0.9} floatDuration={11.5} floatAmount={9}>
                 <Activity size={110} strokeWidth={2} />
               </FloatingIcon>
             )}
             {index === 15 && (
-              <FloatingIcon offsetY={-0} offsetX={400} rotation={12} delay={1.0} floatDuration={4.0} floatAmount={16}>
+              <FloatingIcon offsetY={-0} offsetX={400} rotation={12} delay={1.0} floatDuration={10.5} floatAmount={12}>
                 <Circle size={90} strokeWidth={2} />
               </FloatingIcon>
             )}
             {index === 17 && (
-              <FloatingIcon offsetY={-200} offsetX={650} rotation={8} delay={1.2} floatDuration={4.6} floatAmount={18}>
+              <FloatingIcon offsetY={-200} offsetX={650} rotation={8} delay={1.2} floatDuration={9.5} floatAmount={10}>
                 <Guitar size={100} strokeWidth={2} />
               </FloatingIcon>
             )}

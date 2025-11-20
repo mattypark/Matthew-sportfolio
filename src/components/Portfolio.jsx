@@ -86,6 +86,11 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '11.19.25',
+      description: <>Matthew cofounds <a className="underline" target="_blank" rel="noopener noreferrer" href="https://prayerlock.com/">Prayer lock</a> with Mau</>,
+      link: 'https://prayerlock.com/',
+    },
+    {
       date: '11.17.25',
       description: 'Matthew redesigns his portfolio website',
       link: null,

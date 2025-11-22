@@ -123,8 +123,8 @@ const Portfolio = () => {
     },
     {
       date: '11.02.25',
-      description: <>Joins <a className="underline" target="_blank" rel="noopener noreferrer" href="https://prayerlock.com/">Prayer lock</a> as growth & strategy consultant</>,
-      link: 'https://prayerlock.com/',
+      description: <>Signed first client for consulting/marketing strategies</>,
+      link: null,
     },
     {
       date: '10.28.25',

@@ -97,6 +97,16 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '12.04.25',
+      description: <>Posts his first <a className="underline" target="_blank" rel="noopener noreferrer" href="https://x.com/MattyparkW/status/1996768218082418915">X post</a></>,
+      link: 'https://x.com/MattyparkW/status/1996768218082418915',
+    },
+    {
+      date: '12.01.25',
+      description: 'Starts building his first solo AI app',
+      link: null,
+    },
+    {
       date: '11.19.25',
       description: 'Matthew Cofounds an App with Mau',
       link: null,

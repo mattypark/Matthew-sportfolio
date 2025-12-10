@@ -97,6 +97,11 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '12.05.25',
+      description: 'Generates 14k for CoFounding app doing 2k MRR previously (7X the business)',
+      link: null,
+    },
+    {
       date: '12.04.25',
       description: <>Posts his first <a className="underline" target="_blank" rel="noopener noreferrer" href="https://x.com/MattyparkW/status/1996768218082418915">X post</a></>,
       link: 'https://x.com/MattyparkW/status/1996768218082418915',

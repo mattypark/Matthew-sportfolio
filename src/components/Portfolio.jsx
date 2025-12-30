@@ -97,8 +97,13 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '12.29.25',
+      description: 'Stops working with Mau/Prayer Lock',
+      link: null,
+    },
+    {
       date: '12.05.25',
-      description: 'Generates 14k for CoFounding app doing 2k MRR previously (7X the business)',
+      description: 'Generates 14k for Prayer Lock doing 2k MRR previously (7X the business)',
       link: null,
     },
     {
@@ -113,7 +118,7 @@ const Portfolio = () => {
     },
     {
       date: '11.19.25',
-      description: 'Matthew Cofounds an App with Mau',
+      description: 'Matthew Cofounds an Prayer Lockwith Mau',
       link: null,
     },
     {

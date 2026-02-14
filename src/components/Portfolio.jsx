@@ -1,77 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Clapperboard, Guitar, Music, Bot, Gamepad2, Activity, Circle } from 'lucide-react'
-
-const FloatingIcon = ({ children, delay = 0, rotation = 0, offsetY = -10, offsetX = 150, isPulsing = false, floatDuration = 8, floatAmount = 10 }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ 
-        duration: 0.6, 
-        delay: delay,
-        ease: "easeOut" 
-      }}
-      className="absolute hidden sm:block pointer-events-auto"
-      style={{ 
-        top: `${offsetY}px`,
-        right: `-${offsetX}px`,
-        rotate: `${rotation}deg`,
-        zIndex: 5
-      }}
-    >
-      <motion.div
-        drag={true}
-        dragConstraints={{ left: 20, right: 600, top: -200, bottom: 200 }}
-        dragElastic={0.2}
-        dragTransition={{ bounceStiffness: 20, bounceDamping: 15 }}
-        animate={{
-          y: [0, -floatAmount, 0],
-          x: [0, floatAmount * 0.3, 0],
-        }}
-        transition={{
-          duration: floatDuration,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: delay * 0.5
-        }}
-        whileHover={{ 
-          scale: 1.15,
-          rotate: rotation + 8,
-          transition: { duration: 0.3 }
-        }}
-        whileDrag={{
-          scale: 1.2,
-          cursor: 'grabbing',
-          transition: { duration: 0.1 }
-        }}
-        style={{
-          cursor: 'grab'
-        }}
-      >
-        {isPulsing ? (
-          <motion.div
-            animate={{
-              opacity: [1, 0.4, 1],
-              scale: [1, 0.95, 1],
-            }}
-            transition={{
-              duration: 2.5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
-            {children}
-          </motion.div>
-        ) : (
-          children
-        )}
-      </motion.div>
-    </motion.div>
-  )
-}
-
 const Portfolio = () => {
   const [currentTime, setCurrentTime] = useState(new Date())
 
@@ -94,6 +22,46 @@ const Portfolio = () => {
     {
       date: getTodaysDate(),
       description: <span className="animate-typing">???</span>,
+      link: null,
+    },
+    {
+      date: '02.10.26',
+      description: 'Posts first YT Documentary Video',
+      link: null,
+    },
+    {
+      date: '02.10.26',
+      description: 'Posts first series of shortform content',
+      link: null,
+    },
+    {
+      date: '12.04.25',
+      description: <>Posts his first <a className="underline" target="_blank" rel="noopener noreferrer" href="https://youtu.be/rsYSeIQ_LV8?si=CBHo9J55WQqPj5X_">YT Documentary Video</a></>,
+      link: 'https://youtu.be/rsYSeIQ_LV8?si=CBHo9J55WQqPj5X_',
+    },
+    {
+      date: '02.07.26',
+      description: 'Qualified for State Speech & Debate',
+      link: null,
+    },
+    {
+      date: '02.02.26',
+      description: 'Qualified for Regionals Speech & Debate',
+      link: null,
+    },
+    {
+      date: '01.17.26',
+      description: 'Starts working with Jackson Sword',
+      link: null,
+    },
+    {
+      date: '01.13.26',
+      description: 'Starts working with Dillon/BounceBack pickleball',
+      link: null,
+    },
+    {
+      date: '01.01.26',
+      description: 'Skiing for the first time',
       link: null,
     },
     {
@@ -295,48 +263,6 @@ const Portfolio = () => {
             <p className="font-inter">
               {event.description}
             </p>
-            
-            {/* Floating Icons */}
-            {index === 0 && (
-              <FloatingIcon offsetY={30} offsetX={1000} rotation={-8} delay={0.1} isPulsing={true} floatDuration={10} floatAmount={8}>
-                <div className="text-6xl font-bold">???</div>
-              </FloatingIcon>
-            )}
-            {index === 1 && (
-              <FloatingIcon offsetY={50} offsetX={300} rotation={12} delay={0.2} floatDuration={11} floatAmount={9}>
-                <Clapperboard size={90} strokeWidth={2} />
-              </FloatingIcon>
-            )}
-            {index === 3 && (
-              <FloatingIcon offsetY={70} offsetX={600} rotation={-15} delay={0.3} floatDuration={12} floatAmount={10}>
-                <Bot size={110} strokeWidth={2} />
-              </FloatingIcon>
-            )}
-            {index === 11 && (
-              <FloatingIcon offsetY={-80} offsetX={900} rotation={-12} delay={0.7} floatDuration={9} floatAmount={11}>
-                <Music size={95} strokeWidth={2} />
-              </FloatingIcon>
-            )}
-            {index === 13 && (
-              <FloatingIcon offsetY={150} offsetX={500} rotation={10} delay={0.8} floatDuration={8} floatAmount={8}>
-                <Gamepad2 size={100} strokeWidth={2} />
-              </FloatingIcon>
-            )}
-            {index === 14 && (
-              <FloatingIcon offsetY={200} offsetX={750} rotation={-8} delay={0.9} floatDuration={11.5} floatAmount={9}>
-                <Activity size={110} strokeWidth={2} />
-              </FloatingIcon>
-            )}
-            {index === 15 && (
-              <FloatingIcon offsetY={-0} offsetX={400} rotation={12} delay={1.0} floatDuration={10.5} floatAmount={12}>
-                <Circle size={90} strokeWidth={2} />
-              </FloatingIcon>
-            )}
-            {index === 17 && (
-              <FloatingIcon offsetY={-200} offsetX={650} rotation={8} delay={1.2} floatDuration={9.5} floatAmount={10}>
-                <Guitar size={100} strokeWidth={2} />
-              </FloatingIcon>
-            )}
           </motion.div>
         ))}
       </main>

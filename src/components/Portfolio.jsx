@@ -26,18 +26,13 @@ const Portfolio = () => {
     },
     {
       date: '02.10.26',
-      description: 'Posts first YT Documentary Video',
-      link: null,
+      description: <>Posts his first <a className="underline" target="_blank" rel="noopener noreferrer" href="https://youtu.be/rsYSeIQ_LV8?si=CBHo9J55WQqPj5X_">YT Documentary Video</a></>,
+      link: 'https://youtu.be/rsYSeIQ_LV8?si=CBHo9J55WQqPj5X_',
     },
     {
       date: '02.10.26',
       description: 'Posts first series of shortform content',
       link: null,
-    },
-    {
-      date: '12.04.25',
-      description: <>Posts his first <a className="underline" target="_blank" rel="noopener noreferrer" href="https://youtu.be/rsYSeIQ_LV8?si=CBHo9J55WQqPj5X_">YT Documentary Video</a></>,
-      link: 'https://youtu.be/rsYSeIQ_LV8?si=CBHo9J55WQqPj5X_',
     },
     {
       date: '02.07.26',

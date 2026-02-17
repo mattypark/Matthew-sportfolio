@@ -25,6 +25,11 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '02.16.26',
+      description: 'Cofounds 2nd startup, Travel App',
+      link: null,
+    },
+    {
       date: '02.10.26',
       description: <>Posts his first <a className="underline" target="_blank" rel="noopener noreferrer" href="https://youtu.be/rsYSeIQ_LV8?si=CBHo9J55WQqPj5X_">YT Documentary Video</a></>,
       link: 'https://youtu.be/rsYSeIQ_LV8?si=CBHo9J55WQqPj5X_',

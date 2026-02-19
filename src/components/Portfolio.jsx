@@ -236,7 +236,7 @@ const Portfolio = () => {
           <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://www.tiktok.com/@mattparxy">
             TT
           </a>
-          <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://www.youtube.com/@Mattyparkkk">
+          <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://www.youtube.com/@Matty_park">
             YT
           </a>
           <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://discord.com/users/1256249020398047333">

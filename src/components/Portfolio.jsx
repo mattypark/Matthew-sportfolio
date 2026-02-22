@@ -26,6 +26,11 @@ const Portfolio = () => {
     },
     {
       date: '02.21.26',
+      description: '1st in Impromptu Sales Speech & Debate at Marshalls University Speech Tournament',
+      link: null,
+    },
+    {
+      date: '02.21.26',
       description: <>The <a className="underline" target="_blank" rel="noopener noreferrer" href="https://youtu.be/rsYSeIQ_LV8?si=CBHo9J55WQqPj5X_">YT Documentary Video</a> gets 10k views</>,
       link: 'https://youtu.be/rsYSeIQ_LV8?si=CBHo9J55WQqPj5X_',
     },
@@ -47,6 +52,11 @@ const Portfolio = () => {
     {
       date: '02.07.26',
       description: 'Qualified for State Speech & Debate',
+      link: null,
+    },
+    {
+      date: '02.05.26',
+      description: 'Starts playing Drums',
       link: null,
     },
     {

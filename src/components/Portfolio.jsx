@@ -25,6 +25,11 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '02.22.26',
+      description: 'Finishes building BounceBack Pickleball Website',
+      link: null,
+    },
+    {
       date: '02.21.26',
       description: '1st in Impromptu Sales Speech & Debate at Marshalls University Speech Tournament',
       link: null,

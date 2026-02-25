@@ -30,6 +30,11 @@ const Portfolio = () => {
       link: 'https://www.gourmetai.run',
     },
     {
+      date: '02.24.26',
+      description: 'Joins MathGPT for Growth',
+      link: null,
+    },
+    {
       date: '02.22.26',
       description: 'Finishes building BounceBack Pickleball Website',
       link: null,

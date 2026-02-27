@@ -300,6 +300,7 @@ const Portfolio = () => {
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Core Values', href: '/values' },
+    { name: 'Socials', href: '/socials' },
   ]
 
   return (

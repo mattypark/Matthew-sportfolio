@@ -6,7 +6,7 @@ const values = [
   "Do. Everything. It gives you more opportunities to do more great things.",
   "Always tell the truth, for it will be better than making the mistake with major guilt.",
   "Why? or Why not? Always ask yourself this, and you will find new questions to come.",
-  "You will get nowhere running on a trendmill because you're always grinding, but not advancing.",
+  "You will get nowhere running on a treadmill because you're always grinding, but not advancing.",
   "To do something exceptional, you have to be the exception.",
   "Failure > trying to be perfect, you WILL fail, but will you learn from your failure?",
   "being cringe is never cringe, just the saying of it is cringe.",
@@ -67,6 +67,7 @@ const CoreValues = () => {
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Core Values', href: '/values' },
+    { name: 'Socials', href: '/socials' },
   ]
 
   const left = values.slice(0, 7)

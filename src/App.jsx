@@ -5,6 +5,7 @@ import Posts from './components/Posts'
 import Projects from './components/Projects'
 import CoreValues from './components/CoreValues'
 import About from './components/About'
+import Socials from './components/Socials'
 import './App.css'
 
 function SmoothScroll() {
@@ -138,6 +139,7 @@ function AppContent() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/values" element={<CoreValues />} />
         <Route path="/about" element={<About />} />
+        <Route path="/socials" element={<Socials />} />
       </Routes>
     </>
   )

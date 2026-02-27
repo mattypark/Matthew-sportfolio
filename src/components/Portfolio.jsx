@@ -230,11 +230,6 @@ const Portfolio = () => {
       link: null,
     },
     {
-      date: '04.01.25',
-      description: <>Joins <a className="underline" target="_blank" rel="noopener noreferrer" href="https://retro.app">Retro</a> as growth</>,
-      link: 'https://retro.app',
-    },
-    {
       date: '03.06.25',
       description: 'KMEA All-state Alto Saxaphone 2nd Chair (again)',
       link: null,

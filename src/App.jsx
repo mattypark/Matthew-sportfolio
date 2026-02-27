@@ -22,6 +22,10 @@ function SmoothScroll() {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) return
 
+    // Disable smooth scroll on touch devices — let native iOS/Android scrolling work
+    const isTouch = window.matchMedia('(pointer: coarse)').matches
+    if (isTouch) return
+
     const s = state.current
 
     // Cancel any previous loop

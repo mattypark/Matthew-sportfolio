@@ -95,9 +95,9 @@ const Portfolio = () => {
       link: null,
     },
     {
-      date: '02.22.26',
-      description: 'Finishes building BounceBack Pickleball Website',
-      link: null,
+      date: '02.23.26',
+      description: <>Finishes building <a className="underline" target="_blank" rel="noopener noreferrer" href="https://www.bouncebackpickle.com">BounceBack PickleBall Website</a></>,
+      link: 'https://www.bouncebackpickle.com',
     },
     {
       date: '02.21.26',

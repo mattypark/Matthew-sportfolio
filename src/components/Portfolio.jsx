@@ -80,8 +80,8 @@ const Portfolio = () => {
       link: null,
     },
     {
-      date: '02.26.26',
-      description: 'Adds page analytics to Portfolio (I shouldve done this sooner lol)',
+      date: '03.05.26',
+      description: 'Starts working with Evan Yadegeri and Nick on new Startup',
       link: null,
     },
     {

@@ -72,7 +72,6 @@ const About = () => {
           <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://www.instagram.com/matty.park/">IG</a>
           <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://www.tiktok.com/@mattparxy">TT</a>
           <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://www.youtube.com/@Matty_park">YT</a>
-          <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://discord.com/users/1256249020398047333">DC</a>
 
           {/* Hamburger */}
           <button
@@ -149,7 +148,6 @@ const About = () => {
                     <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://www.instagram.com/matty.park/">IG</a>
                     <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://www.tiktok.com/@mattparxy">TT</a>
                     <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://www.youtube.com/@Matty_park">YT</a>
-                    <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://discord.com/users/1256249020398047333">DC</a>
                   </div>
                 </div>
               </motion.div>
@@ -165,7 +163,6 @@ const About = () => {
               <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://www.instagram.com/matty.park/">IG</a>
               <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://www.tiktok.com/@mattparxy">TT</a>
               <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://www.youtube.com/@Matty_park">YT</a>
-              <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://discord.com/users/1256249020398047333">DC</a>
             </motion.div>
           </motion.div>
         )}

@@ -80,6 +80,16 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '03.07.26',
+      description: 'Sustaniable Development National Award at LRSEF',
+      link: null,
+    },
+    {
+      date: '03.07.26',
+      description: '1st in ESGD Category at LRSEF',
+      link: null,
+    },
+    {
       date: '03.05.26',
       description: 'Starts working with Evan Yadegeri and Nick on new Startup',
       link: null,

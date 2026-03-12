@@ -10,7 +10,7 @@ const NavLink = ({ href, name, onClick }) => {
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="block font-instrument text-6xl sm:text-8xl py-3 select-none"
+      className="block font-instrument text-5xl sm:text-7xl py-3 select-none"
       style={{ lineHeight: 1.1 }}
     >
       <span className="flex">
@@ -255,6 +255,7 @@ const Socials = () => {
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Core Values', href: '/values' },
+    { name: 'Inspiration', href: '/inspiration' },
     { name: 'Socials', href: '/socials' },
   ]
 

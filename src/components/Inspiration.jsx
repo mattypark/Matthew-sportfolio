@@ -1,23 +1,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const values = [
-  "God #1 Always. Even if you forget, remind yourself that he is the reason you are here today.",
-  "Do. Everything. It gives you more opportunities to do more great things.",
-  "Always tell the truth, for it will be better than making the mistake with major guilt.",
-  "Why? or Why not? Always ask yourself this, and you will find new questions to come.",
-  "You will get nowhere running on a treadmill because you're always grinding, but not advancing.",
-  "To do something exceptional, you have to be the exception.",
-  "Failure > trying to be perfect, you WILL fail, but will you learn from your failure?",
-  "being cringe is never cringe, just the saying of it is cringe.",
-  "Never put off something tomorrow that can be done today.",
-  "the goal isn’t to live forever, it’s to create something that can live forever",
-  "The wise doesn't complain about problems, but rather solves them.",
-  "Be cautious of what you listen and consume, for it will shape your mind, future, and you.",
-  "Never trust a person who talks behind another man's back, for you never know what they're saying about you.",
-  "You are never behind in life. As the closer you get to the sun, the shadow grows bigger behind you, but you must ignore the shadow and see the light in front of you.",
-]
-
 const NavLink = ({ href, name, onClick }) => {
   const [isHovered, setIsHovered] = useState(false)
 
@@ -60,7 +43,58 @@ const NavLink = ({ href, name, onClick }) => {
   )
 }
 
-const CoreValues = () => {
+const inspirations = [
+  {
+    name: 'Trey Gustafson',
+    title: 'Entrepreneur',
+    handle: 'treygustafson_',
+    link: 'https://www.instagram.com/treygustafson_/',
+    photo: '/inspiration-trey.jpg',
+    why: 'Trey is the first reason why I ever got into entrepreneurship. Watched his content ever since 2 years ago, and his content expertise is what I study almost a weekly basis. He\'s the definition of an inspiration and a teenage entrepreneur for me.',
+  },
+  {
+    name: 'Alysa Liu',
+    title: 'Olympic Figure Skater',
+    handle: 'alysaxliu',
+    link: 'https://www.instagram.com/alysaxliu/',
+    photo: '/inspiration-alysa.jpg',
+    why: 'She won the gold medal for USA in the olympics. However, she was different because it just looked like she was having fun. Every other skater was stressed, but for her, winning and losing didn\'t matter. It was the craft.',
+  },
+  {
+    name: 'Peter Thiel',
+    title: 'Venture Capitalist & Author',
+    handle: 'peterthiel',
+    link: 'https://x.com/peterthiel',
+    photo: '/inspiration-peter.jpg',
+    why: 'Reading his book and story opens me up to so much more perspectives in business/startups. It truly made me understand more about how this game really works.',
+  },
+  {
+    name: 'Steph Curry',
+    title: 'Basketball Player',
+    handle: 'stephencurry30',
+    link: 'https://www.instagram.com/stephencurry30/',
+    photo: '/inspiration-steph.jpg',
+    why: 'Always been undersized, never underdelivered. He showed the world no matter where you came from, what people say about you, you always find what you\'re good at, then. DOMINATE. So dominate to where people are afraid that they fear you on or off the court.',
+  },
+  {
+    name: 'Jannik Sinner',
+    title: 'Tennis Player',
+    handle: 'janniksin',
+    link: 'https://www.instagram.com/janniksin/',
+    photo: '/inspiration-jannik.jpg',
+    why: 'The quiet sinner that has been forgiven. On the court, he never is too flashy, sometimes makes others lose control, but always delivers consistent good work.',
+  },
+  {
+    name: 'Ben Shelton',
+    title: 'Tennis Player',
+    handle: 'benshelton',
+    link: 'https://www.instagram.com/benshelton/',
+    photo: '/inspiration-ben.jpg',
+    why: 'Loud. Bold. Proud. He loves expressing his feelings, showing who he is, playing like every point matters, hitting with all his might. The shell that delivers tons.',
+  },
+]
+
+const Inspiration = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navLinks = [
@@ -70,9 +104,6 @@ const CoreValues = () => {
     { name: 'Inspiration', href: '/inspiration' },
     { name: 'Socials', href: '/socials' },
   ]
-
-  const left = values.slice(0, 7)
-  const right = values.slice(7)
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -102,17 +133,17 @@ const CoreValues = () => {
             <motion.div className="relative w-4 h-3 flex flex-col justify-between">
               <motion.span
                 className="block h-[1.5px] w-4 origin-center"
-                animate={isMenuOpen ? { rotate: 45, y: 5, backgroundColor: '#1A1A1A' } : { rotate: 0, y: 0, backgroundColor: '#1A1A1A' }}
+                animate={isMenuOpen ? { rotate: 45, y: 5, backgroundColor: '#ffffff' } : { rotate: 0, y: 0, backgroundColor: '#1A1A1A' }}
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               />
               <motion.span
                 className="block h-[1.5px] w-4 origin-center"
-                animate={isMenuOpen ? { opacity: 0 } : { opacity: 1, backgroundColor: '#1A1A1A' }}
+                animate={isMenuOpen ? { opacity: 0, backgroundColor: '#ffffff' } : { opacity: 1, backgroundColor: '#1A1A1A' }}
                 transition={{ duration: 0.15 }}
               />
               <motion.span
                 className="block h-[1.5px] w-4 origin-center"
-                animate={isMenuOpen ? { rotate: -45, y: -5, backgroundColor: '#1A1A1A' } : { rotate: 0, y: 0, backgroundColor: '#1A1A1A' }}
+                animate={isMenuOpen ? { rotate: -45, y: -5, backgroundColor: '#ffffff' } : { rotate: 0, y: 0, backgroundColor: '#1A1A1A' }}
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               />
             </motion.div>
@@ -195,48 +226,63 @@ const CoreValues = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="font-instrument text-7xl sm:text-8xl tracking-tight mb-16"
+          className="font-instrument text-7xl sm:text-8xl tracking-tight mb-6"
         >
-          CORE VALUES
+          Inspiration
         </motion.h1>
 
-        {/* Two-column list */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-0">
-          {/* Left column */}
-          <ol className="list-none">
-            {left.map((value, i) => (
-              <motion.li
-                key={i}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1 + i * 0.05, ease: 'easeOut' }}
-                className="flex gap-4 font-ibm text-sm leading-relaxed py-4 border-b border-border"
-              >
-                <span className="text-muted-foreground shrink-0 w-5 text-right">{i + 1}.</span>
-                <span>{value}</span>
-              </motion.li>
-            ))}
-          </ol>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          className="font-ibm text-sm text-foreground/60 max-w-lg mb-16 leading-relaxed"
+        >
+          People I look up to, who I aspire to be, and why they inspire me every day. Not in any particular order.
+        </motion.p>
 
-          {/* Right column */}
-          <ol className="list-none">
-            {right.map((value, i) => (
-              <motion.li
-                key={i}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1 + (i + 7) * 0.05, ease: 'easeOut' }}
-                className="flex gap-4 font-ibm text-sm leading-relaxed py-4 border-b border-border"
-              >
-                <span className="text-muted-foreground shrink-0 w-5 text-right">{i + 8}.</span>
-                <span>{value}</span>
-              </motion.li>
-            ))}
-          </ol>
+        {/* Inspiration cards — photo left, text right like About */}
+        <div className="flex flex-col gap-24">
+          {inspirations.map((person, i) => (
+            <motion.div
+              key={person.handle}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col sm:flex-row gap-8 sm:gap-16 items-start"
+            >
+              {/* Photo */}
+              <div className="w-full sm:w-[320px] shrink-0">
+                <img
+                  src={person.photo}
+                  alt={person.name}
+                  className="w-full rounded-2xl object-cover aspect-[3/4] grayscale"
+                />
+              </div>
+
+              {/* Text */}
+              <div className="flex flex-col gap-4 max-w-lg">
+                <p className="font-ibm text-[11px] text-muted-foreground uppercase tracking-widest">{person.title}</p>
+                <h2 className="font-instrument text-3xl sm:text-4xl leading-snug tracking-tight">
+                  {person.name}
+                </h2>
+                <a
+                  href={person.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-ibm text-sm text-foreground/50 hover:text-foreground transition-colors"
+                >
+                  @{person.handle}
+                </a>
+                <p className="font-ibm text-sm leading-relaxed text-foreground/80">
+                  {person.why}
+                </p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </main>
     </div>
   )
 }
 
-export default CoreValues
+export default Inspiration

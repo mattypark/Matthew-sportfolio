@@ -11,6 +11,7 @@ const routeNameMap = {
   '/projects': 'Projects',
   '/values': 'Values',
   '/about': 'About',
+  '/inspiration': 'Inspiration',
   '/socials': 'Socials',
 }
 

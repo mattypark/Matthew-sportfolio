@@ -80,6 +80,11 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '03.13.26',
+      description: <>Designs a <a className="underline" target="_blank" rel="noopener noreferrer" href="https://baselinewaitlistfrontend.vercel.app">futuristic waitlist page</a> for Jordan Franklin</>,
+      link: 'https://baselinewaitlistfrontend.vercel.app',
+    },
+    {
       date: '03.07.26',
       description: 'Sustaniable Development National Award at LRSEF',
       link: null,
@@ -156,7 +161,7 @@ const Portfolio = () => {
     },
     {
       date: '01.17.26',
-      description: 'Starts working with Jackson Sword',
+      description: 'Starts working with Jackson Sword/parasocial',
       link: null,
     },
     {

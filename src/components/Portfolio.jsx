@@ -80,6 +80,11 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '03.14.26',
+      description: 'Quarter Finalists in State Speech & Debate Impromptu',
+      link: null,
+    },
+    {
       date: '03.13.26',
       description: <>Designs a <a className="underline" target="_blank" rel="noopener noreferrer" href="https://baselinewaitlistfrontend.vercel.app">futuristic waitlist page</a> for Jordan Franklin</>,
       link: 'https://baselinewaitlistfrontend.vercel.app',

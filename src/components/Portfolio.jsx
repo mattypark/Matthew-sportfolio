@@ -80,6 +80,11 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '03.17.26',
+      description: 'Starts Singing',
+      link: null,
+    },
+    {
       date: '03.14.26',
       description: 'Quarter Finalists in State Speech & Debate Impromptu',
       link: null,

@@ -115,6 +115,11 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '03.04.26',
+      description: 'MIT Critical Data Researcher + Social media',
+      link: null,
+    },
+    {
       date: '02.25.26',
       description: <>Finishes building <a className="underline" target="_blank" rel="noopener noreferrer" href="https://www.gourmetai.run">Gourmet AI Waitlist</a> and is live</>,
       link: 'https://www.gourmetai.run',

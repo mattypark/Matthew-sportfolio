@@ -45,12 +45,12 @@ const NavLink = ({ href, name, onClick }) => {
 
 const inspirations = [
   {
-    name: 'Trey Gustafson',
-    title: 'Entrepreneur',
-    handle: 'treygustafson_',
-    link: 'https://www.instagram.com/treygustafson_/',
-    photo: '/inspiration-trey.jpg',
-    why: 'Trey is the first reason why I ever got into entrepreneurship. Watched his content ever since 2 years ago, and his content expertise is what I study almost a weekly basis. He\'s the definition of an inspiration and a teenage entrepreneur for me.',
+    name: 'Peter Thiel',
+    title: 'Venture Capitalist & Author',
+    handle: 'peterthiel',
+    link: 'https://x.com/peterthiel',
+    photo: '/inspiration-peter.jpg',
+    why: 'Reading his book and story opens me up to so much more perspectives in business/startups. It truly made me understand more about how this game really works.',
   },
   {
     name: 'Alysa Liu',
@@ -59,14 +59,6 @@ const inspirations = [
     link: 'https://www.instagram.com/alysaxliu/',
     photo: '/inspiration-alysa.jpg',
     why: 'She won the gold medal for USA in the olympics. However, she was different because it just looked like she was having fun. Every other skater was stressed, but for her, winning and losing didn\'t matter. It was the craft.',
-  },
-  {
-    name: 'Peter Thiel',
-    title: 'Venture Capitalist & Author',
-    handle: 'peterthiel',
-    link: 'https://x.com/peterthiel',
-    photo: '/inspiration-peter.jpg',
-    why: 'Reading his book and story opens me up to so much more perspectives in business/startups. It truly made me understand more about how this game really works.',
   },
   {
     name: 'Steph Curry',
@@ -92,6 +84,14 @@ const inspirations = [
     photo: '/inspiration-ben.jpg',
     why: 'Loud. Bold. Proud. He loves expressing his feelings, showing who he is, playing like every point matters, hitting with all his might. The shell that delivers tons.',
   },
+  {
+    name: 'Trey Gustafson',
+    title: 'Entrepreneur',
+    handle: 'treygustafson_',
+    link: 'https://www.instagram.com/treygustafson_/',
+    photo: '/inspiration-trey.jpg',
+    why: 'Trey is the first reason why I ever got into entrepreneurship. Watched his content ever since 2 years ago, and his content expertise is what I study almost a weekly basis. He\'s the definition of an inspiration and a teenage entrepreneur for me.',
+  },
 ]
 
 const Inspiration = () => {
@@ -102,7 +102,6 @@ const Inspiration = () => {
     { name: 'About', href: '/about' },
     { name: 'Core Values', href: '/values' },
     { name: 'Inspiration', href: '/inspiration' },
-    { name: 'Socials', href: '/socials' },
   ]
 
   return (

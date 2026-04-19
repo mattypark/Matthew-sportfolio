@@ -68,7 +68,6 @@ const CoreValues = () => {
     { name: 'About', href: '/about' },
     { name: 'Core Values', href: '/values' },
     { name: 'Inspiration', href: '/inspiration' },
-    { name: 'Socials', href: '/socials' },
   ]
 
   const left = values.slice(0, 7)

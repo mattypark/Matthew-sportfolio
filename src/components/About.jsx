@@ -52,7 +52,6 @@ const About = () => {
     { name: 'About', href: '/about' },
     { name: 'Core Values', href: '/values' },
     { name: 'Inspiration', href: '/inspiration' },
-    { name: 'Socials', href: '/socials' },
   ]
 
   return (

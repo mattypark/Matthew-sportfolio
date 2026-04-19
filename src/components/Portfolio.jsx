@@ -100,6 +100,11 @@ const Portfolio = () => {
       link: 'https://baselinewaitlistfrontend.vercel.app',
     },
     {
+      date: '03.09.26',
+      description: '1st linkedin post',
+      link: null,
+    },
+    {
       date: '03.07.26',
       description: 'Sustaniable Development National Award at LRSEF',
       link: null,
@@ -216,7 +221,7 @@ const Portfolio = () => {
     },
     {
       date: '11.19.25',
-      description: 'Matthew Cofounds an Prayer Lockwith Mau',
+      description: 'Matthew Cofounds an Prayer Lock with Mau',
       link: null,
     },
     {
@@ -341,7 +346,6 @@ const Portfolio = () => {
     { name: 'About', href: '/about' },
     { name: 'Core Values', href: '/values' },
     { name: 'Inspiration', href: '/inspiration' },
-    { name: 'Socials', href: '/socials' },
   ]
 
   return (

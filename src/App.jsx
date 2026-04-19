@@ -5,7 +5,6 @@ import Posts from './components/Posts'
 import Projects from './components/Projects'
 import CoreValues from './components/CoreValues'
 import About from './components/About'
-import Socials from './components/Socials'
 import Inspiration from './components/Inspiration'
 import PageTransition from './components/PageTransition'
 import './App.css'
@@ -147,7 +146,6 @@ function AppContent() {
           <Route path="/values" element={<CoreValues />} />
           <Route path="/about" element={<About />} />
           <Route path="/inspiration" element={<Inspiration />} />
-          <Route path="/socials" element={<Socials />} />
         </Routes>
       </PageTransition>
     </>

@@ -80,6 +80,16 @@ const Portfolio = () => {
       link: null,
     },
     {
+      date: '04.18.26',
+      description: 'Starts on a nonprofit',
+      link: null,
+    },
+    {
+      date: '04.17.26',
+      description: 'Gets into Stanford ASES Launchpad Program',
+      link: null,
+    },
+    {
       date: '03.25.26',
       description: 'Creates his own AI agent',
       link: null,

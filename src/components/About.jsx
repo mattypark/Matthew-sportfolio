@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import SiteChrome from './SiteChrome'
 import SideRoomsRail from './SideRoomsRail'
 
-const aboutPhoto = '/matthewflowers.png'
+const aboutPhoto = '/matthewflowers.webp'
 
 const About = () => {
   return (
@@ -30,6 +30,10 @@ const About = () => {
             <img
               src={aboutPhoto}
               alt="Matthew Park"
+              width="1200"
+              height="1500"
+              fetchpriority="high"
+              decoding="async"
               className="w-full rounded-2xl object-cover"
             />
           </motion.div>

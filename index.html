@@ -17,6 +17,39 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="placeholder name" />
     <meta name="twitter:description" content="visionary based in [your location]" />
+    <style>
+      /* Critical first-paint CSS — applies before bundled CSS arrives,
+         so the cinematic tint, grid, and bg never flash absent. */
+      :root {
+        --color-custom: #d6321f;
+        --grid-line: oklch(85% 0.01 250 / 0.55);
+        --foreground: oklch(22% 0.01 250);
+      }
+      html, body { background-color: #ffffff; margin: 0; }
+      body {
+        color: var(--foreground);
+        background-image:
+          linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+          linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+        background-size: 56px 56px;
+        background-attachment: fixed;
+        font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+        -webkit-font-smoothing: antialiased;
+        position: relative;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background:
+          radial-gradient(ellipse at 22% 18%, color-mix(in oklch, var(--color-custom) 14%, transparent) 0%, transparent 55%),
+          radial-gradient(ellipse at 78% 82%, color-mix(in oklch, var(--color-custom) 9%, transparent) 0%, transparent 60%),
+          radial-gradient(ellipse at center, transparent 0%, transparent 38%, rgba(255, 255, 255, 0.55) 100%);
+      }
+      #root { background-color: transparent; min-height: 100vh; position: relative; z-index: 1; }
+    </style>
   </head>
   <body>
     <div id="root"></div>

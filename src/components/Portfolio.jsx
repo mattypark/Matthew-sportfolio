@@ -58,7 +58,7 @@ const Portfolio = () => {
             />
           </h1>
           <p className="mt-6 sm:mt-7 font-mono text-[14px] sm:text-[15px] leading-[1.75] text-foreground/80 max-w-[58ch]">
-            am a 15 y/o Korean American from Kentucky who is passionate about
+            a 15 y/o Korean American from Kentucky who is passionate about
             AI, CS, and Content Creation :)
           </p>
         </motion.section>

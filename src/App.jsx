@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import Portfolio from './components/Portfolio'
+import Timeline from './components/Timeline'
 import Posts from './components/Posts'
 import Projects from './components/Projects'
 import CoreValues from './components/CoreValues'
 import About from './components/About'
 import Inspiration from './components/Inspiration'
-import PageTransition from './components/PageTransition'
 import './App.css'
 
 function SmoothScroll() {
@@ -138,16 +138,15 @@ function AppContent() {
   return (
     <>
       <SmoothScroll />
-      <PageTransition>
-        <Routes>
-          <Route path="/" element={<Portfolio />} />
-          <Route path="/posts" element={<Posts />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/values" element={<CoreValues />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/inspiration" element={<Inspiration />} />
-        </Routes>
-      </PageTransition>
+      <Routes>
+        <Route path="/" element={<Portfolio />} />
+        <Route path="/timeline" element={<Timeline />} />
+        <Route path="/posts" element={<Posts />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/values" element={<CoreValues />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/inspiration" element={<Inspiration />} />
+      </Routes>
     </>
   )
 }

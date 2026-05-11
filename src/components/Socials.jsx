@@ -253,6 +253,7 @@ const Socials = () => {
 
   const navLinks = [
     { name: 'Home', href: '/' },
+    { name: 'Timeline', href: '/timeline' },
     { name: 'About', href: '/about' },
     { name: 'Core Values', href: '/values' },
     { name: 'Inspiration', href: '/inspiration' },
@@ -287,17 +288,17 @@ const Socials = () => {
             <motion.div className="relative w-4 h-3 flex flex-col justify-between">
               <motion.span
                 className="block h-[1.5px] w-4 origin-center"
-                animate={isMenuOpen ? { rotate: 45, y: 5, backgroundColor: '#1A1A1A' } : { rotate: 0, y: 0, backgroundColor: '#1A1A1A' }}
+                animate={isMenuOpen ? { rotate: 45, y: 5, backgroundColor: '#22222a' } : { rotate: 0, y: 0, backgroundColor: '#22222a' }}
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               />
               <motion.span
                 className="block h-[1.5px] w-4 origin-center"
-                animate={isMenuOpen ? { opacity: 0 } : { opacity: 1, backgroundColor: '#1A1A1A' }}
+                animate={isMenuOpen ? { opacity: 0 } : { opacity: 1, backgroundColor: '#22222a' }}
                 transition={{ duration: 0.15 }}
               />
               <motion.span
                 className="block h-[1.5px] w-4 origin-center"
-                animate={isMenuOpen ? { rotate: -45, y: -5, backgroundColor: '#1A1A1A' } : { rotate: 0, y: 0, backgroundColor: '#1A1A1A' }}
+                animate={isMenuOpen ? { rotate: -45, y: -5, backgroundColor: '#22222a' } : { rotate: 0, y: 0, backgroundColor: '#22222a' }}
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               />
             </motion.div>

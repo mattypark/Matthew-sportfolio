@@ -27,6 +27,8 @@ const Timeline = () => {
       description: <span className="animate-typing">???</span>,
       link: null,
     },
+    { date: '05.07.26', description: 'Finishes AP tests', link: null },
+    { date: '05.04.26', description: 'Starts working with 10x', link: null },
     { date: '04.18.26', description: 'Starts on a nonprofit', link: null },
     { date: '04.17.26', description: 'Gets into Stanford ASES Launchpad Program', link: null },
     { date: '03.25.26', description: 'Creates his own AI agent', link: null },

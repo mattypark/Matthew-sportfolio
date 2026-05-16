@@ -30,6 +30,12 @@ export default function Hero({ booted = false }) {
     <section id="top" ref={root} className="relative min-h-[100svh] gutter pt-28 pb-12">
       {/* Massive display name */}
       <div className="mt-12">
+        <div className="overflow-hidden mb-3">
+          <div className="h-line font-mono text-[11px] tracking-[0.28em] uppercase text-paper/55 flex items-center gap-3">
+            <span className="w-8 h-px bg-paper/35" />
+            AGE <span style={{ color: 'var(--primary)' }}>·</span> 15
+          </div>
+        </div>
         <div className="overflow-hidden"><div className="h-line font-display text-[clamp(56px,17vw,360px)]">MATTHEW</div></div>
         <div className="overflow-hidden -mt-[0.08em]"><div className="h-line font-display text-[clamp(56px,17vw,360px)]">PARK</div></div>
       </div>

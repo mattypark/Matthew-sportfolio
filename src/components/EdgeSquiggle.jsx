@@ -2,18 +2,13 @@ import { useEffect, useRef } from 'react'
 import { subscribeFFT, subscribeState } from '../lib/audioBus'
 
 const N = 40 // path segments
-const BIN_COUNT = 128 // analyser fftSize 256 → 128 freq bins
 
-// Frequency band ranges (as a fraction of total bins). Tuned empirically.
-//   bass:    low end ~0–8% (rumble, kick, sub-bass)
-//   vocals:  mid-high ~12–55% (lead vocals + most of melody / lyrics)
 const BASS_START = 0
 const BASS_END = 10
 const VOX_START = 16
 const VOX_END = 72
 
 function sampleRange(data, start, end, segs) {
-  // Sample `segs+1` evenly spaced bins between [start,end), return Float array
   const out = new Float32Array(segs + 1)
   const span = end - start
   for (let i = 0; i <= segs; i++) {
@@ -32,6 +27,8 @@ export default function EdgeSquiggle({ side = 'left' }) {
   const ampsBassRef = useRef(new Float32Array(N + 1))
   const rafRef = useRef(null)
   const tRef = useRef(0)
+  // intensity blends idle ↔ active state continuously, so play/pause never snap.
+  const intensityRef = useRef(0)
 
   const style = side === 'left' ? { left: 2 } : { right: 2 }
   const dir = side === 'left' ? 1 : -1
@@ -42,8 +39,6 @@ export default function EdgeSquiggle({ side = 'left' }) {
       const bass = sampleRange(data, BASS_START, BASS_END, N)
       const aV = ampsVoxRef.current
       const aB = ampsBassRef.current
-      // Heavy smoothing — more inertia = waves stay round, not pointy.
-      // Bass gets even heavier smoothing for that slow-rolling low-end feel.
       for (let i = 0; i <= N; i++) {
         aV[i] = aV[i] * 0.82 + vox[i] * 0.18
         aB[i] = aB[i] * 0.88 + bass[i] * 0.12
@@ -56,27 +51,21 @@ export default function EdgeSquiggle({ side = 'left' }) {
     const CENTER = 40
     const MAX = 36
 
-    // Build a smooth Catmull-Rom-as-cubic-Bezier path through the offset points.
-    // Resting state (no audio) uses the same gentle sin wobble as before so the
-    // idle look is unchanged.
-    const buildPath = (amps, phase, gain, rateMul = 1, ampMul = 1) => {
-      const playing = playingRef.current
+    const buildPath = (amps, phase, gain, rate, wobAmp, inten) => {
       const stepY = 1000 / N
       const pts = new Array(N + 1)
       for (let i = 0; i <= N; i++) {
         const y = i * stepY
-        // Resting wobble = original behavior, untouched.
-        const wobble = Math.sin(i * 0.5 + tRef.current * (playing ? 2.6 : 1.2) + phase) *
-          (playing ? 4 : 3.5)
-        const audioAmp = playing ? amps[i] * MAX * gain * ampMul : 0
+        // Resting wobble math preserved. Rate + amplitude blend smoothly via `inten`.
+        const wobble = Math.sin(i * 0.5 + tRef.current * rate + phase) * wobAmp
+        const audioAmp = amps[i] * MAX * gain * inten
         let offset = wobble + audioAmp
         if (offset > MAX) offset = MAX
         if (offset < -MAX) offset = -MAX
         const x = CENTER + dir * offset
         pts[i] = { x, y }
       }
-      // Catmull-Rom to cubic Bezier conversion. Produces smooth curves through points
-      // with C1 continuity — no sharp corners, no pointy peaks even at high amplitudes.
+      // Catmull-Rom → cubic Bezier for smooth curves
       let d = `M ${pts[0].x.toFixed(2)} ${pts[0].y.toFixed(2)}`
       for (let i = 0; i < N; i++) {
         const p0 = pts[i - 1] || pts[i]
@@ -94,10 +83,32 @@ export default function EdgeSquiggle({ side = 'left' }) {
 
     const loop = () => {
       tRef.current += 0.016
-      // Vocal line: white, full gain
-      if (voxRef.current) voxRef.current.setAttribute('d', buildPath(ampsVoxRef.current, 0, 1, 1, 1))
-      // Bass line: grey, slightly different phase + a touch wider amplitude for body
-      if (bassRef.current) bassRef.current.setAttribute('d', buildPath(ampsBassRef.current, 1.3, 0.85, 1, 1.1))
+
+      // Intensity easing — short attack (faster fade-in), longer release (slower fade-out)
+      const target = playingRef.current ? 1 : 0
+      const k = target > intensityRef.current ? 0.07 : 0.025
+      intensityRef.current += (target - intensityRef.current) * k
+      const inten = intensityRef.current
+
+      // While paused, also gently decay any leftover amp values so the wave returns
+      // to the pure resting wobble instead of holding the last frame's shape.
+      if (!playingRef.current) {
+        const aV = ampsVoxRef.current
+        const aB = ampsBassRef.current
+        for (let i = 0; i <= N; i++) {
+          aV[i] *= 0.94
+          aB[i] *= 0.94
+        }
+      }
+
+      // Blend rate + wobble amplitude between idle (1.2, 3.5) and active (2.6, 4)
+      const rate = 1.2 + (2.6 - 1.2) * inten
+      const wobAmp = 3.5 + (4 - 3.5) * inten
+
+      if (voxRef.current)
+        voxRef.current.setAttribute('d', buildPath(ampsVoxRef.current, 0, 1, rate, wobAmp, inten))
+      if (bassRef.current)
+        bassRef.current.setAttribute('d', buildPath(ampsBassRef.current, 1.3, 0.85 * 1.1, rate, wobAmp, inten))
       rafRef.current = requestAnimationFrame(loop)
     }
     rafRef.current = requestAnimationFrame(loop)
@@ -112,7 +123,6 @@ export default function EdgeSquiggle({ side = 'left' }) {
   return (
     <div className="edge-squiggle" style={style} aria-hidden="true">
       <svg viewBox="0 0 80 1000" preserveAspectRatio="none">
-        {/* Bass: grey, behind */}
         <path
           ref={bassRef}
           d="M 40 0 L 40 1000"
@@ -123,7 +133,6 @@ export default function EdgeSquiggle({ side = 'left' }) {
           strokeLinejoin="round"
           opacity="0.85"
         />
-        {/* Vocals / highs: white, on top */}
         <path
           ref={voxRef}
           d="M 40 0 L 40 1000"

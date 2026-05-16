@@ -5,50 +5,31 @@
     <link rel="icon" type="image/svg+xml" href="/favicon-mp.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;800;900&family=JetBrains+Mono:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600&display=swap" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Matthew Park</title>
-    <meta name="description" content="visionary based in [your location]" />
-    <meta name="keywords" content="placeholder,name,portfolio" />
-    <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="placeholder name" />
-    <meta property="og:description" content="visionary based in [your location]" />
+    <title>Matthew Park &mdash; Portfolio</title>
+    <meta name="description" content="Matthew Park &mdash; builder. Selected work, current thinking, and what's next." />
+    <meta property="og:title" content="Matthew Park" />
+    <meta property="og:description" content="Builder. Selected work and current thinking." />
     <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="placeholder name" />
-    <meta name="twitter:description" content="visionary based in [your location]" />
     <style>
-      /* Critical first-paint CSS — applies before bundled CSS arrives,
-         so the cinematic tint, grid, and bg never flash absent. */
       :root {
-        --color-custom: #d6321f;
-        --grid-line: oklch(85% 0.01 250 / 0.55);
-        --foreground: oklch(22% 0.01 250);
+        --paper: #ECE6D7;
+        --ink: #0F0E0C;
+        --primary: #E63E21;
+        --accent: #1C5FCC;
+        --signal: #8EE000;
       }
-      html, body { background-color: #ffffff; margin: 0; }
+      html, body { background-color: var(--paper); margin: 0; color: var(--ink); }
       body {
-        color: var(--foreground);
-        background-image:
-          linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-          linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-        background-size: 56px 56px;
-        background-attachment: fixed;
-        font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
         -webkit-font-smoothing: antialiased;
-        position: relative;
+        overflow-x: hidden;
       }
-      body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 0;
-        background:
-          radial-gradient(ellipse at 22% 18%, color-mix(in oklch, var(--color-custom) 14%, transparent) 0%, transparent 55%),
-          radial-gradient(ellipse at 78% 82%, color-mix(in oklch, var(--color-custom) 9%, transparent) 0%, transparent 60%),
-          radial-gradient(ellipse at center, transparent 0%, transparent 38%, rgba(255, 255, 255, 0.55) 100%);
+      /* avoid native cursor while custom cursor renders on desktop */
+      @media (hover: hover) and (pointer: fine) {
+        html, body, * { cursor: none; }
       }
-      #root { background-color: transparent; min-height: 100vh; position: relative; z-index: 1; }
     </style>
   </head>
   <body>
@@ -56,4 +37,3 @@
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
-

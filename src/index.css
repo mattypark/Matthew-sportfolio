@@ -4,154 +4,300 @@
 
 @layer base {
   :root {
-    /* Cinematic light theme — blue/orange film grading */
-    --color-custom: #d6321f;          /* warm cinematic red accent */
-    --color-accent-2: #ff6a2c;        /* warm cinematic orange secondary */
-    --background: oklch(98.5% 0.004 80);
-    --background-elev: oklch(96% 0.006 80);
-    --foreground: oklch(22% 0.01 250);
-    --muted-foreground: oklch(48% 0.012 250);
-    --border: oklch(88% 0.008 250);
-    --grid-line: oklch(85% 0.01 250 / 0.55);
+    /* Semantic palette: paper = tan (light), ink = black (dark). */
+    /* Page is now black-bg + tan-text by default; .section-dark inverts to tan-bg + black-text. */
+    --paper: #E2D0A8;
+    --ink: #0F0E0C;
+    --primary: #E63E21;
+    --accent: #1C5FCC;
+    --signal: #8EE000;
+    --muted: #6F634A;
   }
 
-  * {
-    @apply border-border;
-  }
-
+  html { scroll-behavior: auto; }
   html, body {
-    background-color: #ffffff !important;
+    background: var(--ink);
+    color: var(--paper);
   }
   body {
-    @apply antialiased relative font-mono;
-    color: var(--foreground);
-    background-color: #ffffff;
-    background-image:
-      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-    background-size: 56px 56px;
-    background-attachment: fixed;
-  }
-  /* #root left transparent so the body grid + orange tint show through
-     on every page. */
-  #root {
-    background-color: transparent;
-    min-height: 100vh;
-  }
-
-  /* Soft radial vignette + cinematic orange tint pulled from accent palette.
-     Applies to every page so the home grid + light orange wash is universal. */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background:
-      radial-gradient(
-        ellipse at 22% 18%,
-        color-mix(in oklch, var(--color-custom) 14%, transparent) 0%,
-        transparent 55%
-      ),
-      radial-gradient(
-        ellipse at 78% 82%,
-        color-mix(in oklch, var(--color-custom) 9%, transparent) 0%,
-        transparent 60%
-      ),
-      radial-gradient(
-        ellipse at center,
-        transparent 0%,
-        transparent 38%,
-        rgba(255, 255, 255, 0.55) 100%
-      );
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   ::selection {
-    background-color: var(--color-custom);
-    color: oklch(98.5% 0.004 80);
+    background: var(--paper);
+    color: var(--ink);
   }
 }
 
-/* Hide scrollbar */
+/* Display type — extreme condensed black for headlines */
+.font-display {
+  font-family: 'Big Shoulders Display', Impact, Haettenschweiler, sans-serif;
+  font-weight: 900;
+  font-stretch: 75%;
+  line-height: 0.82;
+  letter-spacing: -0.025em;
+}
+
+/* Fraunces italic accent */
+.italic-fraunces {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Inverted sections — tan bg, black text (Masterpiece horizontal scroll, Counterweight, Contact, Colophon) */
+.section-dark {
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 -1px 0 0 var(--paper);
+}
+.section-dark ::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Section labels (top-of-section monocode) */
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Mono dot */
+.mono-dot::before {
+  content: '●';
+  margin-right: 6px;
+  font-size: 9px;
+  vertical-align: middle;
+}
+
+/* Edge squiggle wave */
+@keyframes squiggle-drift {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+.edge-squiggle {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  pointer-events: none;
+  z-index: 55;
+  opacity: 0.75;
+}
+.edge-squiggle svg {
+  mix-blend-mode: difference;
+}
+.edge-squiggle svg {
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+
+/* Custom cursor */
+.cursor-ring,
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  margin-top: -16px;
+  border: 1px solid #E2D0A8;
+  border-radius: 50%;
+  transition: width 0.25s ease, height 0.25s ease, margin 0.25s ease, background 0.2s ease;
+}
+.cursor-dot {
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  margin-top: -2px;
+  background: #E2D0A8;
+  border-radius: 50%;
+}
+.cursor-ring.cursor-hover {
+  width: 56px;
+  height: 56px;
+  margin-left: -28px;
+  margin-top: -28px;
+  background: rgba(226, 208, 168, 0.08);
+}
+
+/* Magnetic CTAs */
+.magnetic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 35s linear infinite;
+  white-space: nowrap;
+  display: inline-flex;
+  gap: 64px;
+}
+
+/* Loader bar grow */
+@keyframes loader-grow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* No-scrollbar utility */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Blinking cursor for terminal-style status lines */
-@keyframes terminal-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+/* Vertical rotated label */
+.vlabel {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-/* Mesprite — 7-frame horizontal strip animation */
-@keyframes mesprite-walk {
-  from { background-position-x: 0%; }
-  to   { background-position-x: 100%; }
-}
-.terminal-cursor {
-  display: inline-block;
-  width: 0.55em;
-  height: 1em;
-  vertical-align: -0.15em;
-  background: var(--color-custom);
-  margin-left: 0.15em;
-  animation: terminal-blink 1.05s step-end infinite;
-}
-
-/* Soft glow utility for accent text */
-.glow-accent {
-  color: var(--color-custom);
-  text-shadow: 0 0 18px color-mix(in oklch, var(--color-custom) 22%, transparent);
-}
-
-/* Underline-on-hover that draws in (for link-heavy mono body) */
-.link-mono {
+/* Project tile (Selected Works) — sits on black bg; default = black w/ tan border; hover flips to tan bg */
+.tile {
   position: relative;
-  color: inherit;
-  transition: color 200ms ease;
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(226, 208, 168, 0.22);
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
-.link-mono::after {
-  content: '';
+.tile:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+.tile-idx {
   position: absolute;
-  left: 0;
-  bottom: -2px;
-  height: 1px;
-  width: 100%;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  top: 14px;
+  left: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
 }
-.link-mono:hover {
-  color: var(--color-custom);
+.tile-meta {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  right: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
 }
-.link-mono:hover::after {
-  transform: scaleX(1);
+.tile-title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Big Shoulders Display', sans-serif;
+  font-weight: 900;
+  font-stretch: 75%;
+  font-size: clamp(34px, 4vw, 64px);
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  padding: 0 18px;
 }
 
-/* ─────────────────────────────────────────────────────────────────────────
-   Bulletproof text-foreground overrides.
-   Tailwind compiles `text-foreground` from tailwind.config.js at startup.
-   These !important rules pin the runtime color to the new dark value
-   regardless of cached compilation.
-   ───────────────────────────────────────────────────────────────────────── */
-:root { --fg-rgb: 26, 27, 36; }   /* matches oklch(22% 0.01 250) ≈ #1a1b24 */
+/* Audio prompt widget — keeps its own black bg / tan text styling regardless of section */
+.audio-prompt {
+  position: fixed;
+  bottom: 20px;
+  right: 92px;
+  z-index: 60;
+  background: var(--ink);
+  color: var(--paper);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: stretch;
+  gap: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  max-width: 320px;
+  border: 1px solid var(--primary);
+}
+.audio-prompt .eq {
+  padding: 10px 8px;
+  display: flex;
+  align-items: end;
+  gap: 2px;
+}
+.audio-prompt .eq i {
+  display: block;
+  width: 3px;
+  background: var(--signal);
+  animation: eq-pulse 0.8s ease-in-out infinite;
+}
+.audio-prompt .eq i:nth-child(2) { animation-delay: 0.12s; }
+.audio-prompt .eq i:nth-child(3) { animation-delay: 0.24s; }
+.audio-prompt .copy { padding: 8px 10px; line-height: 1.25; }
+.audio-prompt .copy b { color: var(--paper); display: block; letter-spacing: 0.15em; font-weight: 500; }
+.audio-prompt .copy span { color: var(--muted); font-size: 9px; display: block; margin-top: 2px; }
+.audio-prompt .actions { display: flex; flex-direction: column; border-left: 1px solid #2a2823; }
+.audio-prompt .actions button {
+  font-size: 10px;
+  padding: 6px 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--paper);
+  border: none;
+}
+.audio-prompt .actions button.on { background: var(--primary); }
+.audio-prompt .actions button + button { border-top: 1px solid #2a2823; }
 
-.text-foreground         { color: rgb(var(--fg-rgb)) !important; }
-.text-foreground\/30     { color: rgba(var(--fg-rgb), 0.30) !important; }
-.text-foreground\/40     { color: rgba(var(--fg-rgb), 0.40) !important; }
-.text-foreground\/50     { color: rgba(var(--fg-rgb), 0.50) !important; }
-.text-foreground\/55     { color: rgba(var(--fg-rgb), 0.55) !important; }
-.text-foreground\/60     { color: rgba(var(--fg-rgb), 0.60) !important; }
-.text-foreground\/65     { color: rgba(var(--fg-rgb), 0.65) !important; }
-.text-foreground\/70     { color: rgba(var(--fg-rgb), 0.70) !important; }
-.text-foreground\/75     { color: rgba(var(--fg-rgb), 0.75) !important; }
-.text-foreground\/80     { color: rgba(var(--fg-rgb), 0.80) !important; }
-.text-foreground\/85     { color: rgba(var(--fg-rgb), 0.85) !important; }
-.text-foreground\/90     { color: rgba(var(--fg-rgb), 0.90) !important; }
+@keyframes eq-pulse {
+  0%, 100% { height: 4px; }
+  50% { height: 14px; }
+}
 
-.border-border           { border-color: var(--border) !important; }
-.border-border\/60       { border-color: color-mix(in oklch, var(--border) 60%, transparent) !important; }
-.border-border\/80       { border-color: color-mix(in oklch, var(--border) 80%, transparent) !important; }
+/* Numbered chapter label */
+.chapter-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
 
-.text-muted-foreground   { color: var(--muted-foreground) !important; }
-.bg-background-elev\/60  { background-color: color-mix(in oklch, var(--background-elev) 60%, transparent) !important; }
+/* Highlighted text accents inside body */
+.hl-red { color: var(--primary); }
+.hl-blue { color: var(--accent); }
+/* Fade on black bg = dim tan. */
+.hl-fade { color: rgba(226, 208, 168, 0.35); }
+/* On tan section-dark bg, override hl-fade to dim black instead. */
+.section-dark .hl-fade { color: rgba(15, 14, 12, 0.45); }
+
+/* Section padding */
+.gutter { padding-left: clamp(28px, 4vw, 72px); padding-right: clamp(28px, 4vw, 72px); }

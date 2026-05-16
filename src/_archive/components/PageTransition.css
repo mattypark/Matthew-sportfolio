@@ -1,0 +1,53 @@
+/* Layer 1: Column Wipe */
+.transition-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.transition-column {
+  position: relative;
+  width: 20%;
+  height: 100%;
+  background-color: #000000;
+}
+
+/* Layer 2: Signature Text */
+.route-text {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.route-text-inner {
+  display: flex;
+  gap: 2px;
+}
+
+.route-letter {
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  color: white;
+  display: inline-block;
+}
+
+.route-underline {
+  width: clamp(120px, 20vw, 200px);
+  margin-top: 8px;
+  overflow: visible;
+}

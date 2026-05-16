@@ -1,42 +1,69 @@
-# Matthew Park — Portfolio
+# Matthew Park — Portfolio (TESTING SANDBOX)
 
-A personal site that doesn't read like every other 17-year-old portfolio template.
+> **This is the testing copy.** No GitHub remote. No deploys. Break things freely.
+> The live one lives in `../matthewportfolio`.
 
-## Who this is for
+---
 
-Matthew Park, 15, builder + creator from Kentucky. Living in KY, very much pulled toward San Francisco. Working in tech, internet, marketing, and AI.
+## Who Matthew is — for any future agent / collaborator
 
-## Personality / context for future edits
+Energetic. Makes jokes. Wants people to smile. Also wants to do *everything*.
+Has changed interests a lot over the years and is okay with that — every
+chapter compounds.
 
-If you're an AI agent (or human) coming back to make changes to this site, here's what should bleed through the design:
+### Eyes set on:
+**Stanford. SF. NYC. The world.** The thesis: to impact globally you have to
+prove you're academically capable first — academics earns the room, then you
+get to actually build. So studying hard *and* shipping hard, in parallel.
 
-- **Tennis** — has played since Jan 2021. Court is the reset button. Mention it where it fits — never as a generic "hobby".
-- **Coding** — builds startups solo and with cofounders. Ships fast. Indie maker energy.
-- **SF, but Kentucky** — the running joke. Loves SF / wants to be there, but lives in Kentucky for now. Lean into the contrast — it's part of the brand. Don't hide Kentucky; *frame* it.
-- **Startups** — has cofounded multiple (Prayer Lock, BounceBack, travel app, etc.). Has worked growth at Turbolearn AI, MathGPT. Comfortable being scrappy.
-- **Marketing** — UGC, social, growth. Generated $20k+ in revenue scaling Prayer Lock 7x. Viral talking-head on TikTok.
-- **Online** — lives on the internet. X, LinkedIn, IG, TikTok, YouTube. Treats internet presence as a craft, not a side effect.
-- **AI** — building AI agents and AI-native products (Gourmet AI, solo AI app, MIT Critical Data research).
+### Asian-Korean, born in Kentucky.
+Mostly an outsider growing up. Spent a long time trying to fit in everywhere.
+Learned the lesson: you don't have to fit in every time. The KY → SF arc is
+part of the story, not something to hide.
 
-## Design rules
+### Currently building:
+- **A nonprofit** that uses AI to help high schoolers land internships.
+  The vision is global. The future-side number is *hundreds of thousands of
+  dollars in impact*. Right now: build.
+- **AI research** — looking for the right topic. Wants something that's
+  academically intelligent *and* genuinely interesting. Still figuring it out.
+- **Marketing experiments** — has shipped real campaigns, real revenue.
+  AI + CS + marketing is the triangle.
 
-- Minimalist, lots of whitespace, serif display + mono small caps + sans body.
-- Fonts already loaded: Instrument Serif (display), IBM Plex Mono (small caps), Inter (body).
-- Light theme by default (`oklch(98% 0 0)` bg). Don't introduce a heavy color palette without asking.
-- Menu pattern (hamburger → fullscreen black overlay with serif nav links + side panel) is *the* signature interaction. Preserve it across pages.
-- Smooth scroll lives in `App.jsx` and uses a critically-damped spring. Don't remove it.
+### Track record (extracurriculars):
+- **Speech & Debate** — qualified state, 1st in Impromptu Sales
+- **Science Fair** — National Sustainable Development Award (LRSEF), 1st in ESGD
+- **Varsity Tennis** — playing since age 9
+- **Stanford ASES Launchpad** — accepted
 
-## Site structure
+### Off the keyboard:
+- **Tennis** since age 9 — basketball, calisthenics on the side
+- **Saxophone, piano, drums, guitar** — full musician
+- **Prayer Lock (former CMO / cofounder)** — scaled it 7×, generated $14k
+  in revenue from $2k MRR
 
-| Route | Purpose |
-|-------|---------|
-| `/` | **Home** — minimalist intro, Eric-Zuo-inspired. Single screen, two blocks of text, footer. The first impression. |
-| `/timeline` | The reverse-chronological life log (formerly the home page). Every meaningful event Matthew wants to flex / remember. |
-| `/about` | Long-form bio + photo. |
-| `/values` | Core values page. |
-| `/inspiration` | People / things that inspire him. |
+### Voice / vibe rules for the site:
+- Don't be corporate. Don't be a generic "17-y/o builder portfolio."
+- Make jokes where they land. The KY-vs-SF thing is the running gag.
+- Energetic but not loud. Smooth motion, not bouncy. Confidence, not flex.
+- The site should feel like Matthew opened a terminal and started talking.
 
-The timeline is the heart of the site's content — it just isn't the landing page anymore. The landing page is the first impression; the timeline is the proof.
+---
+
+## Design direction (this sandbox)
+
+The live site is light, serif, minimalist. **This sandbox flips it:** more
+CS / AI / IDE-coded — but smooth and energetic, never "dev portfolio that
+forgot it's a portfolio."
+
+- **Dark theme by default** — deep near-black, not pure black
+- **Mono-first body** (JetBrains Mono / IBM Plex Mono)
+- **Instrument Serif** kept for emotional, oversized headers — mono + serif
+  is the 2025-26 AI-startup signature (Anthropic, Linear, Cursor energy)
+- **Electric-green accent** — used sparingly (cursor blink, hovers, key links)
+- **Subtle dot/grid background** — coordinate-plane / model-training-plot vibes
+- **Existing critically-damped smooth scroll stays**
+- **No page transition wipe** — instant route swaps
 
 ## Stack
 
@@ -49,7 +76,9 @@ The timeline is the heart of the site's content — it just isn't the landing pa
 
 ```bash
 npm install
-npm run dev      # → http://localhost:5173
+npm run dev      # → http://localhost:5174 (or whatever vite picks)
 npm run build
 npm run preview
 ```
+
+**Reminder: this folder has no `origin` remote.** Local commits stay local.

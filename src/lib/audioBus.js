@@ -1,7 +1,7 @@
 // Singleton audio player + Web Audio analyser.
 // Subscribers receive Uint8Array of frequency bins on every frame while playing.
 
-const TRACK = '/audio/through-my-system.mp3'
+const DEFAULT_TRACK = '/audio/through-my-system.mp3'
 
 let audio = null
 let ctx = null
@@ -9,13 +9,14 @@ let analyser = null
 let dataArr = null
 let raf = null
 let playing = false
+let currentSrc = DEFAULT_TRACK
 
 const fftSubs = new Set()
 const stateSubs = new Set()
 
 function ensureAudio() {
   if (audio) return
-  audio = new Audio(TRACK)
+  audio = new Audio(currentSrc)
   audio.loop = true
   audio.preload = 'auto'
   audio.crossOrigin = 'anonymous'
@@ -49,10 +50,27 @@ function tick() {
 function stop() {
   if (raf) cancelAnimationFrame(raf)
   raf = null
-  // Send zeroed array so visuals decay.
   if (dataArr) {
     const empty = new Uint8Array(dataArr.length)
     fftSubs.forEach((cb) => cb(empty))
+  }
+}
+
+// Switch the track source. If called BEFORE the audio element is created (ie before
+// the user first toggles play), we just update `currentSrc` and the next `ensureAudio()`
+// call will use it. If called AFTER, we update the existing element's `src` in place
+// — but we deliberately skip if Web Audio context already wired the original element
+// (changing src on a connected MediaElementSource is allowed and reroutes through analyser).
+export function setTrack(url) {
+  if (!url || url === currentSrc) return
+  currentSrc = url
+  if (audio) {
+    const wasPlaying = playing
+    audio.src = url
+    audio.load()
+    if (wasPlaying) {
+      audio.play().catch(() => {})
+    }
   }
 }
 

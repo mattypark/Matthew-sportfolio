@@ -177,7 +177,13 @@ export default function SongsOfTheWeek() {
             <div className="text-paper/45 mb-3">// PLAYS THIS WEEK</div>
             <div
               className="font-display text-paper text-center"
-              style={{ fontSize: 'clamp(120px, 13vw, 196px)', lineHeight: 0.9 }}
+              style={{
+                fontSize: 'clamp(120px, 13vw, 196px)',
+                lineHeight: 0.9,
+                opacity: revealed ? 1 : 0,
+                transform: revealed ? 'translateY(0)' : 'translateY(8px)',
+                transition: 'opacity 700ms ease 300ms, transform 700ms ease 300ms',
+              }}
             >
               {song.plays}
             </div>

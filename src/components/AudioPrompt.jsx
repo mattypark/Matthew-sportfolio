@@ -1,11 +1,28 @@
 import { useEffect, useState } from 'react'
-import { toggle, subscribeState, subscribeFFT, isPlaying } from '../lib/audioBus'
+import { toggle, subscribeState, subscribeFFT, isPlaying, setTrack } from '../lib/audioBus'
 
 export default function AudioPrompt() {
   const [playing, setPlaying] = useState(false)
   const [level, setLevel] = useState(0)
   const [promptOpen, setPromptOpen] = useState(true)
   const [fading, setFading] = useState(false)
+
+  // Pull current song-of-the-week and swap the audio source to its iTunes preview.
+  // If preview isn't available (older songs, region-locked, etc.) we silently keep
+  // the default fallback track wired in audioBus.
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/song')
+      .then((r) => r.json())
+      .then((data) => {
+        if (cancelled) return
+        if (data && data.ok && data.previewUrl) setTrack(data.previewUrl)
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => subscribeState((p) => {
     setPlaying(p)

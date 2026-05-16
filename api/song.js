@@ -3,6 +3,7 @@
 // Strategy:
 //   - Fetches top track (time_range=short_term ≈ last 4 weeks) limit 1
 //   - Counts plays this week (from last Sunday 00:00 America/New_York onward) via recently-played
+//   - Enriches with iTunes Search preview URL (~30s MP3, free, no auth)
 //   - Cache-Control set to expire at the next Sunday 00:00 America/New_York, so the CDN
 //     serves stale data till then and naturally refreshes on Sunday rollover.
 //
@@ -15,7 +16,6 @@ const RECENT_URL = 'https://api.spotify.com/v1/me/player/recently-played?limit=5
 // Returns the timestamp (UTC ms) of the most recent past Sunday 00:00 in America/New_York.
 function lastSundayMidnightET() {
   const now = new Date()
-  // Get the ET-equivalent date parts
   const fmt = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/New_York',
     weekday: 'short',
@@ -30,10 +30,8 @@ function lastSundayMidnightET() {
   const parts = Object.fromEntries(fmt.formatToParts(now).map((p) => [p.type, p.value]))
   const weekdayMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }
   const dow = weekdayMap[parts.weekday]
-  // Build a Date at ET midnight today, then subtract weekday days.
-  // ET offset varies (DST). Use the trick: form an ISO with ET wall time and treat as UTC, then adjust by computed offset.
   const etNow = new Date(`${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}Z`)
-  const offsetMs = etNow.getTime() - now.getTime() // ET wall time minus UTC = -4h or -5h
+  const offsetMs = etNow.getTime() - now.getTime()
   const etMidnightTodayUtc = new Date(`${parts.year}-${parts.month}-${parts.day}T00:00:00Z`).getTime() - offsetMs
   return etMidnightTodayUtc - dow * 24 * 60 * 60 * 1000
 }
@@ -63,6 +61,18 @@ async function getAccessToken() {
   return j.access_token
 }
 
+async function getItunesPreview(title, artist) {
+  try {
+    const term = encodeURIComponent(`${title} ${artist}`.trim())
+    const r = await fetch(`https://itunes.apple.com/search?term=${term}&entity=song&limit=1`)
+    if (!r.ok) return null
+    const j = await r.json()
+    return j.results?.[0]?.previewUrl || null
+  } catch {
+    return null
+  }
+}
+
 export default async function handler(req, res) {
   try {
     if (!process.env.SPOTIFY_REFRESH_TOKEN) {
@@ -73,6 +83,7 @@ export default async function handler(req, res) {
         title: 'Through My System',
         artist: "it's murph, Arlo, Emi Grace",
         plays: 47,
+        previewUrl: null,
       })
       return
     }
@@ -100,6 +111,8 @@ export default async function handler(req, res) {
       return new Date(p.played_at).getTime() >= weekStartMs
     }).length
 
+    const previewUrl = await getItunesPreview(item.name, item.artists[0]?.name || '')
+
     const payload = {
       ok: true,
       title: item.name,
@@ -108,6 +121,7 @@ export default async function handler(req, res) {
       url: item.external_urls?.spotify || null,
       album: item.album?.name || null,
       image: item.album?.images?.[0]?.url || null,
+      previewUrl,
     }
 
     const ttl = secondsUntilNextSundayMidnightET()
@@ -122,6 +136,7 @@ export default async function handler(req, res) {
       title: 'Through My System',
       artist: "it's murph, Arlo, Emi Grace",
       plays: 47,
+      previewUrl: null,
     })
   }
 }

@@ -1,12 +1,17 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
 export default function Cursor() {
   const ring = useRef(null)
   const dot = useRef(null)
+  const [enabled, setEnabled] = useState(false)
 
   useEffect(() => {
-    if (window.matchMedia('(pointer: coarse)').matches) return
+    if (typeof window === 'undefined') return
+    const isCoarse = window.matchMedia('(pointer: coarse)').matches
+    const noHover = window.matchMedia('(hover: none)').matches
+    if (isCoarse || noHover) return
+    setEnabled(true)
 
     const xTo = gsap.quickTo(ring.current, 'x', { duration: 0.4, ease: 'power3.out' })
     const yTo = gsap.quickTo(ring.current, 'y', { duration: 0.4, ease: 'power3.out' })
@@ -36,6 +41,7 @@ export default function Cursor() {
     }
   }, [])
 
+  if (!enabled) return null
   return (
     <>
       <div ref={ring} className="cursor-ring" />

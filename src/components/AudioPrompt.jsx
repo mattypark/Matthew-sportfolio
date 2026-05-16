@@ -5,8 +5,16 @@ export default function AudioPrompt() {
   const [playing, setPlaying] = useState(false)
   const [level, setLevel] = useState(0)
   const [promptOpen, setPromptOpen] = useState(true)
+  const [fading, setFading] = useState(false)
 
-  useEffect(() => subscribeState(setPlaying), [])
+  useEffect(() => subscribeState((p) => {
+    setPlaying(p)
+    if (p) {
+      // Auto-dismiss prompt when audio actually starts playing
+      setFading(true)
+      setTimeout(() => setPromptOpen(false), 450)
+    }
+  }), [])
 
   useEffect(() => {
     return subscribeFFT((data) => {
@@ -18,12 +26,14 @@ export default function AudioPrompt() {
   }, [])
 
   const handleTurnOn = async () => {
-    setPromptOpen(false)
+    setFading(true)
     if (!isPlaying()) await toggle()
+    setTimeout(() => setPromptOpen(false), 450)
   }
 
   const handleSkip = () => {
-    setPromptOpen(false)
+    setFading(true)
+    setTimeout(() => setPromptOpen(false), 450)
   }
 
   const ring = 1 + level * 0.35
@@ -31,7 +41,14 @@ export default function AudioPrompt() {
   return (
     <>
       {promptOpen && (
-        <div className="audio-prompt">
+        <div
+          className="audio-prompt"
+          style={{
+            opacity: fading ? 0 : 1,
+            transform: fading ? 'translateY(8px) scale(0.96)' : 'translateY(0) scale(1)',
+            transition: 'opacity 400ms ease, transform 400ms ease',
+          }}
+        >
           <div className="eq">
             <i style={{ height: 6 }} />
             <i style={{ height: 10 }} />

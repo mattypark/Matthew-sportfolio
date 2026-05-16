@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import useMagnetic from '../hooks/useMagnetic'
+import Globe from './Globe'
 
 export default function Contact() {
   const root = useRef(null)
@@ -97,6 +98,9 @@ export default function Contact() {
             <div className="section-label text-ink/55 mb-2">LOCATION</div>
             <div className="font-display text-[28px] leading-none">LOUISVILLE, KENTUCKY</div>
             <div className="font-mono text-[11px] text-ink/60 mt-1">38.25°N &middot; 85.75°W</div>
+            <div className="mt-4" style={{ maxWidth: 200 }}>
+              <Globe lat={38.25} lng={-85.75} />
+            </div>
           </div>
 
           <div>

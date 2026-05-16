@@ -1,17 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
+const detectEnabled = () => {
+  if (typeof window === 'undefined') return false
+  const coarse = window.matchMedia('(pointer: coarse)').matches
+  const noHover = window.matchMedia('(hover: none)').matches
+  return !(coarse || noHover)
+}
+
 export default function Cursor() {
   const ring = useRef(null)
   const dot = useRef(null)
-  const [enabled, setEnabled] = useState(false)
+  const [enabled] = useState(detectEnabled)
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const isCoarse = window.matchMedia('(pointer: coarse)').matches
-    const noHover = window.matchMedia('(hover: none)').matches
-    if (isCoarse || noHover) return
-    setEnabled(true)
+    if (!enabled) return
 
     const xTo = gsap.quickTo(ring.current, 'x', { duration: 0.4, ease: 'power3.out' })
     const yTo = gsap.quickTo(ring.current, 'y', { duration: 0.4, ease: 'power3.out' })
@@ -39,7 +42,7 @@ export default function Cursor() {
       window.removeEventListener('mousemove', onMove)
       window.removeEventListener('mouseover', onOver)
     }
-  }, [])
+  }, [enabled])
 
   if (!enabled) return null
   return (

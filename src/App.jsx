@@ -12,6 +12,7 @@ import SectionRail from './components/SectionRail'
 import Hero from './components/Hero'
 import Manifesto from './components/Manifesto'
 import Works from './components/Works'
+import SongsOfTheWeek from './components/SongsOfTheWeek'
 import Masterpiece from './components/Masterpiece'
 import Counterweight from './components/Counterweight'
 import Contact from './components/Contact'
@@ -37,6 +38,7 @@ export default function App() {
         <Hero booted={booted} />
         <Manifesto />
         <Works />
+        <SongsOfTheWeek />
         <Masterpiece />
         <Counterweight />
         <Contact />

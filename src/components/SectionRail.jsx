@@ -4,6 +4,7 @@ const sections = [
   { id: 'top',           label: 'home' },
   { id: 'about',         label: 'why' },
   { id: 'work',          label: 'work' },
+  { id: 'songs',         label: 'songs' },
   { id: 'masterpiece',   label: 'timeline' },
   { id: 'counterweight', label: 'counterweight' },
   { id: 'contact',       label: 'contact' },

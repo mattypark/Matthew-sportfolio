@@ -1,11 +1,14 @@
-// Vercel serverless function: returns current "song of the week" from Spotify.
+// Vercel serverless function: returns "song of the week" from Spotify.
 //
 // Strategy:
-//   - Fetches top track (time_range=short_term ≈ last 4 weeks) limit 1
-//   - Counts plays this week (from last Sunday 00:00 America/New_York onward) via recently-played
-//   - Enriches with iTunes Search preview URL (~30s MP3, free, no auth)
-//   - Cache-Control set to expire at the next Sunday 00:00 America/New_York, so the CDN
-//     serves stale data till then and naturally refreshes on Sunday rollover.
+//   - Window = LAST full week (prev Sunday 00:00 ET → this Sunday 00:00 ET). Current week
+//     starts at 0 plays so we report the completed prior week instead.
+//   - Reads recently-played (max 50), filters to window, counts plays per track, picks
+//     the most-played track as "song of the week".
+//   - Falls back to Spotify top-tracks (short_term) if window is empty (eg quiet week).
+//   - Enriches with iTunes Search preview URL (~30s MP3, free, no auth).
+//   - Cache-Control expires at next Sunday 00:00 ET — CDN holds the snapshot, naturally
+//     refreshes on rollover.
 //
 // Env required: SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN
 
@@ -98,18 +101,43 @@ export default async function handler(req, res) {
     const top = await topRes.json()
     const recent = await recentRes.json()
 
-    const item = top.items?.[0]
+    // Last full week window: [prevSun, thisSun)
+    const thisSunMs = lastSundayMidnightET()
+    const prevSunMs = thisSunMs - 7 * 24 * 60 * 60 * 1000
+
+    // Count plays per track within last week's window
+    const counts = new Map()
+    const trackById = new Map()
+    for (const p of recent.items || []) {
+      const t = new Date(p.played_at).getTime()
+      if (t < prevSunMs || t >= thisSunMs) continue
+      const tr = p.track
+      if (!tr?.id) continue
+      counts.set(tr.id, (counts.get(tr.id) || 0) + 1)
+      if (!trackById.has(tr.id)) trackById.set(tr.id, tr)
+    }
+
+    // Pick most-played track from window; fallback to Spotify top short_term
+    let item = null
+    let plays = 0
+    if (counts.size > 0) {
+      let bestId = null
+      let bestCount = 0
+      for (const [id, c] of counts) {
+        if (c > bestCount) { bestCount = c; bestId = id }
+      }
+      item = trackById.get(bestId)
+      plays = bestCount
+    } else {
+      item = top.items?.[0]
+      plays = 0
+    }
+
     if (!item) {
       res.setHeader('Cache-Control', 'no-store')
       res.status(200).json({ ok: false, reason: 'no_top_track' })
       return
     }
-
-    const weekStartMs = lastSundayMidnightET()
-    const plays = (recent.items || []).filter((p) => {
-      if (p.track?.id !== item.id) return false
-      return new Date(p.played_at).getTime() >= weekStartMs
-    }).length
 
     const previewUrl = await getItunesPreview(item.name, item.artists[0]?.name || '')
 

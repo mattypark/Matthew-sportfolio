@@ -6,7 +6,6 @@ export default function Hero({ booted = false }) {
   const played = useRef(false)
 
   useEffect(() => {
-    // Hide initial state so things don't flash before loader finishes
     if (root.current && !played.current) {
       gsap.set(root.current.querySelectorAll('.h-line'), { yPercent: 105 })
       gsap.set(root.current.querySelectorAll('.h-bio > *'), { y: 16, opacity: 0 })
@@ -28,19 +27,17 @@ export default function Hero({ booted = false }) {
 
   return (
     <section id="top" ref={root} className="relative min-h-[100svh] gutter pt-28 pb-12">
-      {/* Massive display name */}
-      <div className="mt-12">
-        <div className="overflow-hidden mb-3">
-          <div className="h-line font-mono text-[11px] tracking-[0.28em] uppercase text-paper/55 flex items-center gap-3">
-            <span className="w-8 h-px bg-paper/35" />
-            AGE <span style={{ color: 'var(--primary)' }}>·</span> 15
-          </div>
+      <div className="mt-12 flex items-start justify-between gap-6">
+        <div className="min-w-0">
+          <div className="overflow-hidden"><div className="h-line font-display text-[clamp(56px,17vw,360px)] leading-[0.92]">MATTHEW</div></div>
+          <div className="overflow-hidden -mt-[0.08em]"><div className="h-line font-display text-[clamp(56px,17vw,360px)] leading-[0.92]">PARK</div></div>
         </div>
-        <div className="overflow-hidden"><div className="h-line font-display text-[clamp(56px,17vw,360px)]">MATTHEW</div></div>
-        <div className="overflow-hidden -mt-[0.08em]"><div className="h-line font-display text-[clamp(56px,17vw,360px)]">PARK</div></div>
+        <div className="flex flex-col items-end shrink-0 min-w-0">
+          <div className="overflow-hidden"><div className="h-line font-display text-[clamp(56px,17vw,360px)] leading-[0.92]">15</div></div>
+          <div className="overflow-hidden -mt-[0.08em]"><div className="h-line font-display text-[clamp(56px,17vw,360px)] leading-[0.92]">Y/O</div></div>
+        </div>
       </div>
 
-      {/* Bottom row: bio + scroll */}
       <div className="mt-16 flex flex-wrap items-end justify-between gap-10">
         <div className="h-bio max-w-[460px] font-mono text-[13px] leading-[1.55] text-paper/80">
           <p>Founder and CEO of Axiom Pathways, a nonprofit having top VC's/Founders teaching AI, CS, entrepreneurship, and startups to interns/highschoolers who care more than they're qualified.</p>

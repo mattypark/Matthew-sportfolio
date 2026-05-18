@@ -51,7 +51,6 @@ export default function SectionRail() {
       className="hidden lg:flex fixed top-5 right-7 z-50 items-center gap-5 font-mono text-[11px] tracking-[0.12em] uppercase select-none mix-blend-difference"
       style={{ color: '#E2D0A8' }}
     >
-      <span className="opacity-60">~/SECTIONS</span>
       <ul className="flex items-center gap-5">
         {sections.map((s, i) => {
           const isActive = activeId === s.id

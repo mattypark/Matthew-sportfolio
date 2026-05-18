@@ -8,13 +8,13 @@ import Cursor from './components/Cursor'
 import Nav from './components/Nav'
 import EdgeSquiggle from './components/EdgeSquiggle'
 import AudioPrompt from './components/AudioPrompt'
-import SectionRail from './components/SectionRail'
 import Hero from './components/Hero'
 import Manifesto from './components/Manifesto'
 import Works from './components/Works'
 import SongsOfTheWeek from './components/SongsOfTheWeek'
 import Masterpiece from './components/Masterpiece'
 import Counterweight from './components/Counterweight'
+import TheLoop from './components/TheLoop'
 import Contact from './components/Contact'
 import Colophon from './components/Colophon'
 
@@ -32,7 +32,6 @@ export default function App() {
       <EdgeSquiggle side="left" />
       <EdgeSquiggle side="right" />
       <Nav />
-      <SectionRail />
 
       <main>
         <Hero booted={booted} />
@@ -41,6 +40,7 @@ export default function App() {
         <SongsOfTheWeek />
         <Masterpiece />
         <Counterweight />
+        <TheLoop />
         <Contact />
       </main>
 

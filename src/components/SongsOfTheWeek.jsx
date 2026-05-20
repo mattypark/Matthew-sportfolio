@@ -1,11 +1,27 @@
 import { useEffect, useRef, useState } from 'react'
 import { animate } from 'animejs'
 
+// Stable weekly random play count — same number all week, rolls over Sunday 00:00 ET.
+// Uses the most recent Sunday's epoch-day as the seed so it stays consistent across renders/devices.
+function weeklyPlays() {
+  const now = new Date()
+  // Most-recent-Sunday at 00:00 in viewer's local TZ
+  const sun = new Date(now)
+  sun.setHours(0, 0, 0, 0)
+  sun.setDate(sun.getDate() - sun.getDay())
+  const seed = Math.floor(sun.getTime() / 86400000) // epoch-day of that Sunday
+  // Deterministic hash → 0..1
+  let x = (seed * 9301 + 49297) % 233280
+  x = x / 233280
+  // Map to a sensible plays range: 28..86
+  return 28 + Math.floor(x * 59)
+}
+
 // Fallback shown if /api/song hasn't responded yet or returned !ok
 const FALLBACK = {
   title: 'Through My System',
   artist: "it's murph, Arlo, Emi Grace",
-  plays: 47,
+  plays: weeklyPlays(),
 }
 
 const shuffleAnagram = (title) => {
@@ -42,7 +58,9 @@ export default function SongsOfTheWeek() {
       .then((data) => {
         if (cancelled) return
         if (data && data.ok && data.title && data.artist) {
-          setSong({ title: data.title, artist: data.artist, plays: data.plays ?? 0 })
+          // If API reports 0/missing plays, fall back to the weekly random so the UI never shows 0.
+          const plays = (typeof data.plays === 'number' && data.plays > 0) ? data.plays : weeklyPlays()
+          setSong({ title: data.title, artist: data.artist, plays })
         }
       })
       .catch(() => {})

@@ -6,7 +6,7 @@ const projects = [
   { idx: '01', title: 'AXIOM',                meta: ['NONPROFIT', '17 LIVE'],     fill: 'paper' },
   { idx: '02', title: 'WEB DESIGN AGENCY',    meta: ['AGENCY', 'ACTIVE'],         fill: 'red' },
   { idx: '03', title: 'SOCIAL MEDIA',         meta: ['CONTENT', '30M+ VIEWS'],    fill: 'paper' },
-  { idx: '04', title: 'SOFTWARE ENGINEERING', meta: ['BUILD', 'ONGOING'],         fill: 'paper' },
+  { idx: '04', title: 'SLAPSHIFT',            meta: ['APP', 'BUILDING'],          fill: 'paper' },
 ]
 
 function fillToStyle(fill) {

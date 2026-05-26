@@ -65,6 +65,12 @@ const slides = [
   },
   {
     year: '2026',
+    title: 'SLAPSHIFT',
+    body: 'A macOS extension where you literally slap your MacBook to open apps. Accelerometer reads the hit, mapped gestures fire shortcuts. Stupid premise, real product.',
+    accent: 'red',
+  },
+  {
+    year: '2026',
     title: 'THIS PAGE',
     body: 'You are reading it. Which means the loop closed once. The next thing will be smaller and stranger than this. Subscribe to nothing. Just check back.',
     accent: 'signal',

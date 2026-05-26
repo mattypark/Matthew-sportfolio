@@ -6,7 +6,7 @@ const projects = [
   { idx: '01', title: 'AXIOM',                meta: ['NONPROFIT', '17 LIVE'],     fill: 'paper' },
   { idx: '02', title: 'WEB DESIGN AGENCY',    meta: ['AGENCY', 'ACTIVE'],         fill: 'red' },
   { idx: '03', title: 'SOCIAL MEDIA',         meta: ['CONTENT', '30M+ VIEWS'],    fill: 'paper' },
-  { idx: '04', title: 'SLAPSHIFT',            meta: ['APP', 'BUILDING'],          fill: 'paper' },
+  { idx: '04', title: 'SLAPSHIFT',            meta: ['APP', 'BUILDING'],          fill: 'paper', href: 'https://slapshift.app' },
 ]
 
 function fillToStyle(fill) {
@@ -65,7 +65,9 @@ export default function Works() {
           ) : (
             <a
               key={p.idx}
-              href="#"
+              href={p.href || '#'}
+              target={p.href ? '_blank' : undefined}
+              rel={p.href ? 'noopener noreferrer' : undefined}
               data-hover
               className="tile"
               style={fillToStyle(p.fill)}

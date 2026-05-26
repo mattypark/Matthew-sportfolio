@@ -32,10 +32,10 @@ export default function Contact() {
   const handleCopy = async (e) => {
     e.preventDefault()
     try {
-      await navigator.clipboard.writeText('mattyparkbusiness@gmail.com')
+      await navigator.clipboard.writeText('matthew.parkk0@gmail.com')
     } catch {
       const ta = document.createElement('textarea')
-      ta.value = 'mattyparkbusiness@gmail.com'
+      ta.value = 'matthew.parkk0@gmail.com'
       document.body.appendChild(ta)
       ta.select()
       document.execCommand('copy')
@@ -81,13 +81,13 @@ export default function Contact() {
 
           <a
             ref={magRef}
-            href="mailto:mattyparkbusiness@gmail.com"
+            href="mailto:matthew.parkk0@gmail.com"
             onClick={handleCopy}
             data-hover
             className="magnetic mt-10 inline-flex items-center gap-3 text-ink border border-ink/40 hover:border-ink px-6 py-4 rounded-full font-mono text-[12px] tracking-[0.22em] uppercase"
           >
             <span style={{ color: 'var(--signal)' }}>●</span>
-            {copied ? 'COPIED TO CLIPBOARD' : 'MATTYPARKBUSINESS@GMAIL.COM'}
+            {copied ? 'COPIED TO CLIPBOARD' : 'MATTHEW.PARKK0@GMAIL.COM'}
             <span aria-hidden="true">{copied ? '✓' : '↗'}</span>
           </a>
         </div>

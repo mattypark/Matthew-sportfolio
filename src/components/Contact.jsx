@@ -29,8 +29,11 @@ export default function Contact() {
     return () => ctx.revert()
   }, [])
 
+  const GMAIL_COMPOSE =
+    'https://mail.google.com/mail/?view=cm&fs=1&to=matthew.parkk0@gmail.com'
+
   const handleCopy = async (e) => {
-    e.preventDefault()
+    // Don't preventDefault — let the link open Gmail in a new tab.
     try {
       await navigator.clipboard.writeText('matthew.parkk0@gmail.com')
     } catch {
@@ -81,7 +84,9 @@ export default function Contact() {
 
           <a
             ref={magRef}
-            href="mailto:matthew.parkk0@gmail.com"
+            href={GMAIL_COMPOSE}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={handleCopy}
             data-hover
             className="magnetic mt-10 inline-flex items-center gap-3 text-ink border border-ink/40 hover:border-ink px-6 py-4 rounded-full font-mono text-[12px] tracking-[0.22em] uppercase"

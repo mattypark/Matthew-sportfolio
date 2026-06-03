@@ -10,7 +10,7 @@ export default function Colophon() {
             <li>VERY EXTROVERTED</li>
             <li>LOVE TO TALK</li>
             <li>EXPRESS HOW I FEEL</li>
-            <li>DANCE WHEN MUSIC HITS</li>
+            <li>DANCE OFTEN WHEN MUSIC HITS</li>
           </ul>
         </div>
 

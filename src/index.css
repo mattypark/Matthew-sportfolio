@@ -49,7 +49,7 @@
   font-weight: 400;
 }
 
-/* Inverted sections — tan bg, black text (Masterpiece horizontal scroll, Counterweight, Contact, Colophon) */
+/* Inverted sections — tan bg, black text (Counterweight, Contact, Colophon) */
 .section-dark {
   background: var(--paper);
   color: var(--ink);

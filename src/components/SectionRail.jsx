@@ -5,7 +5,7 @@ const sections = [
   { id: 'about',         label: 'why' },
   { id: 'work',          label: 'work' },
   { id: 'songs',         label: 'songs' },
-  { id: 'masterpiece',   label: 'timeline' },
+  { id: 'terminal',      label: 'terminal' },
   { id: 'counterweight', label: 'counterweight' },
   { id: 'contact',       label: 'contact' },
 ]

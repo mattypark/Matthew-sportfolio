@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { animate } from 'animejs'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
+import ScrollScenes from './components/ScrollScenes' 
 // Three scenes that crossfade as user scrolls. Each scene's internal motion runs
 // on its own anime.js loop (independent of scroll). Scroll position drives
 // crossfade + a grayscale ↔ color cycle, so each scene punches into color near

@@ -110,7 +110,7 @@ export default function SongsOfTheWeek() {
   }
 
   return (
-    <section id="songs" className="relative gutter pt-[18vh] pb-[14vh]">
+    <section id="songs" className="relative gutter pt-[18vh] pb-[6vh]">
       <div className="mb-12 text-center">
         <div className="section-label text-paper/55 mb-3">// SONG OF THE WEEK</div>
         <p className="mx-auto max-w-[560px] font-mono text-[12px] text-paper/65 leading-[1.55]">

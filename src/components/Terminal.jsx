@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
-// Google Apps Script web app endpoint — messages land in a Google Sheet.
-// Set VITE_TERMINAL_WEBHOOK_URL in .env (see google-apps-script/Code.gs for setup).
-const WEBHOOK_URL = import.meta.env.VITE_TERMINAL_WEBHOOK_URL || ''
+// Messages relay through /api/message (Vercel function) → Google Apps Script
+// → Google Sheet. Direct browser→Apps Script calls die on CORS redirects.
+const MESSAGE_ENDPOINT = '/api/message'
 
 const HELP_LINES = [
   'available commands:',
@@ -78,12 +78,9 @@ export default function Terminal() {
   const sendToSheet = async (data) => {
     setSending(true)
     try {
-      if (!WEBHOOK_URL) throw new Error('no webhook configured')
-      // text/plain keeps this a "simple request" — no CORS preflight,
-      // which Apps Script web apps can't answer.
-      const res = await fetch(WEBHOOK_URL, {
+      const res = await fetch(MESSAGE_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
       if (!res.ok) throw new Error(`status ${res.status}`)
@@ -183,7 +180,7 @@ export default function Terminal() {
     kind === 'in' ? 'text-paper' : kind === 'err' ? 'text-[var(--primary)]' : 'text-paper/70'
 
   return (
-    <section id="terminal" className="relative gutter pt-[14vh] pb-[16vh]">
+    <section id="terminal" className="relative gutter pt-[4vh] pb-[14vh]">
       <div className="mb-10 text-center">
         <div className="section-label text-paper/55 mb-3">// THE TERMINAL</div>
         <p className="mx-auto max-w-[560px] font-mono text-[12px] text-paper/65 leading-[1.55]">

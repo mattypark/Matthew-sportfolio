@@ -82,3 +82,40 @@ npm run preview
 ```
 
 **Reminder: this folder has no `origin` remote.** Local commits stay local.
+
+---
+
+## Current Design Direction (2026-07) — The Gate + Two Sides
+
+The site is one gate with two personalities:
+
+- **`/` The Gate** — bouncing bubble chooser. Click → split into two sides.
+- **`/work` The Work Area** — minimalistic. The quiet ledger. Where brands
+  and people contact Matthew.
+- **`/loud` The Creative Half** — maximalistic, one continuous scroll, no
+  exits between tiers: creative home → Labels™ → The Life → say hi.
+  ("Creative", not "loud" — copy says creative everywhere.)
+
+### Creative-half design languages
+
+**1. ASCII art** — text is the texture. Poster-style cards (`.ascii-poster`)
+with hand-drawn ASCII pieces (flower, globe, MP monogram, smiley) in
+JetBrains Mono, cream / umber / black colorways, hard offset shadows.
+Section: "Output_004 / ascii wing" in `RightPanel.jsx`.
+
+**2. Micrographics** — tiny factory spec marks scattered across sections:
+percentages (`38.4%`), labels (`QC / PASSED`, `LOT NO. 036`, `±0.40 MM`),
+registration glyphs (`+`, `⌖`). Randomized on every load (content, position,
+tilt) via `Micrographics.jsx`. The goal: manufactured **flagship-store
+product-sheet feel** — like the page itself was quality-controlled, batch
+numbered, and shipped.
+
+**3. Manufactured-object motifs** — Labels™ tier (product tag, nutrition
+facts with glass/wobble, warning card, QC stamp), passport-stamp wall with
+real cities, randomized wireframe brain absorbing particle "information",
+paper-plane orbit, tennis rally animation.
+
+Palette: cream `#F7F4EC`-ish base, black `#14100B`, umber + bark browns.
+Fonts: Archivo Black, Six Caps, Bodoni Moda, Special Elite, Caveat,
+JetBrains Mono. Motion: GSAP (+ ScrollTrigger, MotionPath), anime.js,
+Framer Motion, Lenis smooth scroll, three.js for the brain.

@@ -15,9 +15,10 @@
   }
 
   html { scroll-behavior: auto; }
+  /* the active site is white throughout — page fades reveal white, not ink */
   html, body {
-    background: var(--ink);
-    color: var(--paper);
+    background: #FFFFFF;
+    color: var(--ink);
   }
   body {
     font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -101,7 +102,8 @@
   display: block;
 }
 
-/* Custom cursor */
+/* Custom cursor — solid ink on the white site (no blend modes: they break
+   inside transformed ancestors and vanish on matching backgrounds) */
 .cursor-ring,
 .cursor-dot {
   position: fixed;
@@ -109,7 +111,6 @@
   left: 0;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: difference;
   will-change: transform;
 }
 .cursor-ring {
@@ -117,7 +118,7 @@
   height: 32px;
   margin-left: -16px;
   margin-top: -16px;
-  border: 1px solid #E2D0A8;
+  border: 1px solid rgba(10, 10, 10, 0.85);
   border-radius: 50%;
   transition: width 0.25s ease, height 0.25s ease, margin 0.25s ease, background 0.2s ease;
 }
@@ -126,7 +127,7 @@
   height: 4px;
   margin-left: -2px;
   margin-top: -2px;
-  background: #E2D0A8;
+  background: #0A0A0A;
   border-radius: 50%;
 }
 .cursor-ring.cursor-hover {
@@ -134,7 +135,7 @@
   height: 56px;
   margin-left: -28px;
   margin-top: -28px;
-  background: rgba(226, 208, 168, 0.08);
+  background: rgba(10, 10, 10, 0.06);
 }
 
 /* Magnetic CTAs */

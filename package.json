@@ -19,6 +19,7 @@
     "react-dom": "^18.3.1",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.30.2",
+    "three": "^0.185.1",
     "topojson-client": "^3.1.0",
     "world-atlas": "^2.0.2"
   },

@@ -1,51 +1,46 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import useLenis from './hooks/useLenis'
 
-import Loader from './components/Loader'
 import Cursor from './components/Cursor'
-import Nav from './components/Nav'
-import EdgeSquiggle from './components/EdgeSquiggle'
-import AudioPrompt from './components/AudioPrompt'
-import Hero from './components/Hero'
-import Manifesto from './components/Manifesto'
-import Works from './components/Works'
-import SongsOfTheWeek from './components/SongsOfTheWeek'
-import Terminal from './components/Terminal'
-import Counterweight from './components/Counterweight'
-import TheLoop from './components/TheLoop'
-import Contact from './components/Contact'
-import Colophon from './components/Colophon'
+import Gate from './components/home/Gate'
+import WorkSite from './components/home/WorkSite'
+import LoudSite from './components/home/LoudSite'
+import ProjectsPage from './components/home/ProjectsPage'
+import ValuesPage from './components/home/ValuesPage'
 
 gsap.registerPlugin(ScrollTrigger)
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    ScrollTrigger.refresh()
+  }, [pathname])
+  return null
+}
+
 export default function App() {
-  const [booted, setBooted] = useState(false)
   useLenis()
 
   return (
-    <>
-      {!booted && <Loader onDone={() => setBooted(true)} />}
-
+    <BrowserRouter>
+      <ScrollToTop />
       <Cursor />
-      <EdgeSquiggle side="left" />
-      <EdgeSquiggle side="right" />
-      <Nav />
-
-      <main>
-        <Hero booted={booted} />
-        <Manifesto />
-        <Works />
-        <SongsOfTheWeek />
-        <Terminal />
-        <Counterweight />
-        <TheLoop />
-        <Contact />
-      </main>
-
-      <Colophon />
-      <AudioPrompt />
-    </>
+      <Routes>
+        <Route path="/" element={<Gate />} />
+        <Route path="/work" element={<WorkSite />} />
+        <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/values" element={<ValuesPage />} />
+        <Route path="/loud" element={<LoudSite />} />
+        {/* old wing URLs now live as tiers of the one loud scroll */}
+        <Route path="/loud/labels" element={<Navigate to="/loud#labels" replace />} />
+        <Route path="/loud/oldmoney" element={<Navigate to="/loud" replace />} />
+        <Route path="/loud/life" element={<Navigate to="/loud#life" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }

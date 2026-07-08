@@ -1,0 +1,906 @@
+/* ============================================================
+   SPLIT-BRAIN HOME
+   left  = the ledger  (void black, bone white text, quiet)
+   right = the loud half (cream, black + brown, everything)
+   ============================================================ */
+
+/* the whole active site lives on white — the canvas behind every fade too */
+html,
+body {
+  background: #FFFFFF;
+}
+
+:root {
+  --void: #070605;
+  --bone: #F7F4EC;
+  --cream: #FFFFFF;
+  --umber: #6B4A2F;
+  --bark: #3E2C1C;
+  --latte: #A9805B;
+  --linen: #FFFFFF;
+  --slate: #6B6B6B;
+  --ink: #0A0A0A;
+}
+
+/* ---------- LEFT / THE QUIET SIDE (otherkind mould, pure b/w) ---------- */
+
+.home-left {
+  background: var(--linen);
+  color: var(--ink);
+}
+
+.home-left ::selection {
+  background: var(--ink);
+  color: var(--linen);
+}
+
+/* ---------- THE LANDING (editorial index, pure b/w) ---------- */
+
+.ok-landing {
+  position: relative;
+  min-height: 100svh;
+  background: var(--linen);
+  color: var(--ink);
+  overflow: hidden;
+}
+.ok-landing ::selection {
+  background: var(--ink);
+  color: var(--linen);
+}
+
+/* nav sits at the vertical middle, clusters pinned to the edges (serenacongiu) */
+.ok-nav {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 clamp(18px, 3.2vw, 52px);
+  pointer-events: none; /* the empty middle band never blocks the image */
+}
+.ok-navgroup {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(20px, 2.6vw, 48px);
+}
+.ok-nav a,
+.ok-nav .ok-navlink { pointer-events: auto; }
+
+.ok-navlink {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(10.5px, 0.72vw, 12.5px);
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  white-space: nowrap;
+  transition: opacity 0.25s ease;
+}
+.ok-navlink:hover { opacity: 0.5; }
+.ok-navlink-static { cursor: default; }
+
+/* dead nav item — crossed out, not clickable, still holds its place */
+.ok-navlink-dead {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  color: rgba(10, 10, 10, 0.45);
+  cursor: default;
+  pointer-events: none;
+}
+
+/* contact links — underline slides in on hover */
+.ok-navline {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.25s ease, opacity 0.25s ease;
+}
+.ok-navline:hover { text-decoration-color: var(--ink); opacity: 1; }
+
+/* [ ] marker that fills to [•] on hover — the reference's radio tell */
+.ok-navmark::before {
+  content: '[ ]';
+  margin-right: 0.5em;
+  font-feature-settings: 'tnum';
+}
+.ok-navlink:hover .ok-navmark::before { content: '[•]'; }
+
+.ok-landing-main {
+  position: relative;
+  z-index: 10;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 24px;
+}
+.ok-portrait {
+  display: block;
+  width: min(28vw, 330px);
+  height: auto;
+  object-fit: cover;
+}
+
+/* rotating portrait — fixed frame, photos crossfade every 2s.
+   contain, not cover: the crops are Matthew's, don't re-crop them */
+.ok-rotator {
+  position: relative;
+  width: min(30vw, 380px);
+  aspect-ratio: 4 / 5;
+  height: auto;
+  overflow: hidden;
+}
+.ok-rotator img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.ok-rotator img.is-on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .ok-rotator img { transition: none; }
+  .ok-rotator img:first-child { opacity: 1; }
+}
+@media (max-width: 720px) {
+  .ok-nav {
+    position: static;
+    transform: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 26px 20px 0;
+  }
+  .ok-navgroup { flex-wrap: wrap; gap: 12px 20px; }
+  .ok-landing { display: flex; flex-direction: column; }
+  .ok-landing-main { min-height: 0; flex: 1; align-items: flex-start; padding-top: 40px; }
+  .ok-portrait { width: min(78vw, 340px); }
+}
+
+/* the back button — pill top-right, inverts on hover, arrow leads the way */
+.back-btn {
+  position: fixed;
+  top: 18px;
+  right: clamp(18px, 3vw, 44px);
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px 8px 14px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.back-btn-arrow {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.back-btn:hover { background: var(--ink); color: #fff; }
+.back-btn:hover .back-btn-arrow { transform: translateX(-4px); }
+
+/* loud-side tone — brown ink, same behavior */
+.back-btn-bark {
+  border-color: var(--bark);
+  color: var(--bark);
+}
+.back-btn-bark:hover { background: var(--bark); color: #fff; }
+
+/* hero — holds the wordmark in the dead center of the first screen */
+.ok-hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* the wordmark — heavy Fraunces, centered, with air between the letters */
+.ok-wordmark {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 900;
+  font-optical-sizing: auto;
+  line-height: 0.9;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  font-size: clamp(46px, 11.4vw, 190px);
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: visible;
+  /* a hair of stroke fattens the letterforms toward the reference's bulk */
+  -webkit-text-stroke: 0.014em var(--ink);
+}
+/* widen the gap between the two words */
+.ok-wordmark-break { display: inline; }
+.ok-wordmark-break::before { content: '\2002'; }
+@media (max-width: 640px) {
+  .ok-wordmark { white-space: normal; font-size: clamp(52px, 19vw, 120px); word-break: break-word; }
+  /* force the two words onto their own lines on narrow screens */
+  .ok-wordmark-break { display: block; height: 0; }
+}
+
+/* the lower zone — sits below the centered hero; pulled up ~20% of the gap */
+.ok-lower {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-top: -12svh;
+  padding-top: clamp(2vh, 5vh, 60px);
+  padding-bottom: clamp(6vh, 12vh, 150px);
+}
+/* single offset column, sits center-left like the reference */
+.ok-body {
+  width: min(560px, 100%);
+  margin-left: clamp(0px, 34%, 620px);
+}
+@media (max-width: 900px) {
+  .ok-body { margin-left: 0; width: 100%; }
+  .ok-lower { flex-direction: column; align-items: flex-start; padding-top: 6vh; }
+}
+
+/* small caps section label */
+.ok-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* name ↔ year ledger */
+.ok-engagements { border-top: 1px solid rgba(10, 10, 10, 0.14); }
+.ok-eng-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 20px;
+  padding: 16px 2px;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+}
+.ok-eng-name {
+  position: relative;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  transition: color 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* underline-wipe on hover */
+.ok-eng-name::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ok-eng-row:hover .ok-eng-name { transform: translateX(6px); }
+.ok-eng-row:hover .ok-eng-name::after { transform: scaleX(1); }
+.ok-eng-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: rgba(10, 10, 10, 0.4);
+  transition: color 0.3s ease;
+}
+.ok-eng-row:hover .ok-eng-year { color: var(--ink); }
+
+/* linked rows announce themselves — a quiet ↗ that wakes on hover */
+.ok-eng-link { color: inherit; }
+.ok-eng-arrow {
+  display: inline-block;
+  font-size: 12px;
+  color: rgba(10, 10, 10, 0.4);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+}
+.ok-eng-link:hover .ok-eng-arrow {
+  color: var(--ink);
+  transform: translate(3px, -3px);
+}
+
+/* select projects grid */
+.ok-project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+@media (max-width: 640px) { .ok-project-grid { grid-template-columns: repeat(2, 1fr); } }
+.ok-tile {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(10, 10, 10, 0.12);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+}
+.ok-tile img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  filter: grayscale(0.15);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+}
+.ok-tile:hover {
+  transform: translateY(-4px) rotate(-0.6deg);
+  box-shadow: 10px 12px 0 rgba(10, 10, 10, 0.12);
+}
+.ok-tile:hover img { transform: scale(1.05); filter: grayscale(0); }
+.ok-tile-cap {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-top: 1px solid rgba(10, 10, 10, 0.1);
+}
+
+/* ---------- PROJECTS — the visual index ---------- */
+
+.pj-section { margin-bottom: 14vh; }
+
+/* oversized category break */
+.pj-cat {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 900;
+  font-optical-sizing: auto;
+  font-size: clamp(40px, 7.5vw, 124px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  border-bottom: 1px solid rgba(10, 10, 10, 0.15);
+  padding-bottom: 0.18em;
+  margin-bottom: 7vh;
+}
+
+.pj-project { margin-bottom: 11vh; }
+
+/* Title: short description */
+.pj-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(20px, 2vw, 30px);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+.pj-title-desc {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 400;
+  font-size: clamp(12px, 0.95vw, 14px);
+  letter-spacing: 0.02em;
+  color: var(--slate);
+}
+
+/* half-screen hero frame */
+.pj-hero {
+  display: grid;
+  place-items: center;
+  height: 50vh;
+  min-height: 320px;
+  border: 1px dashed rgba(10, 10, 10, 0.35);
+  background:
+    repeating-linear-gradient(45deg, transparent 0 14px, rgba(10, 10, 10, 0.025) 14px 28px);
+  transition: border-color 0.3s ease;
+}
+.pj-hero:hover { border-color: var(--ink); }
+
+/* square detail shots */
+.pj-squares {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 560px) { .pj-squares { grid-template-columns: repeat(2, 1fr); } }
+.pj-square {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgba(10, 10, 10, 0.3);
+  background:
+    repeating-linear-gradient(-45deg, transparent 0 14px, rgba(10, 10, 10, 0.02) 14px 28px);
+  transition: border-color 0.3s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pj-square:hover { border-color: var(--ink); transform: translateY(-4px); }
+
+.pj-ph {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 2;
+  text-align: center;
+  color: rgba(10, 10, 10, 0.4);
+  padding: 0 12px;
+}
+
+/* pre-hide reveal targets (GSAP claims them on mount; visible under reduced motion) */
+@media (prefers-reduced-motion: no-preference) {
+  .pj-head,
+  .pj-cat,
+  .pj-tile { opacity: 0; }
+}
+
+/* light-side links */
+.ok-link {
+  color: var(--ink);
+  transition: color 0.25s ease, text-decoration-color 0.25s ease, opacity 0.25s ease;
+}
+.ok-link:hover {
+  color: var(--ink);
+  text-decoration-color: var(--ink);
+  opacity: 0.55;
+}
+
+/* values — numbered mono lines, two columns so all 14 fit one screen */
+.vl-grid {
+  column-count: 2;
+  column-gap: clamp(40px, 5vw, 90px);
+}
+@media (max-width: 760px) { .vl-grid { column-count: 1; } }
+.vl-row {
+  display: grid;
+  grid-template-columns: 3ch 1fr;
+  gap: 16px;
+  padding: 13px 2px;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  break-inside: avoid;
+}
+.vl-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(10, 10, 10, 0.4);
+  padding-top: 2px;
+}
+.vl-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+/* quiet tag after a ledger name — ( project / AI agent ) */
+.ok-eng-tag {
+  font-size: 11px;
+  color: rgba(10, 10, 10, 0.42);
+  letter-spacing: 0.04em;
+}
+
+/* channel nav — the very last line of the page, centered */
+.ok-footnav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px 30px;
+  padding: clamp(6vh, 9vh, 110px) 0 10px;
+}
+
+/* corner city clocks */
+.ok-clock {
+  position: fixed;
+  bottom: 14px;
+  z-index: 60;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(10, 10, 10, 0.5);
+  pointer-events: none;
+}
+.ok-clock-left { left: 16px; }
+.ok-clock-right { right: 16px; }
+
+/* the crosshair readout — trails the pointer */
+.ok-crosshair {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 55;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  will-change: transform;
+}
+.ok-crosshair-mark {
+  position: absolute;
+  left: -7px;
+  top: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+}
+.ok-crosshair-mark::before,
+.ok-crosshair-mark::after {
+  content: '';
+  position: absolute;
+  background: var(--ink);
+}
+.ok-crosshair-mark::before { left: 6px; top: -5px; width: 1px; height: 24px; }
+.ok-crosshair-mark::after { top: 6px; left: -5px; height: 1px; width: 24px; }
+.ok-crosshair-readout {
+  position: absolute;
+  left: 14px;
+  top: 10px;
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: rgba(10, 10, 10, 0.55);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ok-crosshair { display: none; }
+}
+@media (hover: none), (pointer: coarse) {
+  .ok-crosshair { display: none; }
+}
+
+.ledger-row {
+  display: grid;
+  grid-template-columns: 3ch 1fr auto;
+  align-items: baseline;
+  gap: 16px;
+  padding: 18px 0;
+  border-top: 1px solid rgba(247, 244, 236, 0.14);
+  transition: border-color 0.3s ease;
+}
+.ledger-row:last-of-type {
+  border-bottom: 1px solid rgba(247, 244, 236, 0.14);
+}
+.ledger-row:hover {
+  border-top-color: rgba(247, 244, 236, 0.5);
+}
+
+.ledger-title {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+}
+.ledger-row:hover .ledger-title {
+  transform: translateX(10px);
+}
+
+.ledger-meta {
+  color: rgba(247, 244, 236, 0.4);
+  transition: color 0.3s ease;
+}
+.ledger-row:hover .ledger-meta {
+  color: rgba(247, 244, 236, 0.85);
+}
+
+.ledger-link {
+  color: rgba(247, 244, 236, 0.55);
+  transition: color 0.25s ease;
+}
+.ledger-link:hover {
+  color: var(--bone);
+}
+
+/* ---------- RIGHT / THE LOUD HALF ---------- */
+
+.home-right {
+  background: var(--cream);
+  color: #14100B;
+  position: relative;
+}
+
+.home-right ::selection {
+  background: var(--umber);
+  color: var(--cream);
+}
+
+/* pre-hide reveal targets so nothing flashes before GSAP claims them.
+   scoped to no-preference: under reduced motion GSAP never runs, so
+   these must stay visible there. */
+@media (prefers-reduced-motion: no-preference) {
+  /* section = RightPanel, whose GSAP context claims these on mount.
+     the CTA wrapper is a div and animates nothing — leave it visible. */
+  section.home-right .max-reveal {
+    opacity: 0;
+  }
+}
+
+/* film grain over the whole loud half */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* outlined display type */
+.txt-outline {
+  -webkit-text-stroke: 2px #14100B;
+  color: transparent;
+}
+.txt-outline-umber {
+  -webkit-text-stroke: 2px var(--umber);
+  color: transparent;
+}
+@media (max-width: 768px) {
+  .txt-outline, .txt-outline-umber { -webkit-text-stroke-width: 1.4px; }
+}
+
+/* masking tape strips */
+.tape {
+  position: absolute;
+  width: 88px;
+  height: 26px;
+  background: rgba(169, 128, 91, 0.4);
+  border-left: 1px dashed rgba(62, 44, 28, 0.35);
+  border-right: 1px dashed rgba(62, 44, 28, 0.35);
+  box-shadow: 0 1px 2px rgba(20, 16, 11, 0.12);
+}
+
+/* polaroid photo card */
+.polaroid {
+  background: #fff;
+  padding: 10px 10px 42px;
+  box-shadow: 8px 10px 0 rgba(20, 16, 11, 0.85);
+  border: 1px solid rgba(20, 16, 11, 0.25);
+}
+.polaroid img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* torn-edge photo */
+.torn {
+  clip-path: polygon(
+    0 3%, 5% 0, 12% 2%, 22% 0, 31% 3%, 42% 1%, 53% 3%, 63% 0, 74% 2%,
+    85% 0, 94% 3%, 100% 1%, 100% 97%, 95% 100%, 86% 98%, 75% 100%,
+    64% 97%, 52% 100%, 41% 98%, 30% 100%, 19% 97%, 9% 100%, 0 98%
+  );
+}
+
+/* duotone-ish brown photo treatment */
+.duotone {
+  filter: grayscale(1) contrast(1.1) sepia(0.55) saturate(1.4);
+}
+
+/* notebook ruling */
+.ruled {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    rgba(62, 44, 28, 0.14) 31px,
+    rgba(62, 44, 28, 0.14) 32px
+  );
+}
+
+/* halftone dot patch */
+.halftone {
+  background-image: radial-gradient(rgba(62, 44, 28, 0.28) 1.2px, transparent 1.2px);
+  background-size: 12px 12px;
+}
+
+/* slow spin (rotating badge) */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .spin-slow { animation: none; }
+}
+
+/* ransom-note letters — each child gets its own voice */
+.ransom span {
+  display: inline-block;
+  padding: 0.02em 0.08em;
+  line-height: 1;
+}
+.ransom span:nth-child(6n + 1) { font-family: 'Archivo Black', sans-serif; color: #14100B; transform: rotate(-3deg); }
+.ransom span:nth-child(6n + 2) { font-family: 'Bodoni Moda', serif; font-style: italic; color: var(--umber); transform: rotate(2deg) translateY(-0.04em); }
+.ransom span:nth-child(6n + 3) { font-family: 'Six Caps', sans-serif; color: #14100B; background: rgba(169, 128, 91, 0.35); transform: rotate(-1.5deg); }
+.ransom span:nth-child(6n + 4) { font-family: 'Special Elite', monospace; color: var(--bark); transform: rotate(3deg); }
+.ransom span:nth-child(6n + 5) { font-family: 'Caveat', cursive; color: var(--umber); transform: rotate(-2deg) translateY(0.05em); }
+.ransom span:nth-child(6n + 6) { font-family: 'Fraunces', serif; font-style: italic; color: #14100B; background: rgba(20, 16, 11, 0.07); transform: rotate(1.5deg); }
+
+/* sticker chips */
+.sticker {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #14100B;
+  color: var(--cream);
+  border: 1px solid rgba(20, 16, 11, 0.9);
+  box-shadow: 5px 6px 0 var(--umber);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  z-index: 30;
+}
+.sticker:active {
+  cursor: grabbing;
+}
+
+/* doodles start invisible; anime.js reveals + draws them */
+.doodle {
+  opacity: 0;
+}
+.doodle.doodle-on {
+  opacity: 1;
+}
+
+/* caveat annotation */
+.note {
+  font-family: 'Caveat', cursive;
+  color: var(--umber);
+}
+
+/* top-right home link on the loud side (replaces the menu) */
+.loud-home {
+  position: fixed;
+  top: 20px;
+  right: clamp(18px, 3vw, 44px);
+  z-index: 50;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bark);
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+.loud-home:hover { color: var(--umber); opacity: 0.7; }
+
+/* thin mono label used across the loud half */
+.loud-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(62, 44, 28, 0.65);
+}
+
+/* marquee row on cream — reuses .marquee-track keyframes from index.css */
+.loud-marquee {
+  border-top: 2px solid #14100B;
+  border-bottom: 2px solid #14100B;
+  overflow: hidden;
+  white-space: nowrap;
+  background: var(--cream);
+}
+
+/* ============================================================
+   THE GATE — bubble intro → screen splits → pick a side
+   ============================================================ */
+
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  overflow: hidden;
+  background: var(--void);
+}
+
+.gate-bubble {
+  width: clamp(150px, 22vw, 270px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--cream);
+  color: #14100B;
+  display: grid;
+  place-items: center;
+  will-change: transform;
+}
+
+/* choice layer */
+.gate-choice {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  visibility: hidden;
+}
+
+.gate-half {
+  position: relative;
+  height: 100%;
+  width: 50%;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  text-align: left;
+  transition: width 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: width;
+}
+/* hovered half grows, sibling shrinks — sum stays 100% */
+.gate-choice:hover .gate-half { width: 42%; }
+.gate-choice .gate-half:hover,
+.gate-choice .gate-half:focus-visible { width: 58%; }
+.gate-half:focus-visible {
+  outline: 2px dashed var(--latte);
+  outline-offset: -10px;
+}
+
+.gate-left {
+  background: var(--void);
+  color: var(--bone);
+}
+.gate-right {
+  background: var(--cream);
+  color: #14100B;
+  border-left: 1px solid rgba(247, 244, 236, 0.25);
+}
+
+/* inner content keeps its size while the half resizes */
+.gate-half-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 32px;
+  min-width: 50vw;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.gate-hint {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(169, 128, 91, 0.9);
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+/* ghost ledger rows in the left half preview */
+.gate-ghost-row {
+  width: min(300px, 60%);
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  border-top: 1px solid rgba(247, 244, 236, 0.16);
+  padding: 8px 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 236, 0.45);
+}
+
+@media (max-width: 767px) {
+  .gate-choice { flex-direction: column; }
+  .gate-half { width: 100% !important; height: 50%; transition: height 0.65s cubic-bezier(0.16, 1, 0.3, 1); }
+  .gate-choice:hover .gate-half { height: 44%; }
+  .gate-choice .gate-half:hover { height: 56%; }
+  .gate-half-inner { min-width: 100vw; }
+  .gate-right { border-left: none; border-top: 1px solid rgba(20, 16, 11, 0.3); }
+}

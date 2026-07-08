@@ -1,0 +1,542 @@
+{
+  "api/message.js": {
+    "mtime": 1781129982.7270236,
+    "ast_hash": "0ada8a1d8c5ad0b4d0c0560be1972d47",
+    "semantic_hash": ""
+  },
+  "api/song.js": {
+    "mtime": 1779040351.6485612,
+    "ast_hash": "43f174bc09a96d65f31935d60b6d1dd2",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1783152517.9000533,
+    "ast_hash": "16308ebd630d5224d77503d1e46d007a",
+    "semantic_hash": ""
+  },
+  "postcss.config.js": {
+    "mtime": 1762111052.0,
+    "ast_hash": "4422272f0011fcf0fa7ead7af93d82d1",
+    "semantic_hash": ""
+  },
+  "scripts/spotify-auth.mjs": {
+    "mtime": 1778968504.0,
+    "ast_hash": "a72a17028f133d96d26148b8108f35f7",
+    "semantic_hash": ""
+  },
+  "src/App.jsx": {
+    "mtime": 1783167700.0466857,
+    "ast_hash": "84669b3d153fc9b34819050a4b6e9c78",
+    "semantic_hash": ""
+  },
+  "src/_archive/App.jsx": {
+    "mtime": 1778512501.0,
+    "ast_hash": "f361aa4be1c54739dda2ce5aeea087b6",
+    "semantic_hash": ""
+  },
+  "src/_archive/Masterpiece.jsx": {
+    "mtime": 1779476862.3632326,
+    "ast_hash": "e09114e5b6d1da1567f399c30e5742b8",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/About.jsx": {
+    "mtime": 1778516314.0,
+    "ast_hash": "714c9e1a3268b74924a2b36d85dfe826",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/BootSequence.jsx": {
+    "mtime": 1778247385.0,
+    "ast_hash": "dbeba738eea861c461204413cd95c483",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/CoreValues.jsx": {
+    "mtime": 1778512521.0,
+    "ast_hash": "225207b4438a6ff8b5d111c808d0628c",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/Inspiration.jsx": {
+    "mtime": 1778516314.0,
+    "ast_hash": "9f09b07803c1d5da513b178c2b5808ac",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/PageTransition.jsx": {
+    "mtime": 1778256994.0,
+    "ast_hash": "1085dbec13f7e3ab37c009d3434cc88a",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/Portfolio.jsx": {
+    "mtime": 1778513819.0,
+    "ast_hash": "e24904f8f4e7009491893630869ae46c",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/Posts.jsx": {
+    "mtime": 1763556615.0,
+    "ast_hash": "d27b7d57b6dea7015d8ed17c76dd9ea4",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/Projects.jsx": {
+    "mtime": 1772123837.0,
+    "ast_hash": "1215085df606cd89c7b33bcfd84944e5",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/RoomsNav.jsx": {
+    "mtime": 1778513057.0,
+    "ast_hash": "72e660063fc0d0c56fc37ca241e4aa6b",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/SideRoomsRail.jsx": {
+    "mtime": 1778513059.0,
+    "ast_hash": "1120aad93949412b03b7d1848203f6fc",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/SiteChrome.jsx": {
+    "mtime": 1778506476.0,
+    "ast_hash": "6302b9552274ff995234b22724c4ee04",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/Socials.jsx": {
+    "mtime": 1778247160.0,
+    "ast_hash": "71381451982cf21bc32c399c5392438c",
+    "semantic_hash": ""
+  },
+  "src/_archive/components/Timeline.jsx": {
+    "mtime": 1778507391.0,
+    "ast_hash": "ababfb514a9287c5511248ebe6ddc80e",
+    "semantic_hash": ""
+  },
+  "src/_archive/hooks/useSmoothScroll.js": {
+    "mtime": 1772132013.0,
+    "ast_hash": "daa338192eb708af5b2f336053772997",
+    "semantic_hash": ""
+  },
+  "src/components/AudioPrompt.jsx": {
+    "mtime": 1778969256.0,
+    "ast_hash": "b6a53570669a56e45c527d8798262d84",
+    "semantic_hash": ""
+  },
+  "src/components/Colophon.jsx": {
+    "mtime": 1780518060.1119404,
+    "ast_hash": "a5646d0e6cefb6e87108fa1d3853d938",
+    "semantic_hash": ""
+  },
+  "src/components/Contact.jsx": {
+    "mtime": 1779889237.7145143,
+    "ast_hash": "011657766b2ce5f373129f242251328f",
+    "semantic_hash": ""
+  },
+  "src/components/Counterweight.jsx": {
+    "mtime": 1778958991.0,
+    "ast_hash": "5ffda3162d56ddfc89892ee2b1b585ce",
+    "semantic_hash": ""
+  },
+  "src/components/Cursor.jsx": {
+    "mtime": 1778966245.0,
+    "ast_hash": "0f49b89b5866788176b345102e8a2b1f",
+    "semantic_hash": ""
+  },
+  "src/components/DotPortrait.jsx": {
+    "mtime": 1779121070.366604,
+    "ast_hash": "840f1c7080885a6b0d9fac140b9c2ee4",
+    "semantic_hash": ""
+  },
+  "src/components/EdgeSquiggle.jsx": {
+    "mtime": 1778973762.0,
+    "ast_hash": "0807f39e2abe7595ae18f39d0d7d1040",
+    "semantic_hash": ""
+  },
+  "src/components/Globe.jsx": {
+    "mtime": 1778965565.0,
+    "ast_hash": "52e7d4282c3fb7cc056798904d2ac3de",
+    "semantic_hash": ""
+  },
+  "src/components/Hero.jsx": {
+    "mtime": 1779476215.8650563,
+    "ast_hash": "1ae090ee0bb203d24c262fa4a31efcda",
+    "semantic_hash": ""
+  },
+  "src/components/Loader.jsx": {
+    "mtime": 1778962167.0,
+    "ast_hash": "54fcee97f3d0e114748ccce073728e20",
+    "semantic_hash": ""
+  },
+  "src/components/Manifesto.jsx": {
+    "mtime": 1780686127.3059018,
+    "ast_hash": "a1cb49937e3a72b65eaab6a464a3c4b0",
+    "semantic_hash": ""
+  },
+  "src/components/Nav.jsx": {
+    "mtime": 1779122896.0370228,
+    "ast_hash": "95ce680590dcd1d58ac9b4a2fb22277a",
+    "semantic_hash": ""
+  },
+  "src/components/ScrollScenes.jsx": {
+    "mtime": 1780765694.4180658,
+    "ast_hash": "2b86cfeffe12aa70439d22d096a36c0c",
+    "semantic_hash": ""
+  },
+  "src/components/SectionRail.jsx": {
+    "mtime": 1781129206.8796492,
+    "ast_hash": "b9723eefdc68bb76852e289e071a271c",
+    "semantic_hash": ""
+  },
+  "src/components/SongsOfTheWeek.jsx": {
+    "mtime": 1781129870.4400723,
+    "ast_hash": "e8a6f207a61a203b6eac91b699211b81",
+    "semantic_hash": ""
+  },
+  "src/components/Terminal.jsx": {
+    "mtime": 1781129993.8684871,
+    "ast_hash": "27caf41edcf35853570992d1ad4fed91",
+    "semantic_hash": ""
+  },
+  "src/components/TheLoop.jsx": {
+    "mtime": 1779122896.037564,
+    "ast_hash": "0328723132a520292249d0cdabc8647e",
+    "semantic_hash": ""
+  },
+  "src/components/Works.jsx": {
+    "mtime": 1779724171.1809046,
+    "ast_hash": "668eda615c1958552b379cccd201f4fb",
+    "semantic_hash": ""
+  },
+  "src/components/home/Doodles.jsx": {
+    "mtime": 1783153406.2324035,
+    "ast_hash": "7a737d6d7631055572c9a2e25771bb2d",
+    "semantic_hash": ""
+  },
+  "src/components/home/Gate.jsx": {
+    "mtime": 1783167228.3357315,
+    "ast_hash": "3829878617c2b5849348658ae5782961",
+    "semantic_hash": ""
+  },
+  "src/components/home/HomePage.jsx": {
+    "mtime": 1783153418.8875098,
+    "ast_hash": "0dc9eba6f89c1b42b0773594b3e51670",
+    "semantic_hash": ""
+  },
+  "src/components/home/LabelsPage.jsx": {
+    "mtime": 1783168011.799692,
+    "ast_hash": "cbca5d6c256ab2e24aa0957254a7ad7a",
+    "semantic_hash": ""
+  },
+  "src/components/home/LeftPanel.jsx": {
+    "mtime": 1783153354.3848884,
+    "ast_hash": "ce51fc4a4ef56dd7d0ffb33ae830edd8",
+    "semantic_hash": ""
+  },
+  "src/components/home/LifePage.jsx": {
+    "mtime": 1783168022.2883544,
+    "ast_hash": "f5a238ae950b3f05d21420daea32d60a",
+    "semantic_hash": ""
+  },
+  "src/components/home/LoudSite.jsx": {
+    "mtime": 1783167694.7693193,
+    "ast_hash": "8c4ab90f3dcbc803b473c4d9aa2069ac",
+    "semantic_hash": ""
+  },
+  "src/components/home/Menu.jsx": {
+    "mtime": 1783167697.5827281,
+    "ast_hash": "3dcdbd55dce3ee9dfbba6db51e674926",
+    "semantic_hash": ""
+  },
+  "src/components/home/OldMoneyPage.jsx": {
+    "mtime": 1783166198.399091,
+    "ast_hash": "e577bec9b04c2689698e7b88bb4228a9",
+    "semantic_hash": ""
+  },
+  "src/components/home/RightPanel.jsx": {
+    "mtime": 1783168001.592894,
+    "ast_hash": "5e349eabfd6a8cb4a8ac57684eb67f3e",
+    "semantic_hash": ""
+  },
+  "src/components/home/SideSwitch.jsx": {
+    "mtime": 1783154132.2451332,
+    "ast_hash": "a095b2b97dfd081fd68b43a88e4a556e",
+    "semantic_hash": ""
+  },
+  "src/components/home/Stickers.jsx": {
+    "mtime": 1783153224.0898147,
+    "ast_hash": "5f5dc243e8ccf3b441a388eddc07b055",
+    "semantic_hash": ""
+  },
+  "src/components/home/ThreeBlock.jsx": {
+    "mtime": 1783166632.2659805,
+    "ast_hash": "009e061f2ae955a86c904d0b357b3c8f",
+    "semantic_hash": ""
+  },
+  "src/components/home/WorkSite.jsx": {
+    "mtime": 1783156953.0274417,
+    "ast_hash": "52234c779f3f6af4fb8aaa78c0b8d2c3",
+    "semantic_hash": ""
+  },
+  "src/hooks/useLenis.js": {
+    "mtime": 1778963832.0,
+    "ast_hash": "4f3b1df2d77ff845071792d3f02a996a",
+    "semantic_hash": ""
+  },
+  "src/hooks/useMagnetic.js": {
+    "mtime": 1778766949.0,
+    "ast_hash": "b671e2409b61945324f5830493c7ed42",
+    "semantic_hash": ""
+  },
+  "src/lib/audioBus.js": {
+    "mtime": 1778969220.0,
+    "ast_hash": "f330fe71eb952cdff2cf9bc5d1b21d5d",
+    "semantic_hash": ""
+  },
+  "src/main.jsx": {
+    "mtime": 1772034688.0,
+    "ast_hash": "7ae171959824289b4d533026713d0b7f",
+    "semantic_hash": ""
+  },
+  "tailwind.config.js": {
+    "mtime": 1783153139.7771513,
+    "ast_hash": "0e49e558fe99583738bd4b5ff6f6aecf",
+    "semantic_hash": ""
+  },
+  "vercel.json": {
+    "mtime": 1772136674.0,
+    "ast_hash": "3ce034f37a6661efc8073a99b87d2c87",
+    "semantic_hash": ""
+  },
+  "vite.config.js": {
+    "mtime": 1762111052.0,
+    "ast_hash": "5fb4eaee87dfccde730b787f50b77c39",
+    "semantic_hash": ""
+  },
+  "BLOG_SETUP.md": {
+    "mtime": 1762112681.0,
+    "ast_hash": "022d15f7f8783e12ee631696cd7ae210",
+    "semantic_hash": ""
+  },
+  "CUSTOMIZATION_GUIDE.md": {
+    "mtime": 1763384297.0,
+    "ast_hash": "319e1842d6d68d828119cb1ddb8b4034",
+    "semantic_hash": ""
+  },
+  "DELIVERY_NOTES.md": {
+    "mtime": 1763384297.0,
+    "ast_hash": "1420c670ad9866efab74ab984a77d3f8",
+    "semantic_hash": ""
+  },
+  "DESIGN_SPECS.md": {
+    "mtime": 1763384297.0,
+    "ast_hash": "ddd7eb2e9e09b2f03d2128e759c7e244",
+    "semantic_hash": ""
+  },
+  "FLOATING_ICONS_GUIDE.md": {
+    "mtime": 1763562116.0,
+    "ast_hash": "c32cf14804c4d49df414de1d34ab1dbe",
+    "semantic_hash": ""
+  },
+  "IMPLEMENTATION_SUMMARY.md": {
+    "mtime": 1763384297.0,
+    "ast_hash": "6b34daba063e150613be354de7ebe8e4",
+    "semantic_hash": ""
+  },
+  "QUICK_START.md": {
+    "mtime": 1763384297.0,
+    "ast_hash": "b98874ee677f1463f176733615389629",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1783167836.748935,
+    "ast_hash": "ceac04094a51564ea8a66350660c1e5b",
+    "semantic_hash": ""
+  },
+  "SETUP.md": {
+    "mtime": 1762111052.0,
+    "ast_hash": "2ad8d31eb486cff4c78a8f2542df74eb",
+    "semantic_hash": ""
+  },
+  "index.html": {
+    "mtime": 1783153117.873945,
+    "ast_hash": "d2bac649f1ed90b3a3605e645869d3e6",
+    "semantic_hash": ""
+  },
+  "Screenshot 2025-11-17 at 1.35.27\u202fPM.png": {
+    "mtime": 1763404530.0,
+    "ast_hash": "8226541a16fdf01fe826e9219a9c5e51",
+    "semantic_hash": ""
+  },
+  "Screenshot 2026-02-26 at 1.31.41\u202fPM.png": {
+    "mtime": 1772130703.0,
+    "ast_hash": "842ff090fe9ca79e7900d172354d4f41",
+    "semantic_hash": ""
+  },
+  "Screenshot 2026-02-27 at 10.59.16\u202fAM.png": {
+    "mtime": 1772207959.0,
+    "ast_hash": "37ca0aba748aec63df9415a912c1c3e6",
+    "semantic_hash": ""
+  },
+  "Screenshot 2026-02-27 at 11.01.04\u202fAM.png": {
+    "mtime": 1772208067.0,
+    "ast_hash": "0469bcd907e33341508b780e8660be9a",
+    "semantic_hash": ""
+  },
+  "Screenshot 2026-02-27 at 11.01.35\u202fAM.png": {
+    "mtime": 1772208099.0,
+    "ast_hash": "68371d2a9ed12536d3d2c873da4981c7",
+    "semantic_hash": ""
+  },
+  "Screenshot 2026-03-12 at 2.00.58\u202fPM.png": {
+    "mtime": 1773338464.0,
+    "ast_hash": "e889fb314f02f1d359378a5484403e52",
+    "semantic_hash": ""
+  },
+  "alysaliu.jpeg": {
+    "mtime": 1773327459.0,
+    "ast_hash": "38701c0669a410c14c9621fc12c34ecf",
+    "semantic_hash": ""
+  },
+  "alysaliuuu.jpeg": {
+    "mtime": 1773338261.0,
+    "ast_hash": "3c479545efbb42d85feeab4d93ae1c35",
+    "semantic_hash": ""
+  },
+  "benshelton.jpg": {
+    "mtime": 1773337613.0,
+    "ast_hash": "c583c1591681f7f69fc2526b7f690f34",
+    "semantic_hash": ""
+  },
+  "janniksinner.jpg": {
+    "mtime": 1773337590.0,
+    "ast_hash": "24f1c2707b7e1c620739a830e37830ea",
+    "semantic_hash": ""
+  },
+  "peterthiel.jpeg": {
+    "mtime": 1773337556.0,
+    "ast_hash": "d2125dfd4c4f13b5248f499c00968478",
+    "semantic_hash": ""
+  },
+  "public/about-photo.png": {
+    "mtime": 1772130897.0,
+    "ast_hash": "842ff090fe9ca79e7900d172354d4f41",
+    "semantic_hash": ""
+  },
+  "public/favicon-mp.svg": {
+    "mtime": 1778973488.0,
+    "ast_hash": "6058ee5d902fe4b2d6219dc79de71f15",
+    "semantic_hash": ""
+  },
+  "public/favicon.svg": {
+    "mtime": 1778515720.0,
+    "ast_hash": "d44ebe63de430550578c3e3a91f62106",
+    "semantic_hash": ""
+  },
+  "public/inspiration-alysa.jpg": {
+    "mtime": 1773338584.0,
+    "ast_hash": "e889fb314f02f1d359378a5484403e52",
+    "semantic_hash": ""
+  },
+  "public/inspiration-alysa.webp": {
+    "mtime": 1778516314.0,
+    "ast_hash": "541a43eb94c9874248a8cf0e866ee8c3",
+    "semantic_hash": ""
+  },
+  "public/inspiration-ben.jpg": {
+    "mtime": 1773338077.0,
+    "ast_hash": "c583c1591681f7f69fc2526b7f690f34",
+    "semantic_hash": ""
+  },
+  "public/inspiration-ben.webp": {
+    "mtime": 1778516314.0,
+    "ast_hash": "51dbf48dd1f10732184a71d87f1c10f6",
+    "semantic_hash": ""
+  },
+  "public/inspiration-jannik.jpg": {
+    "mtime": 1773338077.0,
+    "ast_hash": "24f1c2707b7e1c620739a830e37830ea",
+    "semantic_hash": ""
+  },
+  "public/inspiration-jannik.webp": {
+    "mtime": 1778516314.0,
+    "ast_hash": "f7258f6bbee6e7ed6f66a689d30cffe5",
+    "semantic_hash": ""
+  },
+  "public/inspiration-peter.jpg": {
+    "mtime": 1773338077.0,
+    "ast_hash": "d2125dfd4c4f13b5248f499c00968478",
+    "semantic_hash": ""
+  },
+  "public/inspiration-peter.webp": {
+    "mtime": 1778516314.0,
+    "ast_hash": "ff0632bdef3ef1623f86b12f7c4d6925",
+    "semantic_hash": ""
+  },
+  "public/inspiration-steph.jpg": {
+    "mtime": 1773338242.0,
+    "ast_hash": "cc05c90215230f32a3efbea19d77bd58",
+    "semantic_hash": ""
+  },
+  "public/inspiration-steph.webp": {
+    "mtime": 1778516314.0,
+    "ast_hash": "12160b3b58af169be348c1a4921a8ab1",
+    "semantic_hash": ""
+  },
+  "public/inspiration-trey.jpg": {
+    "mtime": 1773323280.0,
+    "ast_hash": "8e4d3cddc00e818590ca90cbfd00ac86",
+    "semantic_hash": ""
+  },
+  "public/inspiration-trey.webp": {
+    "mtime": 1778516314.0,
+    "ast_hash": "f7bb0ee5b4c1fbdc6cea203e29de1e56",
+    "semantic_hash": ""
+  },
+  "public/matthewflowers.png": {
+    "mtime": 1779118041.8199003,
+    "ast_hash": "49771b46a0ab761070b0ec3fa1a84836",
+    "semantic_hash": ""
+  },
+  "public/matthewflowers.webp": {
+    "mtime": 1778516314.0,
+    "ast_hash": "1c1039041bf61ca3ac2c7ae9a2f4fa8c",
+    "semantic_hash": ""
+  },
+  "public/megold.png": {
+    "mtime": 1779118595.2727568,
+    "ast_hash": "285c1c6d9b4fc99f951f79fdd40ad5c0",
+    "semantic_hash": ""
+  },
+  "public/mesprite-sheet.png": {
+    "mtime": 1778512267.0,
+    "ast_hash": "203349c26564c35e21f765c56ae933b4",
+    "semantic_hash": ""
+  },
+  "public/mesprite-strip.png": {
+    "mtime": 1778513365.0,
+    "ast_hash": "0db08f000cbfaa00e84e4d7c7317ec7c",
+    "semantic_hash": ""
+  },
+  "public/mesprite.gif": {
+    "mtime": 1778512008.0,
+    "ast_hash": "8e48580e9fd642e4123fd0fb515b4bda",
+    "semantic_hash": ""
+  },
+  "stephcurry.webp": {
+    "mtime": 1773338227.0,
+    "ast_hash": "cc05c90215230f32a3efbea19d77bd58",
+    "semantic_hash": ""
+  },
+  "treygustafson.jpg": {
+    "mtime": 1773323244.0,
+    "ast_hash": "8e4d3cddc00e818590ca90cbfd00ac86",
+    "semantic_hash": ""
+  },
+  "Screen Recording 2026-02-26 at 11.35.57\u202fAM.mov": {
+    "mtime": 1772123768.0,
+    "ast_hash": "1c2fcc8f3db9cd8b459b7a99fc6b9d8a",
+    "semantic_hash": ""
+  },
+  "public/audio/through-my-system.mp3": {
+    "mtime": 1778959586.0,
+    "ast_hash": "0384515b2efd687097aa94503f7253ce",
+    "semantic_hash": ""
+  },
+  "src/components/home/Micrographics.jsx": {
+    "mtime": 1783168048.8960981,
+    "ast_hash": "15c46b03a7bcff2bd4650a6b9843883f",
+    "semantic_hash": ""
+  }
+}

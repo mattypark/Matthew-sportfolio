@@ -1,12 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600&amp;display=swap');
-    text {
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-      font-weight: 600;
-      letter-spacing: -2px;
-      fill: #E2D0A8;
-    }
-  </style>
-  <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-size="44" fill="#E2D0A8">MP</text>
+  <rect
+    x="1"
+    y="1"
+    width="62"
+    height="62"
+    rx="14"
+    fill="#ffffff"
+    stroke="#000000"
+    stroke-width="2"
+  />
+  <text
+    x="50%"
+    y="50%"
+    dominant-baseline="central"
+    text-anchor="middle"
+    font-family="system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif"
+    font-size="34"
+    font-weight="600"
+    letter-spacing="-1.5"
+    fill="#000000"
+  >MP</text>
 </svg>

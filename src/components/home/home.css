@@ -158,8 +158,16 @@ body {
     padding: 26px 20px 0;
   }
   .ok-navgroup { flex-wrap: wrap; gap: 12px 20px; }
+  /* sections stay up top; contact drops to the bottom edge, above the clocks */
+  .ok-nav .ok-navgroup:last-child {
+    position: fixed;
+    left: 20px;
+    right: 20px;
+    bottom: 44px;
+    z-index: 20;
+  }
   .ok-landing { display: flex; flex-direction: column; }
-  .ok-landing-main { min-height: 0; flex: 1; align-items: flex-start; padding-top: 40px; }
+  .ok-landing-main { min-height: 0; flex: 1; align-items: center; padding: 20px 24px 96px; }
   .ok-portrait { width: min(78vw, 340px); }
 }
 

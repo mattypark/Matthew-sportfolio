@@ -19,9 +19,19 @@ const ENGAGEMENTS = [
   { name: 'Web Design Agency', year: '2025' },
 ]
 
+// the ledger's second movement — what the work added up to
+const SELECTED = [
+  { name: 'Stanford ASES Launchpad', note: '2026' },
+  { name: 'Microsoft × Coinbase × Tavily Building Event', note: '2026' },
+  { name: 'Instagram', note: '13K+' },
+  { name: 'Axiom Pathways', note: '550+ interns · 10+ startups' },
+  { name: 'BayouGuard', note: 'Congressional App Challenge' },
+]
+
 // every channel, lined up at the very bottom of the page
 const CHANNELS = [
   { label: 'Contact', href: 'mailto:matthew.parkk0@gmail.com' },
+  { label: 'GitHub', href: 'https://github.com/mattypark' },
   { label: 'X', href: 'https://x.com/MattyparkW' },
   { label: 'YouTube', href: 'https://www.youtube.com/@matty_park' },
   { label: 'TikTok', href: 'https://www.tiktok.com/@mattparxy' },
@@ -137,7 +147,7 @@ export default function WorkSite() {
             make things people actually use.
           </p>
           <p className="l-reveal mt-10 max-w-[46ch] font-mono text-[13px] leading-[1.85] text-slate">
-            Now — running Axiom with 500+ interns, building SlapShift, still in
+            Now — running Axiom with 550+ interns, building SlapShift, still in
             high school. Learning is the job.
           </p>
           <p className="l-reveal mt-12 font-mono text-[13px] leading-[1.85] text-slate">
@@ -183,6 +193,16 @@ export default function WorkSite() {
                 </li>
               )
             })}
+          </ul>
+
+          <div className="ok-eyebrow mb-5 mt-24">Selected</div>
+          <ul className="ok-engagements">
+            {SELECTED.map((s) => (
+              <li key={s.name} className="ok-eng-row">
+                <span className="ok-eng-name">{s.name}</span>
+                <span className="ok-eng-year ok-eng-note">{s.note}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

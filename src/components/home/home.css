@@ -307,6 +307,17 @@ body {
 }
 .ok-eng-row:hover .ok-eng-year { color: var(--ink); }
 
+/* the Selected ledger carries phrases, not years — keep them on one line
+   until the row is too narrow, then let the pair stack. */
+.ok-eng-note { white-space: nowrap; }
+@media (max-width: 560px) {
+  .ok-eng-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .ok-eng-note { white-space: normal; }
+}
+
 /* linked rows announce themselves — a quiet ↗ that wakes on hover */
 .ok-eng-link { color: inherit; }
 .ok-eng-arrow {

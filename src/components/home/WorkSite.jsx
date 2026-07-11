@@ -9,23 +9,22 @@ import './home.css'
 // project grid, dual city clocks, and a crosshair that reads your cursor back.
 
 const ENGAGEMENTS = [
-  { name: 'Axiom Pathways', year: '2026', href: 'https://www.axiomapply.com' },
+  { name: 'Stanford ASES Launchpad', year: '2026' },
+  { name: 'Microsoft × Coinbase × Tavily Building Event', year: '2026' },
+  {
+    name: 'Axiom Pathways',
+    tag: '550+ interns · 10+ startups',
+    year: '2026',
+    href: 'https://www.axiomapply.com',
+  },
+  { name: 'BayouGuard', tag: 'Congressional App Challenge', year: '2026' },
+  { name: 'Instagram', tag: '13K+', year: '2026', href: 'https://www.instagram.com/matty.park/' },
   { name: 'SlapShift', tag: 'project', year: '2026' },
   { name: 'Bery', tag: 'AI agent', year: '2026' },
   { name: 'Media AI Agent', tag: 'project', year: '2026' },
-  { name: 'BayouGuard', year: '2026' },
   { name: 'Hand Vocoder', year: '2026' },
   { name: 'PrayerLock', year: '2026' },
   { name: 'Web Design Agency', year: '2025' },
-]
-
-// the ledger's second movement — what the work added up to
-const SELECTED = [
-  { name: 'Stanford ASES Launchpad', note: '2026' },
-  { name: 'Microsoft × Coinbase × Tavily Building Event', note: '2026' },
-  { name: 'Instagram', note: '13K+' },
-  { name: 'Axiom Pathways', note: '550+ interns · 10+ startups' },
-  { name: 'BayouGuard', note: 'Congressional App Challenge' },
 ]
 
 // every channel, lined up at the very bottom of the page
@@ -193,16 +192,6 @@ export default function WorkSite() {
                 </li>
               )
             })}
-          </ul>
-
-          <div className="ok-eyebrow mb-5 mt-24">Selected</div>
-          <ul className="ok-engagements">
-            {SELECTED.map((s) => (
-              <li key={s.name} className="ok-eng-row">
-                <span className="ok-eng-name">{s.name}</span>
-                <span className="ok-eng-year ok-eng-note">{s.note}</span>
-              </li>
-            ))}
           </ul>
         </div>
       </div>

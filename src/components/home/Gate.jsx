@@ -16,7 +16,7 @@ const PORTRAITS = [
 // THE LANDING
 // A quiet editorial index: a text nav at the vertical middle, a portrait
 // dead-center, city clocks + crosshair at the edges. Pure white, pure black.
-//   [ ] Projects / Minimal → /work   [ ] Maximal → /loud
+//   [ ] Journal → /journal   [ ] Minimal → /work   [ ] Values → /values
 // Leaving: everything slides up and fades, then the next side enters —
 // /work fades text in one by one, /loud bounces its blocks into place.
 
@@ -78,10 +78,9 @@ export default function Gate() {
     <div ref={root} className="ok-landing">
       <header className="ok-nav">
         <nav className="ok-navgroup" aria-label="Sections">
-          {/* projects — crossed out, coming back when the screenshots land */}
-          <span className="ld-reveal ok-navlink ok-navlink-dead" aria-disabled="true">
-            <span className="ok-navmark" aria-hidden="true" />Projects
-          </span>
+          <a href="/journal" onClick={leave('/journal')} data-hover className="ld-reveal ok-navlink">
+            <span className="ok-navmark" aria-hidden="true" />Journal
+          </a>
           <a href="/work" onClick={leave('/work')} data-hover className="ld-reveal ok-navlink">
             <span className="ok-navmark" aria-hidden="true" />Minimal
           </a>

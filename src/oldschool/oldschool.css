@@ -1,0 +1,51 @@
+/* ============================================================
+   OLD SCHOOL — the timeline-wall build (commit ed15723, 20 Apr 2026).
+
+   This is the generation BEFORE "Redesigned entire portfolio"
+   (81d4696) introduced the boot sequence, ~/ROOMS index and grid
+   wash. 54 events, the wall rendered straight from Portfolio.jsx.
+
+   Localhost only: main.jsx imports this behind import.meta.env.DEV,
+   which Rollup strips from production. The deployed site never sees it.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+
+
+  :root {
+    --color-custom: #fb6e1c;
+    --background: oklch(98% 0 0);
+    --foreground: oklch(14.5% 0 0);
+    --muted-foreground: oklch(55.6% 0 0);
+    --border: oklch(92.2% 0 0);
+  }
+  
+  * {
+    border-color: var(--border);
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    font-family: Inter, system-ui, sans-serif;
+  }
+  
+  ::selection {
+    background-color: var(--color-custom);
+    opacity: 0.5;
+  }
+
+/* Hide scrollbar for no-scrollbar class */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+

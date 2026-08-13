@@ -18,7 +18,7 @@ const ENGAGEMENTS = [
     href: 'https://www.axiomapply.com',
   },
   { name: 'BayouGuard', tag: 'Congressional App Challenge', year: '2026' },
-  { name: 'Instagram', tag: '13K+', year: '2026', href: 'https://www.instagram.com/matty.park/' },
+  { name: 'Instagram', tag: '13K+', year: '2026' },
   { name: 'SlapShift', tag: 'project', year: '2026' },
   { name: 'Bery', tag: 'AI agent', year: '2026' },
   { name: 'Media AI Agent', tag: 'project', year: '2026' },

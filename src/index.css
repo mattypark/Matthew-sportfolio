@@ -1,36 +1,35 @@
+@import './styles/tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Semantic palette: paper = tan (light), ink = black (dark). */
-    /* Page is now black-bg + tan-text by default; .section-dark inverts to tan-bg + black-text. */
-    --paper: #E2D0A8;
-    --ink: #0F0E0C;
+    /* legacy names the archived /loud + /journal components still reference */
     --primary: #E63E21;
     --accent: #1C5FCC;
     --signal: #8EE000;
     --muted: #6F634A;
   }
 
-  html { scroll-behavior: auto; }
-  /* the active site is white throughout — page fades reveal white, not ink */
+  html {
+    scroll-behavior: auto;
+    /* reserve the scrollbar track so locking the body when the menu opens
+       doesn't shift every fixed element sideways */
+    scrollbar-gutter: stable;
+  }
   html, body {
-    background: #FFFFFF;
+    background: var(--paper);
     color: var(--ink);
   }
   body {
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    /* SF Pro is the UI voice; Anthropic Serif is opted into per element */
+    font-family: var(--ui);
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-  }
-
-  ::selection {
-    background: var(--paper);
-    color: var(--ink);
   }
 }
 
@@ -56,10 +55,7 @@
   color: var(--ink);
   box-shadow: 0 -1px 0 0 var(--paper);
 }
-.section-dark ::selection {
-  background: var(--ink);
-  color: var(--paper);
-}
+/* no per-section selection override — the editor blue is sitewide, on purpose */
 
 /* Section labels (top-of-section monocode) */
 .section-label {

@@ -1,0 +1,174 @@
+/* ============================================================
+   TOKENS — the whole system in one file.
+
+   The rule that holds the design together:
+   RED IS ALWAYS PIXEL-BUILT. Stepped corners, no radius, snapped
+   to an 8px grid, hard offset shadows. Cream and ink are always
+   smooth. That contrast is the Minecraft layer.
+
+   Blue appears exactly once — ::selection. It's the coder tell.
+   ============================================================ */
+
+@font-face {
+  font-family: 'Anthropic Serif Display';
+  src: url('/fonts/AnthropicSerif-Display-Light-Static.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anthropic Serif Display';
+  src: url('/fonts/AnthropicSerif-Display-Regular-Static.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anthropic Serif Display';
+  src: url('/fonts/AnthropicSerif-Display-Medium-Static.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anthropic Serif Display';
+  src: url('/fonts/AnthropicSerif-Display-Semibold-Static.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anthropic Serif Display';
+  src: url('/fonts/AnthropicSerif-Display-Bold-Static.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anthropic Serif Display';
+  src: url('/fonts/AnthropicSerif-Display-Extrabold-Static.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* italics carry the opening letters of the wordmark, which start thin and
+   heavily slanted before straightening up as the name gets heavier */
+@font-face {
+  font-family: 'Anthropic Serif Display';
+  src: url('/fonts/AnthropicSerif-Display-LightItalic-Static.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anthropic Serif Display';
+  src: url('/fonts/AnthropicSerif-Display-RegularItalic-Static.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anthropic Serif';
+  src: url('/fonts/AnthropicSerif-Text-Regular-Static.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anthropic Serif';
+  src: url('/fonts/AnthropicSerif-Text-Medium-Static.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---- palette ---- */
+  --paper: #ffffff;
+  --cream: #f4efe4;
+  --cream-deep: #e9e0cd;
+  --ink: #0b0b0b;
+  --ink-60: rgba(11, 11, 11, 0.6);
+  --ink-40: rgba(11, 11, 11, 0.4);
+  --ink-15: rgba(11, 11, 11, 0.15);
+  --ink-08: rgba(11, 11, 11, 0.08);
+
+  /* the Minecraft layer */
+  --red: #d22b1f;
+  --red-dk: #8b1a12;
+  --red-lit: #ff4a35; /* redstone, powered */
+
+  /* the one blue */
+  --select: #2a6bff;
+
+  /* ---- type ---- */
+  --display: 'Anthropic Serif Display', 'Anthropic Serif', Georgia, serif;
+  --prose: 'Anthropic Serif', Georgia, serif;
+  --ui: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', Inter,
+    system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---- the pixel grid ---- */
+  --px: 8px;
+  --block: 16px;
+
+  /* ---- motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* The one blue on the site. Every surface, every page. */
+::selection {
+  background: var(--select);
+  color: #ffffff;
+}
+::-moz-selection {
+  background: var(--select);
+  color: #ffffff;
+}
+
+/* ============================================================
+   PIXEL PRIMITIVES
+   Anything red borrows from here, so "blocky" stays consistent
+   instead of being re-invented per component.
+   ============================================================ */
+
+/* stepped corners — a chamfer built from hard color stops, so it
+   reads as pixel art rather than a rounded corner. */
+.pixel-edge {
+  border-radius: 0;
+  clip-path: polygon(
+    4px 0,
+    calc(100% - 4px) 0,
+    100% 4px,
+    100% calc(100% - 4px),
+    calc(100% - 4px) 100%,
+    4px 100%,
+    0 calc(100% - 4px),
+    0 4px
+  );
+}
+
+/* the hard offset under every red block — no blur, ever */
+.pixel-shadow {
+  box-shadow: 4px 4px 0 0 var(--red-dk);
+}
+
+.pixel-shadow-ink {
+  box-shadow: 4px 4px 0 0 var(--ink);
+}
+
+/* crisp scaling for all pixel art (tennis ball, hearts, particles) */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  shape-rendering: crispEdges;
+}

@@ -1,40 +1,86 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  // src/oldschool is the localhost-only restored build. Scanning it in a
+  // production run would emit utilities the deployed site never uses, so it
+  // is excluded there and the shipped CSS stays exactly what it was.
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    ...(process.env.NODE_ENV === 'production' ? ["!./src/oldschool/**"] : []),
   ],
   theme: {
     extend: {
       colors: {
-        paper: '#E2D0A8',
-        ink: '#0F0E0C',
+        /* black / white / red / cream — the whole site */
+        paper: '#FFFFFF',
+        cream: '#F4EFE4',
+        'cream-deep': '#E9E0CD',
+        ink: '#0B0B0B',
+        red: '#D22B1F',
+        'red-dk': '#8B1A12',
+        'red-lit': '#FF4A35',
+        /* the one blue, ::selection only */
+        select: '#2A6BFF',
+        /* retained so the archived /loud + /journal files still compile */
         primary: '#E63E21',
         accent: '#1C5FCC',
         signal: '#8EE000',
         muted: '#6F634A',
         line: '#1F1D18',
-        /* otherkind-mould quiet side */
         linen: '#F2F0EA',
         slate: '#6F675B',
-        /* split-brain home palette */
         void: '#070605',
         bone: '#F7F4EC',
-        cream: '#FFFFFF',
         umber: '#6B4A2F',
         bark: '#3E2C1C',
         latte: '#A9805B',
+        /* --- oldschool tokens (localhost-only build, src/oldschool) ---
+           Additive only: nothing above is redefined, so the live site's
+           palette is untouched. */
+        background: 'oklch(98% 0 0)',
+        foreground: 'oklch(14.5% 0 0)',
+        card: 'oklch(100% 0 0)',
+        'card-foreground': 'oklch(14.5% 0 0)',
+        popover: 'oklch(100% 0 0)',
+        'popover-foreground': 'oklch(14.5% 0 0)',
+        'primary-foreground': 'oklch(98.5% 0 0)',
+        secondary: 'oklch(97% 0 0)',
+        'secondary-foreground': 'oklch(20.5% 0 0)',
+        'muted-foreground': 'oklch(55.6% 0 0)',
+        'accent-foreground': 'oklch(20.5% 0 0)',
+        destructive: 'oklch(57.7% .245 27.325)',
+        border: 'oklch(92.2% 0 0)',
+        input: 'oklch(92.2% 0 0)',
+        ring: 'oklch(70.8% 0 0)',
+        custom: '#fb6e1c',
+        'background-elev': 'oklch(96% 0.006 80)',
+
       },
       fontFamily: {
-        display: ['"Big Shoulders Display"', 'Impact', 'Haettenschweiler', 'sans-serif'],
+        display: ['"Anthropic Serif Display"', '"Anthropic Serif"', 'Georgia', 'serif'],
+        prose: ['"Anthropic Serif"', 'Georgia', 'serif'],
+        ui: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"SF Pro Display"',
+          '"SF Pro Text"',
+          'Inter',
+          'system-ui',
+          'sans-serif',
+        ],
         mono: ['"JetBrains Mono"', 'IBM Plex Mono', 'ui-monospace', 'monospace'],
-        serif: ['Fraunces', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        archivo: ['"Archivo Black"', 'Impact', 'sans-serif'],
-        caveat: ['Caveat', 'cursive'],
-        bodoni: ['"Bodoni Moda"', 'Didot', 'serif'],
-        elite: ['"Special Elite"', 'Courier', 'monospace'],
-        sixcaps: ['"Six Caps"', 'Impact', 'sans-serif'],
+        ibm: ['"IBM Plex Mono"', 'monospace'],
+        instrument: ['"Instrument Serif"', 'Times New Roman', 'serif'],
+        inter: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['"Anthropic Serif"', 'Georgia', 'serif'],
+      },
+      animation: { typing: 'cursor-blink 1.5s step-end infinite' },
+      keyframes: { 'cursor-blink': { '0%, 49%': { opacity: '1' }, '50%, 100%': { opacity: '0' } } },
+      spacing: {
+        px8: '8px',
+        block: '16px',
+        26: '6.5rem',
       },
       letterSpacing: {
         tightest: '-0.045em',

@@ -1,12 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  // src/oldschool is the localhost-only restored build. Scanning it in a
-  // production run would emit utilities the deployed site never uses, so it
-  // is excluded there and the shipped CSS stays exactly what it was.
+  // src/oldschool IS the site now, so it must be scanned in every build.
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    ...(process.env.NODE_ENV === 'production' ? ["!./src/oldschool/**"] : []),
   ],
   theme: {
     extend: {

@@ -5,12 +5,18 @@
    (81d4696) introduced the boot sequence, ~/ROOMS index and grid
    wash. 54 events, the wall rendered straight from Portfolio.jsx.
 
-   Localhost only: main.jsx imports this behind import.meta.env.DEV,
-   which Rollup strips from production. The deployed site never sees it.
+   This is the live site: main.jsx imports it directly. The Anthropic
+   Serif build in src/pages is still in the repo but nothing imports it,
+   so Rollup drops it from the bundle.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+/* This file now owns the Tailwind layers: main.jsx no longer imports
+   src/index.css, so without these the utility classes the timeline
+   components rely on would never be emitted. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 
 
   :root {

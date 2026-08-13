@@ -1,34 +1,31 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-oldschool>
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon-mp.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Display + prose are self-hosted Anthropic Serif (see src/styles/tokens.css).
-         UI type is SF Pro via the system stack — Inter is only the non-Apple fallback. -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap" />
-    <link rel="preload" as="font" type="font/otf" href="/fonts/AnthropicSerif-Display-Light-Static.otf" crossorigin />
-    <link rel="preload" as="font" type="font/otf" href="/fonts/AnthropicSerif-Text-Regular-Static.otf" crossorigin />
+    <!-- The timeline build: Instrument Serif wordmark, Inter body,
+         IBM Plex Mono for the dates and the clock. -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Matthew Park &mdash; Portfolio</title>
-    <meta name="description" content="Matthew Park &mdash; builder. Selected work, current thinking, and what's next." />
+    <meta name="description" content="Matthew Park &mdash; builder. Every step, in order." />
     <meta property="og:title" content="Matthew Park" />
-    <meta property="og:description" content="Builder. Selected work and current thinking." />
+    <meta property="og:description" content="Builder. Every step, in order." />
     <meta property="og:type" content="website" />
     <style>
-      /* first-paint only — the real system lives in src/styles/tokens.css */
-      html, body { background-color: #FFFFFF; margin: 0; color: #0B0B0B; }
+      /* first-paint only — the real system lives in src/oldschool/oldschool.css */
+      html, body { background-color: #FFFFFF; margin: 0; color: #1a1b24; }
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif;
+        font-family: Inter, system-ui, sans-serif;
         -webkit-font-smoothing: antialiased;
         overflow-x: hidden;
       }
-      ::selection { background: #2A6BFF; color: #FFFFFF; }
-      /* Hide the native cursor only where a custom one is drawn.
-         The old-school build (html[data-oldschool], localhost only) has no
-         custom cursor, so it keeps the real one. Touch devices are already
-         excluded by the media query — iPhone never had a cursor to hide. */
+      /* The timeline build draws no custom cursor, so the native one stays.
+         The rule below only bites if <html> loses data-oldschool — i.e. if the
+         Anthropic Serif build in src/pages is ever switched back on, since that
+         one renders its own crosshair. Touch devices are excluded either way. */
       @media (hover: hover) and (pointer: fine) {
         html:not([data-oldschool]),
         html:not([data-oldschool]) body,

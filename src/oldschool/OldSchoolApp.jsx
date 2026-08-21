@@ -7,6 +7,7 @@ import Projects from './components/Projects'
 import CoreValues from './components/CoreValues'
 import About from './components/About'
 import Inspiration from './components/Inspiration'
+import MorphField from './components/MorphField'
 import './App.css'
 
 // No intro animation, no page-transition wipe, no scroll hijacking:
@@ -14,6 +15,11 @@ import './App.css'
 function AppContent() {
   return (
     <MotionConfig reducedMotion="always">
+      {/* Wireframe backdrop: fixed, centred, behind every page. Page roots are
+          positioned and come later in the DOM, so they paint above it. */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        <MorphField className="absolute left-1/2 top-1/2 aspect-square w-[min(52vh,74vw,540px)] -translate-x-1/2 -translate-y-1/2 [mask-image:radial-gradient(circle,#000_72%,transparent_96%)]" />
+      </div>
       <Routes>
         <Route path="/" element={<Portfolio />} />
         <Route path="/posts" element={<Posts />} />

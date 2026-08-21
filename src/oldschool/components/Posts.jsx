@@ -24,7 +24,7 @@ const Posts = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="relative z-10 min-h-screen text-black">
       <div className="max-w-4xl mx-auto px-6 sm:px-8 md:px-12 py-16 md:py-24">
         
         {/* Back Link */}

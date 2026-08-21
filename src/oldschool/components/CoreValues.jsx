@@ -74,7 +74,7 @@ const CoreValues = () => {
   const right = values.slice(7)
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="relative z-10 min-h-screen text-foreground">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

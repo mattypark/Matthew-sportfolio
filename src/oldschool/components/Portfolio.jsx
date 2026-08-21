@@ -395,7 +395,7 @@ const Portfolio = () => {
   ]
 
   return (
-    <div className="relative min-h-screen w-screen overflow-x-hidden">
+    <div className="relative z-10 min-h-screen w-screen overflow-x-hidden">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

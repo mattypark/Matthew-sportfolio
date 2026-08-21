@@ -30,3 +30,6 @@ dist-ssr
 *.sw?
 
 .gstack/
+
+# The LUT is the product. Public repo: never commit it.
+private/*.cube

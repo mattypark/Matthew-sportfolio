@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import CartIcon from './CartIcon'
 
 const NavLink = ({ href, name, onClick }) => {
   const [isHovered, setIsHovered] = useState(false)
@@ -78,6 +79,11 @@ const Portfolio = () => {
       date: getTodaysDate(),
       description: <span className="animate-typing">???</span>,
       link: null,
+    },
+    {
+      date: '08.21.26',
+      description: <>Releases his first <a className="underline" href="/lut">LUT</a></>,
+      link: '/lut',
     },
     {
       date: '08.08.26',
@@ -199,11 +205,6 @@ const Portfolio = () => {
       date: '02.21.26',
       description: <>The <a className="underline" target="_blank" rel="noopener noreferrer" href="https://youtu.be/rsYSeIQ_LV8?si=CBHo9J55WQqPj5X_">YT Documentary Video</a> gets 10k views</>,
       link: 'https://youtu.be/rsYSeIQ_LV8?si=CBHo9J55WQqPj5X_',
-    },
-    {
-      date: '02.16.26',
-      description: 'Cofounds 2nd startup, Travel App',
-      link: null,
     },
     {
       date: '02.10.26',
@@ -392,6 +393,7 @@ const Portfolio = () => {
     { name: 'About', href: '/about' },
     { name: 'Core Values', href: '/values' },
     { name: 'Inspiration', href: '/inspiration' },
+    { name: 'LUT', href: '/lut' },
   ]
 
   return (
@@ -407,6 +409,7 @@ const Portfolio = () => {
           Matthew.
         </a>
         <div className="flex flex-row items-center gap-5 font-ibm text-xs">
+          <CartIcon />
           <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://x.com/MattyparkW">
             X
           </a>
@@ -508,6 +511,7 @@ const Portfolio = () => {
                 <div className="flex flex-col gap-2">
                   <p className="font-ibm text-[10px] text-white/30 uppercase tracking-widest">Social</p>
                   <div className="flex flex-row gap-4 font-ibm text-xs text-white">
+                    <CartIcon tone="dark" />
                     <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://x.com/MattyparkW">X</a>
                     <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://www.linkedin.com/in/matthew-park-487889350/">IN</a>
                     <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://www.instagram.com/matty.park/">IG</a>
@@ -525,6 +529,7 @@ const Portfolio = () => {
               transition={{ delay: 0.45, duration: 0.4 }}
               className="sm:px-16 px-8 pb-10 flex flex-row items-center gap-6 font-ibm text-xs text-white/30 sm:hidden"
             >
+              <CartIcon tone="dim" />
               <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://x.com/MattyparkW">X</a>
               <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://www.linkedin.com/in/matthew-park-487889350/">IN</a>
               <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://www.instagram.com/matty.park/">IG</a>

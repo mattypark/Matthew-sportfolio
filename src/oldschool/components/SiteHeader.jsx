@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import CartIcon from './CartIcon'
-import aboutPhoto from '/about-photo.png'
+
+// The header and menu overlay, lifted verbatim out of the existing pages so the
+// LUT page doesn't add a sixth hand-copied version. The other pages still carry
+// their own copies; they can adopt this whenever someone is in there anyway.
 
 const NavLink = ({ href, name, onClick }) => {
   const [isHovered, setIsHovered] = useState(false)
@@ -45,20 +48,27 @@ const NavLink = ({ href, name, onClick }) => {
   )
 }
 
-const About = () => {
+const SOCIALS = [
+  { label: 'X', href: 'https://x.com/MattyparkW' },
+  { label: 'IN', href: 'https://www.linkedin.com/in/matthew-park-487889350/' },
+  { label: 'IG', href: 'https://www.instagram.com/matty.park/' },
+  { label: 'TT', href: 'https://www.tiktok.com/@mattparxy' },
+  { label: 'YT', href: 'https://www.youtube.com/@Matty_park' },
+]
+
+const NAV_LINKS = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Core Values', href: '/values' },
+  { name: 'Inspiration', href: '/inspiration' },
+  { name: 'LUT', href: '/lut' },
+]
+
+const SiteHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Core Values', href: '/values' },
-    { name: 'Inspiration', href: '/inspiration' },
-    { name: 'LUT', href: '/lut' },
-  ]
-
   return (
-    <div className="relative z-10 min-h-screen text-foreground">
-      {/* Header */}
+    <>
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -70,11 +80,11 @@ const About = () => {
         </a>
         <div className="flex flex-row items-center gap-5 font-ibm text-xs">
           <CartIcon />
-          <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://x.com/MattyparkW">X</a>
-          <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://www.linkedin.com/in/matthew-park-487889350/">IN</a>
-          <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://www.instagram.com/matty.park/">IG</a>
-          <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://www.tiktok.com/@mattparxy">TT</a>
-          <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://www.youtube.com/@Matty_park">YT</a>
+          {SOCIALS.map((s) => (
+            <a key={s.label} target="_blank" rel="noopener noreferrer" className="hover:underline" href={s.href}>
+              {s.label}
+            </a>
+          ))}
 
           {/* Hamburger */}
           <button
@@ -103,7 +113,6 @@ const About = () => {
         </div>
       </motion.div>
 
-      {/* Menu overlay */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -115,7 +124,7 @@ const About = () => {
           >
             <div className="flex flex-row flex-1 pt-24 -mt-10">
               <div className="flex flex-col justify-center sm:pl-16 pl-8">
-                {navLinks.map((link, i) => (
+                {NAV_LINKS.map((link, i) => (
                   <motion.div
                     key={link.name}
                     initial={{ opacity: 0, x: 40 }}
@@ -147,11 +156,11 @@ const About = () => {
                   <p className="font-ibm text-[10px] text-white/30 uppercase tracking-widest">Social</p>
                   <div className="flex flex-row gap-4 font-ibm text-xs text-white">
                     <CartIcon tone="dark" />
-                    <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://x.com/MattyparkW">X</a>
-                    <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://www.linkedin.com/in/matthew-park-487889350/">IN</a>
-                    <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://www.instagram.com/matty.park/">IG</a>
-                    <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://www.tiktok.com/@mattparxy">TT</a>
-                    <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://www.youtube.com/@Matty_park">YT</a>
+                    {SOCIALS.map((s) => (
+                      <a key={s.label} target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href={s.href}>
+                        {s.label}
+                      </a>
+                    ))}
                   </div>
                 </div>
               </motion.div>
@@ -163,79 +172,17 @@ const About = () => {
               className="sm:px-16 px-8 pb-10 flex flex-row items-center gap-6 font-ibm text-xs text-white/30 sm:hidden"
             >
               <CartIcon tone="dim" />
-              <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://x.com/MattyparkW">X</a>
-              <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://www.linkedin.com/in/matthew-park-487889350/">IN</a>
-              <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://www.instagram.com/matty.park/">IG</a>
-              <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://www.tiktok.com/@mattparxy">TT</a>
-              <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://www.youtube.com/@Matty_park">YT</a>
+              {SOCIALS.map((s) => (
+                <a key={s.label} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href={s.href}>
+                  {s.label}
+                </a>
+              ))}
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Page content */}
-      <main className="sm:px-8 px-6 pt-32 pb-20">
-        {/* Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="font-instrument text-7xl sm:text-8xl tracking-tight mb-16"
-        >
-          About
-        </motion.h1>
-
-        {/* Two-column layout: photo left, text right */}
-        <div className="flex flex-col sm:flex-row gap-12 sm:gap-16 items-start">
-          {/* Photo */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full sm:w-[420px] shrink-0"
-          >
-            <img
-              src={aboutPhoto}
-              alt="Matthew Park"
-              className="w-full rounded-2xl object-cover"
-            />
-          </motion.div>
-
-          {/* Text */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col gap-6 max-w-lg"
-          >
-            <p className="font-ibm text-[11px] text-muted-foreground uppercase tracking-widest">Matthew Park</p>
-            <h2 className="font-instrument text-3xl sm:text-4xl leading-snug tracking-tight">
-              Who is Matthew Park?
-            </h2>
-            <div className="flex flex-col gap-4 font-ibm text-sm leading-relaxed text-foreground/80">
-              <p>
-                I'm a 15-year-old builder, creator, and entrepreneur from Kentucky. I started my Journey ever since I was born.
-              </p>
-              <p>
-                I was born on a Sunday, almost exactly a year prior, a pastor told my parents that they we're going to have another
-                baby (me). I was then given the name, Matthew. The first name of the New Testament in the Bible and meaning "Gift of God." None of this 
-                was a coincidence, but rather, a new generation. to create. something generational.
-              </p>
-              <p>
-                The past year, I've worked as growth at MathGPT, Turbolearn AI, cofounded Prayer Lock, generated $20k
-                in revenue, went viral on Social Media, competed in Speech & Debate, qualified for State, played
-                Saxophone at All-State, and now I'm building my next thing.
-              </p>
-              <p>
-                I believe in doing everything — the more you do, the more opportunities show up. And to do something exceptional, 
-                you have to first be the exception.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </main>
-    </div>
+    </>
   )
 }
 
-export default About
+export default SiteHeader

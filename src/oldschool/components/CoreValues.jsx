@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import CartIcon from './CartIcon'
 
 const values = [
   "God #1 Always. Even if you forget, remind yourself that he is the reason you are here today.",
@@ -68,6 +69,7 @@ const CoreValues = () => {
     { name: 'About', href: '/about' },
     { name: 'Core Values', href: '/values' },
     { name: 'Inspiration', href: '/inspiration' },
+    { name: 'LUT', href: '/lut' },
   ]
 
   const left = values.slice(0, 7)
@@ -86,6 +88,7 @@ const CoreValues = () => {
           Matthew.
         </a>
         <div className="flex flex-row items-center gap-5 font-ibm text-xs">
+          <CartIcon />
           <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://x.com/MattyparkW">X</a>
           <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://www.linkedin.com/in/matthew-park-487889350/">IN</a>
           <a target="_blank" rel="noopener noreferrer" className="hover:underline" href="https://www.instagram.com/matty.park/">IG</a>
@@ -162,6 +165,7 @@ const CoreValues = () => {
                 <div className="flex flex-col gap-2">
                   <p className="font-ibm text-[10px] text-white/30 uppercase tracking-widest">Social</p>
                   <div className="flex flex-row gap-4 font-ibm text-xs text-white">
+                    <CartIcon tone="dark" />
                     <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://x.com/MattyparkW">X</a>
                     <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://www.linkedin.com/in/matthew-park-487889350/">IN</a>
                     <a target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors" href="https://www.instagram.com/matty.park/">IG</a>
@@ -177,6 +181,7 @@ const CoreValues = () => {
               transition={{ delay: 0.45, duration: 0.4 }}
               className="sm:px-16 px-8 pb-10 flex flex-row items-center gap-6 font-ibm text-xs text-white/30 sm:hidden"
             >
+              <CartIcon tone="dim" />
               <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://x.com/MattyparkW">X</a>
               <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://www.linkedin.com/in/matthew-park-487889350/">IN</a>
               <a target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" href="https://www.instagram.com/matty.park/">IG</a>

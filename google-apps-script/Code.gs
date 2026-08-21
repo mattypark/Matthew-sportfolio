@@ -1,9 +1,20 @@
 /**
  * Portfolio → Google Sheets webhook.
  *
- * Two payload types, two tabs:
+ * Three payload types, three tabs:
  *   type "message"   (or no type)  → "Messages"    tab: timestamp | name | building | email | message
  *   type "subscribe"               → "Subscribers" tab: timestamp | email | phone | name
+ *   type "lut-claim"               → "LUT Claims"  tab: timestamp | email | platform | url | screenshot | status | token
+ *
+ * LUT CLAIMS — extra one-time setup
+ * a. Put the LUT you sell in Drive and paste its file ID into LUT_FILE_ID below.
+ * b. Create a Drive folder for repost screenshots, paste its ID into
+ *    SCREENSHOT_FOLDER_ID. (Leave blank to skip saving the image; the row and
+ *    the notification email still go through.)
+ * c. Set OWNER_EMAIL to wherever you want the approve links to land.
+ * Each claim emails you the screenshot plus an Approve link. Clicking it flips
+ * the row to "approved" and emails the claimant the .cube as an attachment, so
+ * the file never needs a public URL.
  *
  * SETUP
  * 1. Create a Google Sheet. The tabs are created automatically on first write.
@@ -21,14 +32,25 @@
 
 var MESSAGES_SHEET = 'Messages';
 var SUBSCRIBERS_SHEET = 'Subscribers';
+var LUT_CLAIMS_SHEET = 'LUT Claims';
 var MAX_FIELD_LENGTH = 2000;
+
+// --- LUT claim settings (fill these in) ---
+var OWNER_EMAIL = 'mattyparkbusiness@gmail.com';
+var LUT_FILE_ID = '';            // Drive file ID of the .cube you send out
+var SCREENSHOT_FOLDER_ID = '';   // Drive folder for repost screenshots (optional)
+var LUT_PRODUCT_NAME = 'Matthew 01';
 
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
 
-    if (clean_(data.type) === 'subscribe') {
+    var type = clean_(data.type);
+    if (type === 'subscribe') {
       return handleSubscribe_(data);
+    }
+    if (type === 'lut-claim') {
+      return handleLutClaim_(data);
     }
     return handleMessage_(data);
   } catch (err) {
@@ -81,8 +103,143 @@ function handleMessage_(data) {
   return json_({ success: true });
 }
 
+// Free LUT for a repost.
+//
+// Writes the claim, files the screenshot in Drive, and emails Matthew an
+// Approve link. Nothing is sent to the claimant until he clicks it — the whole
+// point of the flow is that a human looks at the screenshot.
+function handleLutClaim_(data) {
+  var email = clean_(data.email).toLowerCase();
+  var platform = clean_(data.platform);
+  var postUrl = clean_(data.postUrl);
+
+  if (!email) {
+    return json_({ success: false, error: 'email required' });
+  }
+
+  var blob = screenshotBlob_(data.screenshot, email);
+  var screenshotUrl = saveScreenshot_(blob);
+  var token = Utilities.getUuid();
+
+  var sheet = getSheet_(LUT_CLAIMS_SHEET, [
+    'timestamp', 'email', 'platform', 'url', 'screenshot', 'status', 'token',
+  ]);
+  sheet.appendRow([new Date(), email, platform, postUrl, screenshotUrl, 'pending', token]);
+
+  notifyOwner_(email, platform, postUrl, screenshotUrl, token, blob);
+
+  return json_({ success: true });
+}
+
+// Decodes the data URL the browser sent. Returns null on anything unexpected —
+// a claim is still worth recording without the image.
+function screenshotBlob_(dataUrl, email) {
+  if (typeof dataUrl !== 'string') return null;
+  var match = dataUrl.match(/^data:(image\/(?:jpeg|png|webp));base64,(.+)$/);
+  if (!match) return null;
+
+  try {
+    var ext = match[1].split('/')[1].replace('jpeg', 'jpg');
+    var name = Utilities.formatDate(new Date(), 'UTC', 'yyyy-MM-dd-HHmmss') +
+      '-' + email.replace(/[^a-z0-9]+/g, '-') + '.' + ext;
+    return Utilities.newBlob(Utilities.base64Decode(match[2]), match[1], name);
+  } catch (err) {
+    return null;
+  }
+}
+
+// Returns a Drive link, or '' if no folder is configured or the write failed.
+function saveScreenshot_(blob) {
+  if (!SCREENSHOT_FOLDER_ID || !blob) return '';
+  try {
+    return DriveApp.getFolderById(SCREENSHOT_FOLDER_ID).createFile(blob).getUrl();
+  } catch (err) {
+    return '';
+  }
+}
+
+// The screenshot rides along as an attachment as well as a Drive link, so the
+// claim can be judged from a phone without opening Drive.
+function notifyOwner_(email, platform, postUrl, screenshotUrl, token, blob) {
+  var approveUrl = ScriptApp.getService().getUrl() + '?approve=' + encodeURIComponent(token);
+  var options = {
+    to: OWNER_EMAIL,
+    subject: 'LUT claim from ' + email,
+    body: [
+      'New free-LUT claim.',
+      '',
+      'email:    ' + email,
+      'platform: ' + (platform || '—'),
+      'post:     ' + (postUrl || '—'),
+      'shot:     ' + (screenshotUrl || 'see attachment'),
+      '',
+      'Looks real? Approve and send the LUT:',
+      approveUrl,
+      '',
+      'Ignore this email to do nothing — the row stays pending.',
+    ].join('\n'),
+  };
+  if (blob) options.attachments = [blob];
+
+  MailApp.sendEmail(options);
+}
+
+// Flips a pending row to approved and emails the claimant the .cube.
+// Returns the HTML shown in the browser tab the link opened.
+function approveLutClaim_(token) {
+  if (!LUT_FILE_ID) {
+    return 'LUT_FILE_ID is not set in the Apps Script. Nothing was sent.';
+  }
+
+  var sheet = getSheet_(LUT_CLAIMS_SHEET, [
+    'timestamp', 'email', 'platform', 'url', 'screenshot', 'status', 'token',
+  ]);
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) return 'No claims yet.';
+
+  var values = sheet.getRange(2, 1, lastRow - 1, 7).getValues();
+  for (var i = 0; i < values.length; i++) {
+    if (String(values[i][6]) !== token) continue;
+
+    var email = String(values[i][1]);
+    if (String(values[i][5]) === 'approved') {
+      return 'Already approved — ' + email + ' has the LUT.';
+    }
+
+    try {
+      MailApp.sendEmail({
+        to: email,
+        subject: 'Your LUT — ' + LUT_PRODUCT_NAME,
+        body: [
+          'Thanks for sharing the video.',
+          '',
+          LUT_PRODUCT_NAME + ' is attached. Drop the .cube into Premiere, DaVinci,',
+          'Final Cut or CapCut and apply it to log footage.',
+          '',
+          'Use it on anything you make. Just do not resell the file itself.',
+          '',
+          '— Matthew',
+        ].join('\n'),
+        attachments: [DriveApp.getFileById(LUT_FILE_ID).getBlob()],
+      });
+    } catch (err) {
+      return 'Could not send to ' + email + ': ' + err;
+    }
+
+    sheet.getRange(i + 2, 6).setValue('approved');
+    return 'Sent. ' + email + ' has the LUT.';
+  }
+
+  return 'That approve link does not match any claim.';
+}
+
 // Sanity check endpoint — visiting the /exec URL in a browser should show this.
-function doGet() {
+// Also serves the one-click approve links emailed for each LUT claim.
+function doGet(e) {
+  var token = e && e.parameter ? clean_(e.parameter.approve) : '';
+  if (token) {
+    return html_(approveLutClaim_(token));
+  }
   return json_({ success: true, data: 'portfolio webhook alive' });
 }
 
@@ -111,6 +268,12 @@ function hasEmail_(sheet, email) {
 function clean_(value) {
   if (typeof value !== 'string') return '';
   return value.trim().slice(0, MAX_FIELD_LENGTH);
+}
+
+function html_(message) {
+  return HtmlService.createHtmlOutput(
+    '<p style="font:14px/1.6 -apple-system,sans-serif;padding:40px">' + message + '</p>'
+  );
 }
 
 function json_(obj) {

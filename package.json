@@ -7,7 +7,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "draft": "node --env-file-if-exists=.env scripts/send-entry.mjs",
-    "draft:preview": "node --env-file-if-exists=.env scripts/send-entry.mjs --dry-run"
+    "draft:preview": "node --env-file-if-exists=.env scripts/send-entry.mjs --dry-run",
+    "test:lut": "node scripts/test-lut-api.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^1.6.1",

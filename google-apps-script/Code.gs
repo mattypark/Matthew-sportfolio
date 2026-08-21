@@ -42,7 +42,7 @@ var MAX_FIELD_LENGTH = 2000;
 
 // --- LUT claim settings (fill these in) ---
 var OWNER_EMAIL = 'mattyparkbusiness@gmail.com';
-var LUT_FILE_ID = '';            // Drive file ID of the .cube you send out
+var LUT_FILE_ID = '1reHR5OsOPtQ-OKbFUhT2t-EMB18Lq_LZ';  // Drive file ID of the .cube you send out
 var SCREENSHOT_FOLDER_ID = '';   // Drive folder for repost screenshots (optional)
 var LUT_PRODUCT_NAME = 'Matthew 01';
 

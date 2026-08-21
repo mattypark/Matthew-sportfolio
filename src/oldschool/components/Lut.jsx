@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import SiteHeader from './SiteHeader'
 import Compare from './Compare'
 import LutClaimForm from './LutClaimForm'
-import { product, conversions, shotOnIt, install, faq, claim, outstanding } from '../data/lut'
+import { product, conversions, install, faq, claim, outstanding } from '../data/lut'
 
 // Standing entrance used across the site. Framer is globally reduced-motion, so
 // this resolves to the final state on first paint — it's here for parity with
@@ -174,52 +174,9 @@ const Lut = () => {
 
         <Rule />
 
-        {/* ---- Shot on it -------------------------------------------------- */}
-        <motion.section {...rise(0.05)}>
-          <SectionLabel index="03">Shot on it</SectionLabel>
-          <h2 className="font-instrument text-4xl sm:text-5xl tracking-tight mb-4">
-            Everything below is graded with this.
-          </h2>
-          <p className="font-ibm text-sm text-foreground/60 max-w-lg leading-relaxed mb-10">
-            No demo reel, no stock. These are the posts.
-          </p>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-4xl">
-            {shotOnIt.map((video) => (
-              <a
-                key={video.id}
-                href={video.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col gap-3"
-              >
-                <div className="relative overflow-hidden rounded-2xl border border-border bg-foreground/[0.03] aspect-[9/16]">
-                  <img
-                    src={video.poster}
-                    alt={video.title}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none'
-                    }}
-                  />
-                  <span className="absolute left-3 top-3 font-ibm text-[10px] uppercase tracking-widest text-white mix-blend-difference">
-                    {video.platform}
-                  </span>
-                </div>
-                <p className="font-ibm text-xs text-foreground/60 group-hover:text-foreground transition-colors">
-                  {video.title}
-                </p>
-              </a>
-            ))}
-          </div>
-        </motion.section>
-
-        <Rule />
-
         {/* ---- Free for a repost -------------------------------------------- */}
         <motion.section {...rise(0.05)} id="free" className="scroll-mt-32">
-          <SectionLabel index="04">Free</SectionLabel>
+          <SectionLabel index="03">Free</SectionLabel>
           <h2 className="font-instrument text-4xl sm:text-5xl tracking-tight mb-4">
             Repost a video, keep your five dollars.
           </h2>
@@ -257,7 +214,7 @@ const Lut = () => {
 
         {/* ---- FAQ ---------------------------------------------------------- */}
         <motion.section {...rise(0.05)}>
-          <SectionLabel index="05">Questions</SectionLabel>
+          <SectionLabel index="04">Questions</SectionLabel>
           <div className="flex flex-col max-w-3xl">
             {faq.map((item) => (
               <div key={item.q} className="flex flex-col sm:flex-row gap-2 sm:gap-10 border-t border-border py-6">

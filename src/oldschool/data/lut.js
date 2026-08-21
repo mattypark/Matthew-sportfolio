@@ -18,10 +18,10 @@ export const product = {
   format: '.cube',
   colorSpace: 'Rec.709',
   /**
-   * Log profiles this was actually built against. Matthew fills these in —
-   * a LUT that claims cameras it was never tested on gets refunded.
+   * Log profiles this was actually built against. A LUT that claims cameras it
+   * was never tested on gets refunded, so only list what has been run.
    */
-  builtFor: ['PLACEHOLDER — confirm the camera and log profile'],
+  builtFor: ['Sony S-Log3'],
   /** Stripe Payment Link. Matthew creates it; paste the URL here. */
   stripeUrl: '',
 }
@@ -37,20 +37,6 @@ export const conversions = [
     note: 'Straight off the card, then one click.',
     before: '/lut/before-01.jpg',
     after: '/lut/after-01.jpg',
-  },
-]
-
-/**
- * Real posts, graded with this LUT. Thumbnails link out — the page never
- * embeds a player, which keeps LCP down.
- */
-export const shotOnIt = [
-  {
-    id: 'v1',
-    title: 'PLACEHOLDER — pick 4–8 real posts',
-    platform: 'YouTube',
-    url: 'https://www.youtube.com/@Matty_park',
-    poster: '/lut/shot-01.jpg',
   },
 ]
 
@@ -109,9 +95,6 @@ export function outstanding() {
   if (!product.stripeUrl) missing.push('Stripe payment link (product.stripeUrl)')
   if (product.builtFor.some((p) => p.startsWith('PLACEHOLDER'))) {
     missing.push('which camera and log profile this was graded for (product.builtFor)')
-  }
-  if (shotOnIt.some((v) => v.title.startsWith('PLACEHOLDER'))) {
-    missing.push('the real posts for the video grid (shotOnIt)')
   }
   return missing
 }

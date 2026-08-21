@@ -78,9 +78,8 @@ export const faq = [
   },
 ]
 
-export const claim = {
-  /** Platforms accepted as proof of a repost. */
-  platforms: ['Instagram', 'TikTok', 'YouTube', 'X'],
+/** Where a buyer writes when something goes wrong. */
+export const contact = {
   email: 'mattyparkbusiness@gmail.com',
 }
 

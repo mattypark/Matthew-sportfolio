@@ -30,45 +30,9 @@ function makeRes() {
   return r
 }
 
-// --- api/lut-claim.js ----------------------------------------------------
-
-const relayed = []
-const echo = http.createServer((req, res) => {
-  let body = ''
-  req.on('data', (c) => (body += c))
-  req.on('end', () => {
-    relayed.push(JSON.parse(body))
-    res.writeHead(200, { 'Content-Type': 'application/json' })
-    res.end(JSON.stringify({ success: true }))
-  })
-})
-await new Promise((resolve) => echo.listen(0, resolve))
-process.env.TERMINAL_WEBHOOK_URL = `http://localhost:${echo.address().port}/`
-
-const { default: claim } = await import(path.join(ROOT, 'api/lut-claim.js'))
-const png = 'data:image/png;base64,' + 'A'.repeat(120)
-
-console.log('api/lut-claim.js')
-for (const [name, req, want] of [
-  ['rejects GET', { method: 'GET', body: {} }, 405],
-  ['swallows honeypot submissions', { method: 'POST', body: { website: 'bot', email: 'a@b.co', screenshot: png } }, 200],
-  ['rejects a bad email', { method: 'POST', body: { email: 'nope', screenshot: png } }, 400],
-  ['requires a screenshot', { method: 'POST', body: { email: 'a@b.co' } }, 400],
-  ['rejects a non-image data url', { method: 'POST', body: { email: 'a@b.co', screenshot: 'data:text/html;base64,AAAA' } }, 400],
-  ['rejects an oversized screenshot', { method: 'POST', body: { email: 'a@b.co', screenshot: 'data:image/png;base64,' + 'A'.repeat(4 * 1024 * 1024) } }, 413],
-  ['accepts a real claim', { method: 'POST', body: { email: 'A@B.co', platform: 'TikTok', postUrl: 'https://x', screenshot: png } }, 200],
-]) {
-  const res = makeRes()
-  await claim(req, res)
-  check(name, res.code, want)
-}
-check('only the real claim reached the relay', relayed.length, 1)
-check('email is normalised', relayed[0]?.email, 'a@b.co')
-echo.close()
-
 // --- api/lut-download.js -------------------------------------------------
 
-console.log('\napi/lut-download.js')
+console.log('api/lut-download.js')
 const cube = path.join(ROOT, 'private', 'matthew-lut.cube')
 const fixture = !fs.existsSync(cube)
 if (fixture) fs.writeFileSync(cube, 'TITLE "fixture"\nLUT_3D_SIZE 2\n')

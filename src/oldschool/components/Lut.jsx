@@ -2,8 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import SiteHeader from './SiteHeader'
 import Compare from './Compare'
-import LutClaimForm from './LutClaimForm'
-import { product, conversions, install, faq, claim, outstanding } from '../data/lut'
+import { product, conversions, install, faq, outstanding } from '../data/lut'
 
 // Standing entrance used across the site. Framer is globally reduced-motion, so
 // this resolves to the final state on first paint — it's here for parity with
@@ -70,12 +69,6 @@ const Lut = () => {
               </span>
             )}
 
-            <a
-              href="#free"
-              className="font-ibm text-xs text-foreground/50 hover:text-foreground transition-colors underline underline-offset-4"
-            >
-              or get it free →
-            </a>
           </div>
 
           {todo.length > 0 && (
@@ -174,47 +167,9 @@ const Lut = () => {
 
         <Rule />
 
-        {/* ---- Free for a repost -------------------------------------------- */}
-        <motion.section {...rise(0.05)} id="free" className="scroll-mt-32">
-          <SectionLabel index="03">Free</SectionLabel>
-          <h2 className="font-instrument text-4xl sm:text-5xl tracking-tight mb-4">
-            Repost a video, keep your five dollars.
-          </h2>
-          <p className="font-ibm text-sm text-foreground/60 max-w-lg leading-relaxed mb-12">
-            Reach is worth more to me than the five bucks. Share one of my videos, show
-            me, and the LUT is yours.
-          </p>
-
-          <ol className="flex flex-col sm:flex-row gap-8 sm:gap-12 max-w-3xl mb-16">
-            {[
-              ['01', 'Share one of my videos', 'Story, repost, retweet — any of the platforms below.'],
-              ['02', 'Screenshot it', 'Your handle has to be visible, otherwise I cannot tell it was you.'],
-              ['03', 'Send it here', 'I check by hand, usually same day. Then the .cube hits your inbox.'],
-            ].map(([n, title, body]) => (
-              <li key={n} className="flex flex-col gap-2 flex-1 border-t border-border pt-4">
-                <span className="font-ibm text-[10px] tracking-widest text-foreground/30">{n}</span>
-                <p className="font-ibm text-sm">{title}</p>
-                <p className="font-ibm text-xs text-foreground/50 leading-relaxed">{body}</p>
-              </li>
-            ))}
-          </ol>
-
-          <LutClaimForm />
-
-          <p className="font-ibm text-[11px] text-muted-foreground leading-relaxed mt-8 max-w-xl">
-            Would rather just email it? Send the screenshot to{' '}
-            <a href={`mailto:${claim.email}`} className="underline underline-offset-4 hover:text-foreground transition-colors">
-              {claim.email}
-            </a>
-            . Same result, slightly slower.
-          </p>
-        </motion.section>
-
-        <Rule />
-
         {/* ---- FAQ ---------------------------------------------------------- */}
         <motion.section {...rise(0.05)}>
-          <SectionLabel index="04">Questions</SectionLabel>
+          <SectionLabel index="03">Questions</SectionLabel>
           <div className="flex flex-col max-w-3xl">
             {faq.map((item) => (
               <div key={item.q} className="flex flex-col sm:flex-row gap-2 sm:gap-10 border-t border-border py-6">

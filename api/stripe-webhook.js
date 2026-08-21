@@ -5,9 +5,9 @@
 // So Stripe also calls this endpoint when a payment completes, and the buyer
 // gets the .cube in their inbox.
 //
-// Delivery reuses the Apps Script that already handles the free claims: it
-// mails the file straight out of Gmail with the .cube attached. One delivery
-// path for paid and free, and no second email service to sign up for.
+// Delivery goes through the Apps Script the site already talks to: it mails
+// the file straight out of Gmail with the .cube attached, so there is no
+// second email service to sign up for and no public URL to the product.
 //
 // Signature verification is hand-rolled rather than pulling in the `stripe`
 // SDK — it is an HMAC and a timestamp check, and this repo has no other

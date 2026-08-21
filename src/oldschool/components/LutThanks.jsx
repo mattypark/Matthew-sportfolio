@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import SiteHeader from './SiteHeader'
-import { product, claim } from '../data/lut'
+import { product, contact } from '../data/lut'
 
 // Stripe's Payment Link redirects here with ?session_id={CHECKOUT_SESSION_ID}.
 // The download itself is gated server-side in api/lut-download.js, which
@@ -49,8 +49,8 @@ const LutThanks = () => {
           ) : (
             <p className="font-ibm text-xs text-destructive leading-relaxed">
               No receipt on this link. If you paid and landed here, email{' '}
-              <a href={`mailto:${claim.email}`} className="underline underline-offset-4">
-                {claim.email}
+              <a href={`mailto:${contact.email}`} className="underline underline-offset-4">
+                {contact.email}
               </a>{' '}
               and I will send the file straight over.
             </p>

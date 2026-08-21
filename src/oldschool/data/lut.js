@@ -23,7 +23,7 @@ export const product = {
    */
   builtFor: ['Sony S-Log3'],
   /** Stripe Payment Link. Matthew creates it; paste the URL here. */
-  stripeUrl: '',
+  stripeUrl: 'https://buy.stripe.com/dRmcN66PM5BbgBq6rW9AA0c',
 }
 
 /**

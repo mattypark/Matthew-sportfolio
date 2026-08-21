@@ -7,9 +7,6 @@
  * Flip `ready` to true once the real files land in /public/lut.
  */
 
-/** Set true only when the real .cube and real frames are in /public/lut. */
-export const ready = false
-
 export const product = {
   name: 'Matthew 01',
   /** Shown as-is. Keep it to one line. */
@@ -17,14 +14,14 @@ export const product = {
   price: 5,
   currency: 'USD',
   lot: 'LOT NO. 001',
-  size: '33×33×33',
+  size: '16×16×16',
   format: '.cube',
   colorSpace: 'Rec.709',
   /**
    * Log profiles this was actually built against. Matthew fills these in —
    * a LUT that claims cameras it was never tested on gets refunded.
    */
-  builtFor: ['PLACEHOLDER — which log profile did you grade this against?'],
+  builtFor: ['PLACEHOLDER — confirm the camera and log profile'],
   /** Stripe Payment Link. Matthew creates it; paste the URL here. */
   stripeUrl: '',
 }
@@ -37,7 +34,7 @@ export const conversions = [
   {
     id: 'c1',
     label: 'Frame 01',
-    note: 'PLACEHOLDER — drop the real pair in /public/lut',
+    note: 'Straight off the card, then one click.',
     before: '/lut/before-01.jpg',
     after: '/lut/after-01.jpg',
   },
@@ -99,4 +96,22 @@ export const claim = {
   /** Platforms accepted as proof of a repost. */
   platforms: ['Instagram', 'TikTok', 'YouTube', 'X'],
   email: 'mattyparkbusiness@gmail.com',
+}
+
+/**
+ * What is still missing before this page can take money, worked out from the
+ * data above rather than tracked by hand — a boolean someone forgets to flip
+ * is worse than no flag at all. Empty array means the page is live, and the
+ * warning block disappears on its own.
+ */
+export function outstanding() {
+  const missing = []
+  if (!product.stripeUrl) missing.push('Stripe payment link (product.stripeUrl)')
+  if (product.builtFor.some((p) => p.startsWith('PLACEHOLDER'))) {
+    missing.push('which camera and log profile this was graded for (product.builtFor)')
+  }
+  if (shotOnIt.some((v) => v.title.startsWith('PLACEHOLDER'))) {
+    missing.push('the real posts for the video grid (shotOnIt)')
+  }
+  return missing
 }

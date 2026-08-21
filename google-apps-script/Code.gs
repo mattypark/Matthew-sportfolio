@@ -5,6 +5,7 @@
  *   type "message"   (or no type)  → "Messages"    tab: timestamp | name | building | email | message
  *   type "subscribe"               → "Subscribers" tab: timestamp | email | phone | name
  *   type "lut-claim"               → "LUT Claims"  tab: timestamp | email | platform | url | screenshot | status | token
+ *   type "lut-purchase"            → "LUT Sales"   tab: timestamp | email | session | amount | status
  *
  * LUT CLAIMS — extra one-time setup
  * a. Put the LUT you sell in Drive and paste its file ID into LUT_FILE_ID below.
@@ -15,6 +16,9 @@
  * Each claim emails you the screenshot plus an Approve link. Clicking it flips
  * the row to "approved" and emails the claimant the .cube as an attachment, so
  * the file never needs a public URL.
+ *
+ * Paid orders arrive the same way from api/stripe-webhook.js and skip the
+ * approval step — they already paid — so the .cube goes out immediately.
  *
  * SETUP
  * 1. Create a Google Sheet. The tabs are created automatically on first write.
@@ -33,6 +37,7 @@
 var MESSAGES_SHEET = 'Messages';
 var SUBSCRIBERS_SHEET = 'Subscribers';
 var LUT_CLAIMS_SHEET = 'LUT Claims';
+var LUT_SALES_SHEET = 'LUT Sales';
 var MAX_FIELD_LENGTH = 2000;
 
 // --- LUT claim settings (fill these in) ---
@@ -51,6 +56,9 @@ function doPost(e) {
     }
     if (type === 'lut-claim') {
       return handleLutClaim_(data);
+    }
+    if (type === 'lut-purchase') {
+      return handleLutPurchase_(data);
     }
     return handleMessage_(data);
   } catch (err) {
@@ -184,6 +192,76 @@ function notifyOwner_(email, platform, postUrl, screenshotUrl, token, blob) {
   MailApp.sendEmail(options);
 }
 
+// Paid order from Stripe. No approval step — they already paid — so the file
+// goes out on the spot.
+//
+// Stripe retries a webhook that does not return 200, and a retry must not mean
+// a second email, so a session already recorded as sent is a no-op.
+function handleLutPurchase_(data) {
+  var email = clean_(data.email).toLowerCase();
+  var sessionId = clean_(data.sessionId);
+  var amount = clean_(String(data.amount === undefined ? '' : data.amount));
+
+  if (!email) {
+    return json_({ success: false, error: 'email required' });
+  }
+
+  var sheet = getSheet_(LUT_SALES_SHEET, ['timestamp', 'email', 'session', 'amount', 'status']);
+
+  if (sessionId && hasSentSession_(sheet, sessionId)) {
+    return json_({ success: true });
+  }
+
+  var sent = sendLut_(email, 'Your LUT — ' + LUT_PRODUCT_NAME, [
+    'Thanks for buying ' + LUT_PRODUCT_NAME + '.',
+    '',
+    'The .cube is attached. Drop it into Premiere, DaVinci, Final Cut or',
+    'CapCut and apply it to your footage.',
+    '',
+    'Keep this email — it is your copy of the file.',
+    '',
+    'Use it on anything you make. Just do not resell or redistribute the file.',
+    '',
+    '— Matthew',
+  ]);
+
+  sheet.appendRow([new Date(), email, sessionId, amount, sent ? 'sent' : 'FAILED']);
+
+  // Reporting the failure makes Stripe retry, which is the behaviour we want.
+  return sent ? json_({ success: true }) : json_({ success: false, error: 'send failed' });
+}
+
+// Column C holds the Stripe session id, column E the status. Row 1 is headers.
+function hasSentSession_(sheet, sessionId) {
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) return false;
+
+  var values = sheet.getRange(2, 3, lastRow - 1, 3).getValues();
+  for (var i = 0; i < values.length; i++) {
+    if (String(values[i][0]).trim() === sessionId && String(values[i][2]) === 'sent') {
+      return true;
+    }
+  }
+  return false;
+}
+
+// The single place the .cube leaves the building. Returns whether it sent.
+function sendLut_(email, subject, bodyLines) {
+  if (!LUT_FILE_ID) return false;
+
+  try {
+    MailApp.sendEmail({
+      to: email,
+      subject: subject,
+      body: bodyLines.join('\n'),
+      attachments: [DriveApp.getFileById(LUT_FILE_ID).getBlob()],
+    });
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
 // Flips a pending row to approved and emails the claimant the .cube.
 // Returns the HTML shown in the browser tab the link opened.
 function approveLutClaim_(token) {
@@ -206,24 +284,18 @@ function approveLutClaim_(token) {
       return 'Already approved — ' + email + ' has the LUT.';
     }
 
-    try {
-      MailApp.sendEmail({
-        to: email,
-        subject: 'Your LUT — ' + LUT_PRODUCT_NAME,
-        body: [
-          'Thanks for sharing the video.',
-          '',
-          LUT_PRODUCT_NAME + ' is attached. Drop the .cube into Premiere, DaVinci,',
-          'Final Cut or CapCut and apply it to log footage.',
-          '',
-          'Use it on anything you make. Just do not resell the file itself.',
-          '',
-          '— Matthew',
-        ].join('\n'),
-        attachments: [DriveApp.getFileById(LUT_FILE_ID).getBlob()],
-      });
-    } catch (err) {
-      return 'Could not send to ' + email + ': ' + err;
+    var sent = sendLut_(email, 'Your LUT — ' + LUT_PRODUCT_NAME, [
+      'Thanks for sharing the video.',
+      '',
+      LUT_PRODUCT_NAME + ' is attached. Drop the .cube into Premiere, DaVinci,',
+      'Final Cut or CapCut and apply it to your footage.',
+      '',
+      'Use it on anything you make. Just do not resell or redistribute the file.',
+      '',
+      '— Matthew',
+    ]);
+    if (!sent) {
+      return 'Could not send to ' + email + '. Check LUT_FILE_ID and try again.';
     }
 
     sheet.getRange(i + 2, 6).setValue('approved');

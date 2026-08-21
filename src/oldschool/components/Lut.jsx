@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import SiteHeader from './SiteHeader'
 import Compare from './Compare'
 import LutClaimForm from './LutClaimForm'
-import { product, conversions, shotOnIt, install, faq, claim, ready } from '../data/lut'
+import { product, conversions, shotOnIt, install, faq, claim, outstanding } from '../data/lut'
 
 // Standing entrance used across the site. Framer is globally reduced-motion, so
 // this resolves to the final state on first paint — it's here for parity with
@@ -30,6 +30,7 @@ const Placeholder = ({ children }) => (
 
 const Lut = () => {
   const buyable = Boolean(product.stripeUrl)
+  const todo = outstanding()
 
   return (
     <div className="relative z-10 min-h-screen text-foreground">
@@ -77,13 +78,16 @@ const Lut = () => {
             </a>
           </div>
 
-          {!ready && (
+          {todo.length > 0 && (
             <div className="mt-6 border border-dashed border-destructive rounded-2xl p-5 max-w-xl">
-              <Placeholder>Not live yet</Placeholder>
-              <p className="font-ibm text-xs leading-relaxed text-foreground/70 mt-2">
-                This page is wired but unstocked. Drop the real <code>.cube</code>, the
-                before/after frames and the video list into <code>/public/lut</code>, fill in{' '}
-                <code>src/oldschool/data/lut.js</code>, then flip <code>ready</code> to true.
+              <Placeholder>Still needed before this can take money</Placeholder>
+              <ul className="font-ibm text-xs leading-relaxed text-foreground/70 mt-3 flex flex-col gap-1">
+                {todo.map((item) => (
+                  <li key={item}>— {item}</li>
+                ))}
+              </ul>
+              <p className="font-ibm text-[11px] leading-relaxed text-foreground/50 mt-3">
+                Edit <code>src/oldschool/data/lut.js</code>. This block disappears by itself.
               </p>
             </div>
           )}

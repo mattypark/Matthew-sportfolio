@@ -7,6 +7,8 @@
 import http from 'node:http'
 import fs from 'node:fs'
 import path from 'node:path'
+import crypto from 'node:crypto'
+import { Readable } from 'node:stream'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
@@ -121,6 +123,92 @@ check('prefers the remote source when set', res.body?.toString(), 'REMOTE CUBE')
 
 global.fetch = realFetch
 if (fixture) fs.unlinkSync(cube)
+
+// --- api/stripe-webhook.js -----------------------------------------------
+
+console.log('\napi/stripe-webhook.js')
+
+const SECRET = 'whsec_fixture'
+process.env.STRIPE_WEBHOOK_SECRET = SECRET
+
+const relayed2 = []
+const echo2 = http.createServer((req, res) => {
+  let body = ''
+  req.on('data', (c) => (body += c))
+  req.on('end', () => {
+    relayed2.push(JSON.parse(body))
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify({ success: true }))
+  })
+})
+await new Promise((resolve) => echo2.listen(0, resolve))
+process.env.TERMINAL_WEBHOOK_URL = `http://localhost:${echo2.address().port}/`
+
+const { default: webhook, verifySignature } = await import(path.join(ROOT, 'api/stripe-webhook.js'))
+
+const sign = (payload, at = Math.floor(Date.now() / 1000), secret = SECRET) => {
+  const v1 = crypto.createHmac('sha256', secret).update(`${at}.${payload}`, 'utf8').digest('hex')
+  return `t=${at},v1=${v1}`
+}
+
+// The handler reads a raw stream, so requests are fed as one.
+const streamReq = (payload, signature) =>
+  Object.assign(Readable.from([Buffer.from(payload)]), {
+    method: 'POST',
+    headers: signature ? { 'stripe-signature': signature } : {},
+  })
+
+const paidEvent = (overrides = {}) =>
+  JSON.stringify({
+    type: 'checkout.session.completed',
+    data: {
+      object: {
+        id: 'cs_test_abc',
+        amount_total: 500,
+        customer_details: { email: 'Buyer@Example.com' },
+        ...overrides,
+      },
+    },
+  })
+
+// verifySignature is exported so the HMAC can be checked without a request.
+const body = paidEvent()
+check('accepts its own signature', verifySignature(body, sign(body), SECRET, Math.floor(Date.now() / 1000)), true)
+check('rejects a tampered body', verifySignature(body + ' ', sign(body), SECRET, Math.floor(Date.now() / 1000)), false)
+check('rejects the wrong secret', verifySignature(body, sign(body, undefined, 'whsec_other'), SECRET, Math.floor(Date.now() / 1000)), false)
+
+const old = Math.floor(Date.now() / 1000) - 600
+check('rejects a stale timestamp', verifySignature(body, sign(body, old), SECRET, Math.floor(Date.now() / 1000)), false)
+check('rejects a missing header', verifySignature(body, '', SECRET, Math.floor(Date.now() / 1000)), false)
+
+res = makeRes()
+await webhook(streamReq(body, 'garbage'), res)
+check('400s on a bad signature', res.code, 400)
+
+res = makeRes()
+await webhook(Object.assign(Readable.from([]), { method: 'GET', headers: {} }), res)
+check('rejects GET', res.code, 405)
+
+res = makeRes()
+await webhook(streamReq(body, sign(body)), res)
+check('accepts a signed paid session', res.code, 200)
+check('relays the buyer email, lowercased', relayed2[0]?.email, 'buyer@example.com')
+check('relays the session id', relayed2[0]?.sessionId, 'cs_test_abc')
+check('relays dollars, not cents', relayed2[0]?.amount, 5)
+
+const other = JSON.stringify({ type: 'invoice.paid', data: { object: {} } })
+res = makeRes()
+await webhook(streamReq(other, sign(other)), res)
+check('acknowledges unrelated events', res.code, 200)
+check('does not relay unrelated events', relayed2.length, 1)
+
+const noEmail = paidEvent({ customer_details: {}, customer_email: undefined })
+res = makeRes()
+await webhook(streamReq(noEmail, sign(noEmail)), res)
+check('does not retry a session with no email', res.code, 200)
+check('still does not relay it', relayed2.length, 1)
+
+echo2.close()
 
 console.log(failed ? `\n${failed} failing` : '\nall passing')
 process.exit(failed ? 1 : 0)

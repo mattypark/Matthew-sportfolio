@@ -72,8 +72,21 @@ export default {
         sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'system-ui', 'sans-serif'],
         serif: ['"Anthropic Serif"', 'Georgia', 'serif'],
       },
-      animation: { typing: 'cursor-blink 1.5s step-end infinite' },
-      keyframes: { 'cursor-blink': { '0%, 49%': { opacity: '1' }, '50%, 100%': { opacity: '0' } } },
+      animation: {
+        typing: 'cursor-blink 1.5s step-end infinite',
+        /* Long pause, short nudge: the shop tab should catch the eye on the
+           way past, not twitch at you while you read the timeline. */
+        nudge: 'nudge 5s ease-in-out infinite',
+      },
+      keyframes: {
+        'cursor-blink': { '0%, 49%': { opacity: '1' }, '50%, 100%': { opacity: '0' } },
+        nudge: {
+          '0%, 84%, 100%': { transform: 'translateX(0)' },
+          '88%': { transform: 'translateX(-3px)' },
+          '92%': { transform: 'translateX(0)' },
+          '96%': { transform: 'translateX(-2px)' },
+        },
+      },
       spacing: {
         px8: '8px',
         block: '16px',

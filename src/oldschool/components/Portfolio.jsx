@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import CartIcon from './CartIcon'
-import LutPromo from './LutPromo'
+import LutTab from './LutTab'
 
 const NavLink = ({ href, name, onClick }) => {
   const [isHovered, setIsHovered] = useState(false)
@@ -541,10 +541,10 @@ const Portfolio = () => {
         )}
       </AnimatePresence>
 
+      <LutTab />
+
       {/* Main Content */}
       <main data-smooth-scroll className="tracking-tight no-scrollbar relative h-screen w-screen overflow-y-auto flex flex-col gap-4 items-start justify-start p-8 sm:pl-8 pl-6 sm:pt-24 pt-20 pb-32">
-        <LutPromo />
-
         {timelineEvents.map((event, index) => (
           <motion.div
             key={index}

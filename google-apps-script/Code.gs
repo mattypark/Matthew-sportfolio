@@ -32,6 +32,7 @@ var LUT_SALES_SHEET = 'LUT Sales';
 var MAX_FIELD_LENGTH = 2000;
 
 // --- LUT settings ---
+var OWNER_TEST_EMAIL = 'mattyparkbusiness@gmail.com';  // runManualTest sends here
 var LUT_FILE_ID = '1reHR5OsOPtQ-OKbFUhT2t-EMB18Lq_LZ';  // Drive file ID of the .cube you sell
 var LUT_PRODUCT_NAME = 'Matthew 01';
 
@@ -165,6 +166,25 @@ function sendLut_(email, subject, bodyLines) {
   } catch (err) {
     return false;
   }
+}
+
+// Run this from the Apps Script editor once, by hand.
+//
+// Two jobs. It triggers the OAuth consent screen — MailApp and DriveApp are
+// new scopes, and until they are granted every send throws and the site gets
+// back "send failed" with nothing in the logs to explain it. And it proves the
+// whole delivery path works without spending five dollars to find out.
+//
+// Editor → pick runManualTest from the function dropdown → Run → Review
+// permissions → Advanced → Go to (project) → Allow. Then check your inbox.
+function runManualTest() {
+  var result = sendLut_(OWNER_TEST_EMAIL, 'LUT delivery test', [
+    'If this arrived with a .cube attached, the delivery path works.',
+    '',
+    'Nothing was charged and no order was recorded.',
+  ]);
+  Logger.log(result ? 'sent to ' + OWNER_TEST_EMAIL : 'FAILED — check LUT_FILE_ID');
+  return result;
 }
 
 // Sanity check endpoint — visiting the /exec URL in a browser should show this.

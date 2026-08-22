@@ -192,6 +192,11 @@ function sendLut_(email, subject, bodyLines) {
 //
 // Editor → pick runManualTest from the function dropdown → Run → Review
 // permissions → Advanced → Go to (project) → Allow. Then check your inbox.
+//
+// If it completes with no consent prompt and logs a permission error anyway,
+// the project was authorised earlier for a narrower set of scopes and Apps
+// Script did not notice the code had grown. appsscript.json in this folder
+// declares them explicitly, which forces the prompt — see the README.
 function runManualTest() {
   var failure = sendLut_(OWNER_TEST_EMAIL, 'LUT delivery test', [
     'If this arrived with a .cube attached, the delivery path works.',

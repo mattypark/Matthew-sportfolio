@@ -4,9 +4,13 @@ import SiteHeader from './SiteHeader'
 import { product, contact } from '../data/lut'
 
 // Stripe's Payment Link redirects here with ?session_id={CHECKOUT_SESSION_ID}.
-// The download itself is gated server-side in api/lut-download.js, which
-// verifies the session against Stripe before streaming the file — so landing on
-// this URL without a paid session gets you a page and nothing else.
+// The download is gated server-side in api/lut-download.js, which verifies the
+// session against Stripe before streaming the file — so landing on this URL
+// without a paid session gets you a page and nothing else.
+//
+// This is the only delivery path, so the page has to say so plainly: there is
+// no follow-up email, and a buyer who closes the tab without downloading has
+// to write in. Better to be blunt here than to have them find out later.
 
 const LutThanks = () => {
   const [sessionId, setSessionId] = useState('')
@@ -35,8 +39,9 @@ const LutThanks = () => {
           </h1>
 
           <p className="font-ibm text-sm text-foreground/60 leading-relaxed">
-            {product.name} is yours. Grab the file below — and keep a copy somewhere,
-            this link only works while your receipt is fresh.
+            {product.name} is yours. Download it now and put it somewhere you will
+            find it again — this is the only copy you get, and there is no email
+            following it.
           </p>
 
           {sessionId ? (
@@ -56,7 +61,15 @@ const LutThanks = () => {
             </p>
           )}
 
-          <a href="/lut" className="font-ibm text-xs text-foreground/50 hover:text-foreground transition-colors underline underline-offset-4 mt-4">
+          <p className="font-ibm text-[11px] leading-relaxed text-muted-foreground border-t border-border pt-5 mt-2">
+            Lost it, or the download failed? Email{' '}
+            <a href={`mailto:${contact.email}`} className="underline underline-offset-4 hover:text-foreground transition-colors">
+              {contact.email}
+            </a>{' '}
+            with the receipt Stripe sent you and I will send it straight over.
+          </p>
+
+          <a href="/lut" className="font-ibm text-xs text-foreground/50 hover:text-foreground transition-colors underline underline-offset-4 mt-2">
             ← Back to the LUT
           </a>
         </motion.div>

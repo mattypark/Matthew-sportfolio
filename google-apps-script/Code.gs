@@ -4,13 +4,6 @@
  * Three payload types, three tabs:
  *   type "message"   (or no type)  → "Messages"    tab: timestamp | name | building | email | message
  *   type "subscribe"               → "Subscribers" tab: timestamp | email | phone | name
- *   type "lut-purchase"            → "LUT Sales"   tab: timestamp | email | session | amount | status
- *
- * LUT SALES — extra one-time setup
- * Put the LUT you sell in Drive and paste its file ID into LUT_FILE_ID below.
- * api/stripe-webhook.js posts here when a payment completes, and the buyer is
- * emailed the .cube as an attachment — so the file never needs a public URL
- * that could be forwarded around.
  *
  * SETUP
  * 1. Create a Google Sheet. The tabs are created automatically on first write.
@@ -28,13 +21,7 @@
 
 var MESSAGES_SHEET = 'Messages';
 var SUBSCRIBERS_SHEET = 'Subscribers';
-var LUT_SALES_SHEET = 'LUT Sales';
 var MAX_FIELD_LENGTH = 2000;
-
-// --- LUT settings ---
-var OWNER_TEST_EMAIL = 'mattyparkbusiness@gmail.com';  // runManualTest sends here
-var LUT_FILE_ID = '1reHR5OsOPtQ-OKbFUhT2t-EMB18Lq_LZ';  // Drive file ID of the .cube you sell
-var LUT_PRODUCT_NAME = 'Matthew 01';
 
 function doPost(e) {
   try {
@@ -43,9 +30,6 @@ function doPost(e) {
     var type = clean_(data.type);
     if (type === 'subscribe') {
       return handleSubscribe_(data);
-    }
-    if (type === 'lut-purchase') {
-      return handleLutPurchase_(data);
     }
     return handleMessage_(data);
   } catch (err) {
@@ -96,115 +80,6 @@ function handleMessage_(data) {
   // });
 
   return json_({ success: true });
-}
-
-// Paid order from Stripe. No approval step — they already paid — so the file
-// goes out on the spot.
-//
-// Stripe retries a webhook that does not return 200, and a retry must not mean
-// a second email, so a session already recorded as sent is a no-op.
-function handleLutPurchase_(data) {
-  var email = clean_(data.email).toLowerCase();
-  var sessionId = clean_(data.sessionId);
-  var amount = clean_(String(data.amount === undefined ? '' : data.amount));
-
-  if (!email) {
-    return json_({ success: false, error: 'email required' });
-  }
-
-  var sheet = getSheet_(LUT_SALES_SHEET, ['timestamp', 'email', 'session', 'amount', 'status']);
-
-  if (sessionId && hasSentSession_(sheet, sessionId)) {
-    return json_({ success: true });
-  }
-
-  var failure = sendLut_(email, 'Your LUT — ' + LUT_PRODUCT_NAME, [
-    'Thanks for buying ' + LUT_PRODUCT_NAME + '.',
-    '',
-    'The .cube is attached. Drop it into Premiere, DaVinci, Final Cut or',
-    'CapCut and apply it to your footage.',
-    '',
-    'Keep this email — it is your copy of the file.',
-    '',
-    'Use it on anything you make. Just do not resell or redistribute the file.',
-    '',
-    '— Matthew',
-  ]);
-
-  sheet.appendRow([new Date(), email, sessionId, amount, failure ? 'FAILED: ' + failure : 'sent']);
-
-  // Reporting the failure makes Stripe retry, which is the behaviour we want.
-  return failure ? json_({ success: false, error: failure }) : json_({ success: true });
-}
-
-// Column C holds the Stripe session id, column E the status. Row 1 is headers.
-function hasSentSession_(sheet, sessionId) {
-  var lastRow = sheet.getLastRow();
-  if (lastRow < 2) return false;
-
-  var values = sheet.getRange(2, 3, lastRow - 1, 3).getValues();
-  for (var i = 0; i < values.length; i++) {
-    if (String(values[i][0]).trim() === sessionId && String(values[i][2]) === 'sent') {
-      return true;
-    }
-  }
-  return false;
-}
-
-// The single place the .cube leaves the building.
-//
-// Returns '' on success, or the reason it failed. Swallowing the exception and
-// returning a bare false was a mistake: the caller reported "send failed" and
-// the actual cause — an ungranted scope, a bad file id — was nowhere to be
-// found. Attaching a Drive file needs both DriveApp and MailApp authorisation,
-// and neither can be granted by the script itself, so this failing on a fresh
-// deployment is the normal case, not an edge one.
-function sendLut_(email, subject, bodyLines) {
-  if (!LUT_FILE_ID) return 'LUT_FILE_ID is empty';
-
-  var blob;
-  try {
-    blob = DriveApp.getFileById(LUT_FILE_ID).getBlob();
-  } catch (err) {
-    return 'could not read the LUT from Drive: ' + err;
-  }
-
-  try {
-    MailApp.sendEmail({
-      to: email,
-      subject: subject,
-      body: bodyLines.join('\n'),
-      attachments: [blob],
-    });
-  } catch (err) {
-    return 'could not send the email: ' + err;
-  }
-
-  return '';
-}
-
-// Run this from the Apps Script editor once, by hand.
-//
-// Two jobs. It triggers the OAuth consent screen — MailApp and DriveApp are
-// new scopes, and until they are granted every send throws and the site gets
-// back "send failed" with nothing in the logs to explain it. And it proves the
-// whole delivery path works without spending five dollars to find out.
-//
-// Editor → pick runManualTest from the function dropdown → Run → Review
-// permissions → Advanced → Go to (project) → Allow. Then check your inbox.
-//
-// If it completes with no consent prompt and logs a permission error anyway,
-// the project was authorised earlier for a narrower set of scopes and Apps
-// Script did not notice the code had grown. appsscript.json in this folder
-// declares them explicitly, which forces the prompt — see the README.
-function runManualTest() {
-  var failure = sendLut_(OWNER_TEST_EMAIL, 'LUT delivery test', [
-    'If this arrived with a .cube attached, the delivery path works.',
-    '',
-    'Nothing was charged and no order was recorded.',
-  ]);
-  Logger.log(failure ? 'FAILED — ' + failure : 'sent to ' + OWNER_TEST_EMAIL);
-  return failure || 'sent';
 }
 
 // Sanity check endpoint — visiting the /exec URL in a browser should show this.

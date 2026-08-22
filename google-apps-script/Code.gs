@@ -118,7 +118,7 @@ function handleLutPurchase_(data) {
     return json_({ success: true });
   }
 
-  var sent = sendLut_(email, 'Your LUT — ' + LUT_PRODUCT_NAME, [
+  var failure = sendLut_(email, 'Your LUT — ' + LUT_PRODUCT_NAME, [
     'Thanks for buying ' + LUT_PRODUCT_NAME + '.',
     '',
     'The .cube is attached. Drop it into Premiere, DaVinci, Final Cut or',
@@ -131,10 +131,10 @@ function handleLutPurchase_(data) {
     '— Matthew',
   ]);
 
-  sheet.appendRow([new Date(), email, sessionId, amount, sent ? 'sent' : 'FAILED']);
+  sheet.appendRow([new Date(), email, sessionId, amount, failure ? 'FAILED: ' + failure : 'sent']);
 
   // Reporting the failure makes Stripe retry, which is the behaviour we want.
-  return sent ? json_({ success: true }) : json_({ success: false, error: 'send failed' });
+  return failure ? json_({ success: false, error: failure }) : json_({ success: true });
 }
 
 // Column C holds the Stripe session id, column E the status. Row 1 is headers.
@@ -151,21 +151,36 @@ function hasSentSession_(sheet, sessionId) {
   return false;
 }
 
-// The single place the .cube leaves the building. Returns whether it sent.
+// The single place the .cube leaves the building.
+//
+// Returns '' on success, or the reason it failed. Swallowing the exception and
+// returning a bare false was a mistake: the caller reported "send failed" and
+// the actual cause — an ungranted scope, a bad file id — was nowhere to be
+// found. Attaching a Drive file needs both DriveApp and MailApp authorisation,
+// and neither can be granted by the script itself, so this failing on a fresh
+// deployment is the normal case, not an edge one.
 function sendLut_(email, subject, bodyLines) {
-  if (!LUT_FILE_ID) return false;
+  if (!LUT_FILE_ID) return 'LUT_FILE_ID is empty';
+
+  var blob;
+  try {
+    blob = DriveApp.getFileById(LUT_FILE_ID).getBlob();
+  } catch (err) {
+    return 'could not read the LUT from Drive: ' + err;
+  }
 
   try {
     MailApp.sendEmail({
       to: email,
       subject: subject,
       body: bodyLines.join('\n'),
-      attachments: [DriveApp.getFileById(LUT_FILE_ID).getBlob()],
+      attachments: [blob],
     });
-    return true;
   } catch (err) {
-    return false;
+    return 'could not send the email: ' + err;
   }
+
+  return '';
 }
 
 // Run this from the Apps Script editor once, by hand.
@@ -178,13 +193,13 @@ function sendLut_(email, subject, bodyLines) {
 // Editor → pick runManualTest from the function dropdown → Run → Review
 // permissions → Advanced → Go to (project) → Allow. Then check your inbox.
 function runManualTest() {
-  var result = sendLut_(OWNER_TEST_EMAIL, 'LUT delivery test', [
+  var failure = sendLut_(OWNER_TEST_EMAIL, 'LUT delivery test', [
     'If this arrived with a .cube attached, the delivery path works.',
     '',
     'Nothing was charged and no order was recorded.',
   ]);
-  Logger.log(result ? 'sent to ' + OWNER_TEST_EMAIL : 'FAILED — check LUT_FILE_ID');
-  return result;
+  Logger.log(failure ? 'FAILED — ' + failure : 'sent to ' + OWNER_TEST_EMAIL);
+  return failure || 'sent';
 }
 
 // Sanity check endpoint — visiting the /exec URL in a browser should show this.

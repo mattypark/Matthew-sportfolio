@@ -64,7 +64,7 @@ const stubStripe = (paymentStatus) => {
     if (String(url).startsWith('https://api.stripe.com')) {
       return { ok: true, json: async () => ({ payment_status: paymentStatus }) }
     }
-    return { ok: true, arrayBuffer: async () => new TextEncoder().encode('REMOTE CUBE').buffer }
+    return { ok: true, arrayBuffer: async () => new TextEncoder().encode('TITLE "remote"\nLUT_3D_SIZE 2\n').buffer }
   }
 }
 
@@ -83,7 +83,19 @@ check('never caches the file', res.headers['Cache-Control'], 'no-store')
 process.env.LUT_FILE_URL = 'https://example.invalid/matthew.cube'
 res = makeRes()
 await download({ method: 'GET', query: { session_id: 'cs_1' } }, res)
-check('prefers the remote source when set', res.body?.toString(), 'REMOTE CUBE')
+check('prefers the remote source when set', res.body?.toString().startsWith('TITLE'), true)
+
+// Drive answers 200 with an HTML consent or quota page often enough that
+// serving it as a .cube is a real failure mode, not a hypothetical one.
+global.fetch = async (url) => {
+  if (String(url).startsWith('https://api.stripe.com')) {
+    return { ok: true, json: async () => ({ payment_status: 'paid' }) }
+  }
+  return { ok: true, arrayBuffer: async () => new TextEncoder().encode('<!DOCTYPE html><html>Google Drive').buffer }
+}
+res = makeRes()
+await download({ method: 'GET', query: { session_id: 'cs_1' } }, res)
+check('refuses to serve an HTML page as the LUT', res.code, 500)
 
 global.fetch = realFetch
 if (fixture) fs.unlinkSync(cube)

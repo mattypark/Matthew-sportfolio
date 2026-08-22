@@ -24,11 +24,23 @@ const LOCAL_FILE = path.join(process.cwd(), 'private', 'matthew-lut.cube')
 const DOWNLOAD_NAME = 'Matthew-01.cube'
 const SESSION_RE = /^cs_[A-Za-z0-9_]+$/
 
+// A .cube is plain text and opens with a directive or a comment. Google Drive
+// will happily answer a download URL with an HTML consent or quota page and a
+// 200, and serving that as Matthew-01.cube would hand the buyer a file that
+// silently does nothing in Premiere. Better to fail here and say why.
+function assertLooksLikeCube(buffer) {
+  const head = buffer.subarray(0, 200).toString('utf8').trimStart()
+  if (/^(TITLE|LUT_3D_SIZE|LUT_1D_SIZE|DOMAIN_(MIN|MAX)|#)/i.test(head)) return
+  throw new Error(`source did not return a .cube (starts with ${JSON.stringify(head.slice(0, 60))})`)
+}
+
 async function loadLut() {
   if (process.env.LUT_FILE_URL) {
     const upstream = await fetch(process.env.LUT_FILE_URL)
     if (!upstream.ok) throw new Error(`lut source responded ${upstream.status}`)
-    return Buffer.from(await upstream.arrayBuffer())
+    const buffer = Buffer.from(await upstream.arrayBuffer())
+    assertLooksLikeCube(buffer)
+    return buffer
   }
   return readFile(LOCAL_FILE)
 }

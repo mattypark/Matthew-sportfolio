@@ -93,7 +93,7 @@ const Portfolio = () => {
     },
     {
       date: '08.07.26',
-      description: 'Gets a Google grant',
+      description: 'Gets a $10,000 Google Grant',
       link: null,
     },
     {
@@ -104,6 +104,11 @@ const Portfolio = () => {
     {
       date: '07.25.26',
       description: 'Attends YC Startup School',
+      link: null,
+    },
+    {
+      date: '07.07.26',
+      description: 'Auditions for JYP',
       link: null,
     },
     {
@@ -148,11 +153,6 @@ const Portfolio = () => {
       link: null,
     },
     {
-      date: '03.13.26',
-      description: <>Designs a <a className="underline" target="_blank" rel="noopener noreferrer" href="https://baselinewaitlistfrontend.vercel.app">futuristic waitlist page</a> for Jordan Franklin</>,
-      link: 'https://baselinewaitlistfrontend.vercel.app',
-    },
-    {
       date: '03.09.26',
       description: '1st linkedin post',
       link: null,
@@ -168,34 +168,14 @@ const Portfolio = () => {
       link: null,
     },
     {
-      date: '03.05.26',
-      description: 'Starts working with Evan Yadegeri and Nick on new Startup',
-      link: null,
-    },
-    {
       date: '03.04.26',
       description: 'MIT Critical Data Researcher + Social media',
-      link: null,
-    },
-    {
-      date: '02.25.26',
-      description: <>Finishes building <a className="underline" target="_blank" rel="noopener noreferrer" href="https://www.gourmetai.run">Gourmet AI Waitlist</a> and is live</>,
-      link: 'https://www.gourmetai.run',
-    },
-    {
-      date: '02.24.26',
-      description: 'Joins MathGPT for Growth',
       link: null,
     },
     {
       date: '02.23.26',
       description: 'Hits 1k subscribers on Youtube',
       link: null,
-    },
-    {
-      date: '02.23.26',
-      description: <>Finishes building <a className="underline" target="_blank" rel="noopener noreferrer" href="https://www.bouncebackpickle.com">BounceBack PickleBall Website</a></>,
-      link: 'https://www.bouncebackpickle.com',
     },
     {
       date: '02.21.26',
@@ -233,11 +213,6 @@ const Portfolio = () => {
       link: null,
     },
     {
-      date: '01.17.26',
-      description: 'Starts working with Jackson Sword/parasocial',
-      link: null,
-    },
-    {
       date: '01.13.26',
       description: 'Starts working with Dillon/BounceBack pickleball',
       link: null,
@@ -245,11 +220,6 @@ const Portfolio = () => {
     {
       date: '01.01.26',
       description: 'Skiing for the first time',
-      link: null,
-    },
-    {
-      date: '12.29.25',
-      description: 'Stops working with Mau/Prayer Lock',
       link: null,
     },
     {
@@ -268,16 +238,6 @@ const Portfolio = () => {
       link: null,
     },
     {
-      date: '11.19.25',
-      description: 'Matthew Cofounds an Prayer Lock with Mau',
-      link: null,
-    },
-    {
-      date: '11.17.25',
-      description: 'Matthew redesigns his portfolio website',
-      link: null,
-    },
-    {
       date: '11.08.25',
       description: 'Creates first portfolio website',
       link: null,
@@ -293,21 +253,6 @@ const Portfolio = () => {
       link: null,
     },
     {
-      date: '11.02.25',
-      description: <>Signed first client for consulting/marketing strategies</>,
-      link: null,
-    },
-    {
-      date: '10.28.25',
-      description: 'Matthew starts his own consulting company',
-      link: null,
-    },
-    {
-      date: '10.02.25',
-      description: 'Recieves 30+ UGC offers',
-      link: null,
-    },
-    {
       date: '08.13.25',
       description: 'First viral talking head video on TikTok',
       link: null,
@@ -315,11 +260,6 @@ const Portfolio = () => {
     {
       date: '07.29.25',
       description: 'Visits switzerland',
-      link: null,
-    },
-    {
-      date: '06.10.25',
-      description: 'Creates his first telegram bot',
       link: null,
     },
     {

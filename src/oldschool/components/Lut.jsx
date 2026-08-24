@@ -2,7 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import SiteHeader from './SiteHeader'
 import Compare from './Compare'
-import { product, conversions, install, faq, outstanding } from '../data/lut'
+import { product, consulting, conversions, install, faq, outstanding } from '../data/lut'
 
 // Standing entrance used across the site. Framer is globally reduced-motion, so
 // this resolves to the final state on first paint — it's here for parity with
@@ -177,6 +177,47 @@ const Lut = () => {
                 <p className="font-ibm text-sm text-foreground/60 leading-relaxed">{item.a}</p>
               </div>
             ))}
+          </div>
+        </motion.section>
+
+        <Rule />
+
+        {/* ---- The call ----------------------------------------------------- */}
+        {/* The other thing on the shelf. Booking is only reachable from here,
+            so it gets its own panel rather than a line in the footer. */}
+        <motion.section {...rise(0.05)}>
+          <SectionLabel index="04">Book a call</SectionLabel>
+
+          <div className="max-w-3xl rounded-2xl border border-border p-8 sm:p-10 flex flex-col gap-6">
+            <div className="flex flex-row flex-wrap items-baseline gap-x-6 gap-y-2 font-ibm text-[10px] uppercase tracking-widest text-muted-foreground">
+              <span>{consulting.lot}</span>
+              {consulting.duration && <span>{consulting.duration}</span>}
+            </div>
+
+            <h2 className="font-instrument text-4xl sm:text-5xl tracking-tight leading-none">
+              {consulting.name}
+            </h2>
+
+            <p className="font-ibm text-sm text-foreground/60 max-w-lg leading-relaxed">
+              {consulting.tagline}
+            </p>
+
+            <div className="flex flex-row flex-wrap items-center gap-5 pt-2">
+              {consulting.price !== null && (
+                <span className="font-instrument text-4xl leading-none">
+                  ${consulting.price}
+                </span>
+              )}
+
+              <a
+                href={consulting.bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-custom px-7 py-3 font-ibm text-xs uppercase tracking-widest text-white hover:opacity-80 transition-opacity"
+              >
+                Book a call
+              </a>
+            </div>
           </div>
         </motion.section>
 

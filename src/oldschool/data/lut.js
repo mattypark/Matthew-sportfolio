@@ -78,6 +78,25 @@ export const faq = [
   },
 ]
 
+/**
+ * The second thing sold here: time. Booking lives on cal.com and is linked
+ * from this page only — deliberately not from LinkedIn, so anyone who wants a
+ * call has to come to the site to find it.
+ *
+ * Same rule as the product above: nothing invented. `duration` and `price`
+ * render only once they hold a real value, so leaving them null costs nothing
+ * and stating a wrong one costs a refund.
+ */
+export const consulting = {
+  lot: 'LOT NO. 002',
+  name: 'The Call',
+  tagline: 'Bring the thing you are stuck on. We talk it through, on the record, once.',
+  duration: '45 min',
+  price: 350,
+  currency: 'USD',
+  bookingUrl: 'https://cal.com/mattypark/consulting',
+}
+
 /** Where a buyer writes when something goes wrong. */
 export const contact = {
   email: 'mattyparkbusiness@gmail.com',

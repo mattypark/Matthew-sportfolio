@@ -5,45 +5,13 @@
 // the file behind a session lookup means a guessed URL delivers nothing, and
 // the LUT never needs a public path in /public that can be passed around.
 //
-// WHERE THE FILE LIVES
-// This repo is public, so committing the .cube would hand it out for free on
-// GitHub. Hence LUT_FILE_URL: an unlisted direct-download link (Google Drive,
-// Dropbox, Vercel Blob) that only this function ever reads. The local
-// private/ path is the fallback and is gitignored — it works for `vercel dev`
-// and for anyone who later flips the repo private.
-//
 // Env:
 //   STRIPE_SECRET_KEY — required, verifies the purchase
-//   LUT_FILE_URL      — direct download URL for the .cube
-// Matthew sets both in Vercel himself.
+//   LUT_FILE_URL      — direct download URL for the .cube (see api/_lut.js)
 
-import { readFile } from 'node:fs/promises'
-import path from 'node:path'
+import { loadLut, DOWNLOAD_NAME } from './_lut.js'
 
-const LOCAL_FILE = path.join(process.cwd(), 'private', 'matthew-lut.cube')
-const DOWNLOAD_NAME = 'Matthew-01.cube'
 const SESSION_RE = /^cs_[A-Za-z0-9_]+$/
-
-// A .cube is plain text and opens with a directive or a comment. Google Drive
-// will happily answer a download URL with an HTML consent or quota page and a
-// 200, and serving that as Matthew-01.cube would hand the buyer a file that
-// silently does nothing in Premiere. Better to fail here and say why.
-function assertLooksLikeCube(buffer) {
-  const head = buffer.subarray(0, 200).toString('utf8').trimStart()
-  if (/^(TITLE|LUT_3D_SIZE|LUT_1D_SIZE|DOMAIN_(MIN|MAX)|#)/i.test(head)) return
-  throw new Error(`source did not return a .cube (starts with ${JSON.stringify(head.slice(0, 60))})`)
-}
-
-async function loadLut() {
-  if (process.env.LUT_FILE_URL) {
-    const upstream = await fetch(process.env.LUT_FILE_URL)
-    if (!upstream.ok) throw new Error(`lut source responded ${upstream.status}`)
-    const buffer = Buffer.from(await upstream.arrayBuffer())
-    assertLooksLikeCube(buffer)
-    return buffer
-  }
-  return readFile(LOCAL_FILE)
-}
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {

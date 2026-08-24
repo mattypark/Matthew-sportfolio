@@ -8,7 +8,7 @@
  */
 
 export const product = {
-  name: 'Matthew 01',
+  name: "Matthew's Cinematic LUT",
   /** Shown as-is. Keep it to one line. */
   tagline: 'The grade I use on everything. One .cube, log to Rec.709, no fixing after.',
   price: 5,

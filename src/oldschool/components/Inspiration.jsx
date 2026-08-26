@@ -102,8 +102,7 @@ const Inspiration = () => {
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Core Values', href: '/values' },
-    { name: 'Inspiration', href: '/inspiration' },
-    { name: 'LUT', href: '/lut' },
+    { name: 'Shop', href: '/shop' },
   ]
 
   return (

@@ -8,6 +8,8 @@ import CoreValues from './components/CoreValues'
 import About from './components/About'
 import Inspiration from './components/Inspiration'
 import Lut from './components/Lut'
+import Shop from './components/Shop'
+import Call from './components/Call'
 import LutThanks from './components/LutThanks'
 import MorphField from './components/MorphField'
 import './App.css'
@@ -29,6 +31,8 @@ function AppContent() {
         <Route path="/values" element={<CoreValues />} />
         <Route path="/about" element={<About />} />
         <Route path="/inspiration" element={<Inspiration />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/call" element={<Call />} />
         <Route path="/lut" element={<Lut />} />
         <Route path="/lut/thanks" element={<LutThanks />} />
       </Routes>

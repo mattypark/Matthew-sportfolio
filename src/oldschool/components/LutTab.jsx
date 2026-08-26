@@ -16,8 +16,8 @@ const PANEL = 252 // px that slide in on hover
 const LutTab = () => (
   <div className="fixed right-0 top-1/2 z-30 hidden -translate-y-1/2 sm:block">
     <a
-      href="/lut"
-      aria-label={`The LUT — $${product.price}`}
+      href="/shop"
+      aria-label="Shop"
       style={{ width: HANDLE + PANEL, transform: `translateX(${PANEL}px)` }}
       className="group/tab flex flex-row items-stretch overflow-hidden rounded-l-2xl border border-r-0 border-border bg-background/80 backdrop-blur-xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:!translate-x-0 focus-visible:!translate-x-0 focus-visible:outline-none"
     >

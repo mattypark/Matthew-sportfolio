@@ -14,9 +14,9 @@ const TONES = {
 // build imports it.
 const CartIcon = ({ tone = 'light' }) => (
   <a
-    href="/lut"
-    aria-label="Buy the LUT"
-    title="The LUT — $5"
+    href="/shop"
+    aria-label="Shop"
+    title="Shop"
     className={`flex items-center justify-center transition-colors ${TONES[tone]}`}
   >
     <svg

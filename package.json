@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "draft": "node --env-file-if-exists=.env scripts/send-entry.mjs",
     "draft:preview": "node --env-file-if-exists=.env scripts/send-entry.mjs --dry-run",
-    "test:lut": "node scripts/test-lut-api.mjs"
+    "test:lut": "node scripts/test-lut-api.mjs",
+    "lut:resend": "node --env-file-if-exists=.env scripts/resend-lut.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^1.6.1",

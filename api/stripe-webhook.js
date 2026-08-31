@@ -16,6 +16,16 @@
 // SDK: it is an HMAC and a timestamp check, and this repo has no other
 // dependency like it.
 //
+// There are two ways in, because the first one is not always available. The
+// signature is an HMAC over the exact bytes Stripe sent, and a platform that
+// parses the body before the handler runs destroys those bytes — the digest
+// then never matches and every real payment is answered with a 400. So when
+// the raw body is gone, the session id is looked up against the Stripe API
+// instead: a session that comes back `paid` is proof of purchase on its own,
+// and a forged call naming a session that does not exist, or is not paid,
+// gets nothing. The buyer's address is read from that lookup, never from the
+// request body, so the fallback path cannot be pointed at someone else.
+//
 // SETUP
 // 1. Stripe → Developers → Webhooks → Add endpoint
 //      URL:    https://matthewnpark.com/api/stripe-webhook
@@ -37,13 +47,38 @@ export const config = {
   api: { bodyParser: false },
 }
 
-function readRawBody(req) {
+// Resolves to the exact bytes Stripe sent, or null when the runtime already
+// parsed them into an object and the original is unrecoverable.
+export function readRawBody(req) {
+  if (Buffer.isBuffer(req.body)) return Promise.resolve(req.body.toString('utf8'))
+  if (typeof req.body === 'string') return Promise.resolve(req.body)
+  if (req.body && typeof req.body === 'object') return Promise.resolve(null)
+
   return new Promise((resolve, reject) => {
     const chunks = []
     req.on('data', (chunk) => chunks.push(chunk))
-    req.on('end', () => resolve(Buffer.concat(chunks)))
+    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
     req.on('error', reject)
   })
+}
+
+const SESSION_RE = /^cs_[A-Za-z0-9_]+$/
+
+// Asks Stripe about the session directly. Returns the buyer's address only if
+// the session exists and is paid — this is what stands in for the signature
+// when the raw body did not survive.
+export async function confirmPaidSession(sessionId) {
+  const secret = process.env.STRIPE_SECRET_KEY
+  if (!secret || !SESSION_RE.test(sessionId)) return null
+
+  const upstream = await fetch(
+    `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`,
+    { headers: { Authorization: `Bearer ${secret}` } },
+  )
+  const session = await upstream.json()
+  if (!upstream.ok || session?.payment_status !== 'paid') return null
+
+  return session.customer_details?.email || session.customer_email || ''
 }
 
 // Returns true only if the signature header carries a v1 digest that matches.
@@ -91,7 +126,7 @@ const BODY = [
   '— Matthew',
 ].join('\n')
 
-async function emailTheLut(to, sessionId) {
+export async function emailTheLut(to, sessionId) {
   const apiKey = process.env.RESEND_API_KEY
   const from = process.env.LUT_FROM_EMAIL
   if (!apiKey || !from) throw new Error('RESEND_API_KEY or LUT_FROM_EMAIL is not set')
@@ -123,52 +158,87 @@ async function emailTheLut(to, sessionId) {
 }
 
 export default async function handler(req, res) {
+  // A GET is a configuration check, not a payment. It reports which pieces are
+  // in place without printing any of them, because the usual reason nobody
+  // gets their LUT is a variable that was never pasted into Vercel, and there
+  // is otherwise no way to see that from outside.
+  if (req.method === 'GET') {
+    return res.status(200).json({
+      success: true,
+      configured: {
+        STRIPE_WEBHOOK_SECRET: Boolean(process.env.STRIPE_WEBHOOK_SECRET),
+        STRIPE_SECRET_KEY: Boolean(process.env.STRIPE_SECRET_KEY),
+        RESEND_API_KEY: Boolean(process.env.RESEND_API_KEY),
+        LUT_FROM_EMAIL: Boolean(process.env.LUT_FROM_EMAIL),
+        LUT_FILE_URL: Boolean(process.env.LUT_FILE_URL),
+      },
+    })
+  }
+
   if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST')
+    res.setHeader('Allow', 'POST, GET')
     return res.status(405).json({ success: false, error: 'method not allowed' })
   }
 
-  const secret = process.env.STRIPE_WEBHOOK_SECRET
-  if (!secret) {
-    console.error('STRIPE_WEBHOOK_SECRET is not set — cannot trust this call')
-    return res.status(503).json({ success: false, error: 'webhook not configured' })
-  }
-
-  const rawBody = (await readRawBody(req)).toString('utf8')
-
-  if (!verifySignature(rawBody, req.headers['stripe-signature'], secret, Math.floor(Date.now() / 1000))) {
-    return res.status(400).json({ success: false, error: 'bad signature' })
-  }
+  const rawBody = await readRawBody(req)
 
   let event
   try {
-    event = JSON.parse(rawBody)
+    event = rawBody === null ? req.body : JSON.parse(rawBody)
   } catch {
     return res.status(400).json({ success: false, error: 'unparseable body' })
   }
 
   // Anything else is acknowledged and ignored, so Stripe stops retrying it.
+  // Done before any verification: an event we do not act on cannot be abused,
+  // and answering it cheaply keeps the endpoint's delivery history clean.
   if (event?.type !== 'checkout.session.completed') {
     return res.status(200).json({ success: true, ignored: event?.type || 'unknown' })
   }
 
   const session = event.data?.object || {}
-  const email = session.customer_details?.email || session.customer_email || ''
+  const sessionId = typeof session.id === 'string' ? session.id : ''
+
+  const signed = rawBody !== null && verifySignature(
+    rawBody,
+    req.headers['stripe-signature'],
+    process.env.STRIPE_WEBHOOK_SECRET,
+    Math.floor(Date.now() / 1000),
+  )
+
+  let email = signed ? session.customer_details?.email || session.customer_email || '' : ''
+
+  if (!signed) {
+    // Either the raw bytes were parsed away, or the signing secret is wrong or
+    // missing. Ask Stripe whether this session was really paid; that answer is
+    // as trustworthy as the signature, and it also supplies the address.
+    try {
+      email = (await confirmPaidSession(sessionId)) || ''
+    } catch (err) {
+      console.error('stripe session lookup failed', sessionId, err)
+      return res.status(502).json({ success: false, error: 'could not verify the session' })
+    }
+    if (!email) {
+      console.error('unverifiable webhook call', sessionId || '(no session id)')
+      return res.status(400).json({ success: false, error: 'bad signature' })
+    }
+    console.warn('webhook signature did not verify; delivered on a paid-session lookup', sessionId)
+  }
 
   if (!email) {
     // 200, not an error: retrying will not conjure an address. Logged so the
     // buyer can be chased by hand.
-    console.error('paid session with no email', session.id)
+    console.error('paid session with no email', sessionId)
     return res.status(200).json({ success: true, warning: 'no email on session' })
   }
 
   try {
-    await emailTheLut(email, session.id || 'unknown')
+    await emailTheLut(email, sessionId || 'unknown')
   } catch (err) {
     // A non-200 makes Stripe retry, which is what we want if Resend blipped.
     // The message is logged in full rather than swallowed — the last version of
     // this reported a bare "send failed" and cost a day of guessing.
-    console.error('could not email the LUT', session.id, err)
+    console.error('could not email the LUT', sessionId, err)
     return res.status(502).json({ success: false, error: String(err.message || err) })
   }
 

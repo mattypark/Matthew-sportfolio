@@ -110,6 +110,10 @@ process.env.LUT_FROM_EMAIL = 'Matthew <lut@example.com>'
 
 const { default: webhook, verifySignature } = await import(path.join(ROOT, 'api/stripe-webhook.js'))
 
+// The fallback path asks Stripe about the session, so the stub below has to
+// answer for api.stripe.com too. `paidSessions` is what Stripe "knows".
+let paidSessions = new Set(['cs_test_abc'])
+
 const sign = (payload, at = Math.floor(Date.now() / 1000), secret = SECRET) =>
   `t=${at},v1=${crypto.createHmac('sha256', secret).update(`${at}.${payload}`, 'utf8').digest('hex')}`
 
@@ -136,22 +140,42 @@ check('rejects a missing header', verifySignature(body, '', SECRET, now), false)
 
 // Resend and the LUT source both stubbed — nothing real is contacted.
 const sends = []
-global.fetch = async (url, init) => {
-  if (String(url).startsWith('https://api.resend.com')) {
-    sends.push({ headers: init.headers, body: JSON.parse(init.body) })
-    return { ok: true, status: 200, text: async () => '{}' }
+const stubEverything = (resendOk = true) => {
+  global.fetch = async (url, init) => {
+    if (String(url).startsWith('https://api.resend.com')) {
+      if (!resendOk) return { ok: false, status: 500, text: async () => 'upstream boom' }
+      sends.push({ headers: init.headers, body: JSON.parse(init.body) })
+      return { ok: true, status: 200, text: async () => '{}' }
+    }
+    if (String(url).startsWith('https://api.stripe.com')) {
+      const id = String(url).split('/').pop()
+      return paidSessions.has(id)
+        ? { ok: true, json: async () => ({ payment_status: 'paid', customer_details: { email: 'Buyer@Example.com' } }) }
+        : { ok: false, json: async () => ({ error: { message: 'no such session' } }) }
+    }
+    return { ok: true, arrayBuffer: async () => new TextEncoder().encode('TITLE "x"\nLUT_3D_SIZE 2\n').buffer }
   }
-  return { ok: true, arrayBuffer: async () => new TextEncoder().encode('TITLE "x"\nLUT_3D_SIZE 2\n').buffer }
 }
+stubEverything()
 process.env.LUT_FILE_URL = 'https://example.invalid/matthew.cube'
 
+// An unsigned call naming a session Stripe has never heard of gets nothing,
+// whether or not the raw body survived.
+paidSessions = new Set()
 res = makeRes()
 await webhook(streamReq(body, 'garbage'), res)
-check('400s on a bad signature', res.code, 400)
+check('400s on a bad signature over an unknown session', res.code, 400)
+check('sends nothing on an unverifiable call', sends.length, 0)
+paidSessions = new Set(['cs_test_abc'])
 
 res = makeRes()
-await webhook(Object.assign(Readable.from([]), { method: 'GET', headers: {} }), res)
-check('rejects GET', res.code, 405)
+await webhook(Object.assign(Readable.from([]), { method: 'PUT', headers: {} }), res)
+check('rejects PUT', res.code, 405)
+
+res = makeRes()
+await webhook({ method: 'GET', headers: {} }, res)
+check('GET reports configuration', res.payload?.configured?.RESEND_API_KEY, true)
+check('GET never prints a value', JSON.stringify(res.payload).includes('re_fixture'), false)
 
 res = makeRes()
 await webhook(streamReq(body, sign(body)), res)
@@ -160,6 +184,26 @@ check('emails the buyer', sends[0]?.body?.to?.[0], 'Buyer@Example.com')
 check('attaches the .cube', sends[0]?.body?.attachments?.[0]?.filename, 'Matthews-Cinematic-LUT.cube')
 check('attachment is base64 of the file', Buffer.from(sends[0].body.attachments[0].content, 'base64').toString().startsWith('TITLE'), true)
 check('keys the send on the session so retries do not double-send', sends[0]?.headers?.['Idempotency-Key'], 'lut-cs_test_abc')
+
+// The real-world break: a runtime that parsed the body before the handler ran,
+// which destroys the bytes the signature covers. The session lookup carries it.
+sends.length = 0
+res = makeRes()
+await webhook({ method: 'POST', headers: {}, body: JSON.parse(body) }, res)
+check('delivers when the raw body was parsed away', res.code, 200)
+check('emails the address Stripe reports, not the one in the body', sends[0]?.body?.to?.[0], 'Buyer@Example.com')
+
+// Same shape, but the session is not paid — that must deliver nothing.
+paidSessions = new Set()
+sends.length = 0
+res = makeRes()
+await webhook({ method: 'POST', headers: {}, body: JSON.parse(body) }, res)
+check('refuses an unpaid session on the fallback path', res.code, 400)
+check('emails nobody for an unpaid session', sends.length, 0)
+paidSessions = new Set(['cs_test_abc'])
+sends.length = 0
+res = makeRes()
+await webhook(streamReq(body, sign(body)), res)
 
 const other = JSON.stringify({ type: 'invoice.paid', data: { object: {} } })
 res = makeRes()
@@ -173,12 +217,7 @@ await webhook(streamReq(noEmail, sign(noEmail)), res)
 check('does not retry a session with no email', res.code, 200)
 
 // A Resend outage must make Stripe retry, not silently drop the order.
-global.fetch = async (url) => {
-  if (String(url).startsWith('https://api.resend.com')) {
-    return { ok: false, status: 500, text: async () => 'upstream boom' }
-  }
-  return { ok: true, arrayBuffer: async () => new TextEncoder().encode('TITLE "x"\n').buffer }
-}
+stubEverything(false)
 res = makeRes()
 await webhook(streamReq(body, sign(body)), res)
 check('502s when Resend fails, so Stripe retries', res.code, 502)

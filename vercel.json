@@ -2,7 +2,15 @@
   "functions": {
     "api/lut-download.js": {
       "includeFiles": "private/**"
+    },
+    "api/stripe-webhook.js": {
+      "includeFiles": "private/**"
     }
   },
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

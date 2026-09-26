@@ -47,7 +47,7 @@ export default function OnRepeat() {
       </div>
 
       <div className="sec-head">
-        <p className="sec-index">06 / On repeat</p>
+        <p className="sec-index">07 / On repeat</p>
         <h2 id="repeat-title" className="sec-title">
           Color outside <em className="serif-em">the lines</em>
         </h2>

@@ -10,6 +10,7 @@ import Manifesto from './components/Manifesto'
 import Tape from './components/Tape'
 import Built from './components/Built'
 import Numbers from './components/Numbers'
+import Recognition from './components/Recognition'
 import Values from './components/Values'
 import OnRepeat from './components/OnRepeat'
 import Next from './components/Next'
@@ -58,6 +59,7 @@ function Home() {
         <Marquee text="BUILDER ✱ CREATOR ✱ SAX ✱ TENNIS ✱ DEBATE ✱ " className="divider-marquee" />
         <Built />
         <Numbers />
+        <Recognition />
         <Values />
         <OnRepeat />
         <Next />

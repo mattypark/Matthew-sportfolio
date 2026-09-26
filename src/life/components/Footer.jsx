@@ -18,7 +18,7 @@ export default function Footer() {
 
   return (
     <footer id="contact" className="foot" aria-labelledby="foot-title">
-      <p className="sec-index">08 / Say hi</p>
+      <p className="sec-index">09 / Say hi</p>
       <h2 id="foot-title" className="foot__title">
         Let&apos;s build <em className="serif-em">something</em>
         <br />

@@ -8,6 +8,7 @@ import './life/styles/hero.css'
 import './life/styles/tape.css'
 import './life/styles/sections.css'
 import './life/styles/repeat.css'
+import './life/styles/proof.css'
 
 // The site is the life-archive build in src/life (branch redesign-2026).
 //

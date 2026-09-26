@@ -32,6 +32,7 @@ export const nav = [
   { id: 'tape', label: 'Tape' },
   { id: 'built', label: 'Built' },
   { id: 'numbers', label: 'Numbers' },
+  { id: 'recognition', label: 'Proof' },
   { id: 'values', label: 'Values' },
   { id: 'repeat', label: 'On repeat' },
   { id: 'next', label: 'Next' },

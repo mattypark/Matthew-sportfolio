@@ -216,50 +216,6 @@ a.work-card:hover .mini {
   line-height: 0.85;
 }
 
-.reels {
-  margin-top: clamp(80px, 10vw, 160px);
-}
-
-.reels__head {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: end;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.reels__title {
-  margin: 0;
-  font-family: var(--f-display);
-  font-size: var(--t-h3);
-  font-weight: 850;
-  font-variation-settings: 'wdth' 62;
-  text-transform: uppercase;
-}
-
-.reels__sub {
-  color: var(--gray-60);
-}
-
-.reels__row {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(150px, 1fr);
-  gap: 12px;
-  overflow-x: auto;
-  padding-bottom: 8px;
-  scroll-snap-type: x mandatory;
-}
-
-.reels__item {
-  scroll-snap-align: start;
-}
-
-.reels__item:nth-child(even) {
-  margin-top: 40px;
-}
-
 .everything {
   margin-top: clamp(80px, 10vw, 160px);
 }

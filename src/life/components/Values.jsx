@@ -38,7 +38,7 @@ export default function Values() {
   return (
     <section id="values" className="sec sec--paper values" aria-labelledby="values-title">
       <div className="sec-head">
-        <p className="sec-index">05 / Values</p>
+        <p className="sec-index">06 / Values</p>
         <h2 id="values-title" className="sec-title">
           The operating <em className="serif-em">system</em>
         </h2>

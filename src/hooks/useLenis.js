@@ -29,6 +29,9 @@ export default function useLenis() {
 
     lenis.on('scroll', ScrollTrigger.update)
 
+    // dev only: lets the screenshot script jump to sections deterministically
+    if (import.meta.env.DEV) window.__lenis = lenis
+
     return () => {
       cancelAnimationFrame(id)
       lenis.destroy()

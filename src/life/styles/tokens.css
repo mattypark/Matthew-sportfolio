@@ -1,0 +1,41 @@
+/* ============================================================
+   LIFE — the life-archive build. Black / white / red.
+   Red is punctuation, not paint: numbers, the live dot, marker
+   strokes, the one CTA. It should cover < 5% of any viewport.
+   ============================================================ */
+
+:root {
+  --ink: #0b0b0b;
+  --ink-2: #151515;
+  --paper: #f4f2ee;
+  --white: #ffffff;
+  --red: #e5251e;
+  --red-deep: #b3160f; /* red for small text on paper (AA) */
+  --gray-60: #6e6e6e;
+  --gray-40: #9a9794;
+  --gray-20: #d6d3ce;
+  --line-dark: #2a2a2a;
+
+  --f-display: 'Anybody', 'Arial Narrow', Impact, sans-serif;
+  --f-body: 'Inter', system-ui, sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+  --f-serif: 'Instrument Serif', Georgia, serif;
+  --f-hangul: 'Black Han Sans', 'Apple SD Gothic Neo', sans-serif;
+
+  /* type scale — fluid between 375 and 1440 */
+  --t-micro: 0.6875rem; /* 11px mono labels */
+  --t-small: 0.8125rem;
+  --t-body: clamp(0.95rem, 0.9rem + 0.2vw, 1.0625rem);
+  --t-lead: clamp(1.15rem, 1rem + 0.6vw, 1.5rem);
+  --t-h3: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
+  --t-h2: clamp(2.5rem, 1.4rem + 5vw, 6.5rem);
+  --t-mega: clamp(4.5rem, 1rem + 17vw, 19rem);
+
+  --gutter: clamp(16px, 3vw, 44px);
+  --section-y: clamp(96px, 12vw, 200px);
+  --radius: 4px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+}

@@ -1,36 +1,31 @@
 <!doctype html>
-<html lang="en" data-oldschool>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon-mp.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- The timeline build: Instrument Serif wordmark, Inter body,
-         IBM Plex Mono for the dates and the clock. -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Matthew Park &mdash; Portfolio</title>
-    <meta name="description" content="Matthew Park &mdash; builder. Every step, in order." />
-    <meta property="og:title" content="Matthew Park" />
-    <meta property="og:description" content="Builder. Every step, in order." />
+    <!-- Life build: Anybody (variable wght + wdth, drives the text pressure),
+         Inter body, IBM Plex Mono labels, Instrument Serif for the one
+         italic word, Black Han Sans subset to the single Hangul glyph. -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Anybody:ital,wdth,wght@0,50..150,100..900;1,50..150,100..900&family=Inter:wght@100..900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
+    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&text=%EB%B0%95&display=swap" />
+    <title>Matthew Park — every step, in order</title>
+    <meta
+      name="description"
+      content="Matthew Park, 15, from Kentucky. Builder, creator, alto sax, tennis, debate. Axiom, Prayer Lock, 30M views, and every step of it in order."
+    />
+    <meta property="og:title" content="Matthew Park — every step, in order" />
+    <meta property="og:description" content="Builder, creator, sax, tennis, debate. Every step, in order." />
     <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0b0b0b" />
     <style>
-      /* first-paint only — the real system lives in src/oldschool/oldschool.css */
-      html, body { background-color: #FFFFFF; margin: 0; color: #1a1b24; }
-      body {
-        font-family: Inter, system-ui, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        overflow-x: hidden;
-      }
-      /* The timeline build draws no custom cursor, so the native one stays.
-         The rule below only bites if <html> loses data-oldschool — i.e. if the
-         Anthropic Serif build in src/pages is ever switched back on, since that
-         one renders its own crosshair. Touch devices are excluded either way. */
-      @media (hover: hover) and (pointer: fine) {
-        html:not([data-oldschool]),
-        html:not([data-oldschool]) body,
-        html:not([data-oldschool]) * { cursor: none; }
-      }
+      /* first paint only: matches the loader so there is no white flash */
+      html, body { background-color: #0b0b0b; margin: 0; }
     </style>
   </head>
   <body>

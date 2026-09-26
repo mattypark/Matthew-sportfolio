@@ -1,0 +1,176 @@
+/* 06 On repeat — CORTIS + the music chapter, staged like a K-pop set. */
+
+.repeat {
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+.repeat__lights {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.repeat__lights span {
+  position: absolute;
+  top: -20%;
+  width: 26vw;
+  height: 140%;
+  background: linear-gradient(180deg, rgba(229, 37, 30, 0.34), transparent 70%);
+  filter: blur(30px);
+  transform-origin: top center;
+  animation: sweep 7s var(--ease-in-out) infinite alternate;
+}
+
+.repeat__lights span:nth-child(1) {
+  left: 8%;
+  rotate: 18deg;
+}
+
+.repeat__lights span:nth-child(2) {
+  left: 42%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 70%);
+  animation-delay: -2.4s;
+}
+
+.repeat__lights span:nth-child(3) {
+  right: 6%;
+  rotate: -18deg;
+  animation-delay: -4.1s;
+}
+
+@keyframes sweep {
+  from { transform: rotate(-9deg); }
+  to { transform: rotate(9deg); }
+}
+
+.repeat .sec-head,
+.repeat__grid {
+  position: relative;
+  z-index: 1;
+}
+
+.repeat__grid {
+  display: grid;
+  gap: 48px;
+}
+
+@media (min-width: 1000px) {
+  .repeat__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.repeat__lede {
+  max-width: 34ch;
+  margin: 0;
+  font-size: var(--t-lead);
+  line-height: 1.35;
+}
+
+.repeat__lede strong {
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-variation-settings: 'wdth' 70;
+  letter-spacing: 0.02em;
+}
+
+.repeat__lede em {
+  font-family: var(--f-serif);
+  font-size: 1.15em;
+  color: var(--red);
+}
+
+.repeat__facts {
+  display: grid;
+  gap: 8px;
+  margin: 28px 0;
+  padding: 0;
+  list-style: none;
+  color: var(--gray-40);
+}
+
+.repeat__embed {
+  max-width: 560px;
+}
+
+.lite {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: var(--radius);
+}
+
+.lite--poster {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+  cursor: pointer;
+}
+
+.lite--poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+}
+
+.lite__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--red);
+  color: var(--white);
+  translate: -50% -50%;
+}
+
+.lite--empty {
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  outline: 1px dashed rgba(255, 255, 255, 0.25);
+  color: var(--gray-40);
+  text-align: center;
+}
+
+.repeat__credit {
+  margin-top: 10px;
+  color: var(--gray-40);
+}
+
+.repeat__credit a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.repeat__clips {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.repeat__clip--low {
+  margin-top: 56px;
+}
+
+.repeat__marquee {
+  position: relative;
+  z-index: 1;
+  margin: clamp(64px, 8vw, 120px) calc(var(--gutter) * -1) 0;
+  padding: 12px 0 20px;
+  border-top: 1px solid var(--line-dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .repeat__lights span {
+    animation: none;
+  }
+}

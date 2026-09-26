@@ -1,0 +1,189 @@
+/* Tailwind layers stay: the reused shop / LUT / call pages are built on
+   Tailwind utilities from src/oldschool. The life build itself uses the
+   plain CSS below. (@import must come first or PostCSS drops it.) */
+@import './tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  background: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Shop / LUT / call pages (the reused oldschool components) keep the
+   old light look: its variables and body colors, without the life class. */
+:root {
+  --color-custom: #fb6e1c;
+  --background: oklch(98% 0 0);
+  --foreground: oklch(14.5% 0 0);
+  --muted-foreground: oklch(55.6% 0 0);
+  --border: oklch(92.2% 0 0);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.life {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--t-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+body.life ::selection {
+  background: var(--red);
+  color: var(--white);
+}
+
+.life-root a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.life-root :focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  z-index: 100;
+  padding: 10px 14px;
+  background: var(--red);
+  color: var(--white);
+  font: 600 var(--t-small) / 1 var(--f-mono);
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* ── shared section frame ─────────────────────────────────── */
+
+.sec {
+  position: relative;
+  padding: var(--section-y) var(--gutter);
+}
+
+.sec--ink {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.sec--paper {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.sec-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  margin-bottom: clamp(40px, 6vw, 88px);
+}
+
+@media (min-width: 900px) {
+  .sec-head {
+    grid-template-columns: 180px minmax(0, 1fr);
+    align-items: end;
+  }
+}
+
+.sec-index {
+  font: 500 var(--t-micro) / 1.4 var(--f-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gray-60);
+}
+
+.sec--ink .sec-index {
+  color: var(--gray-40);
+}
+
+.sec-title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: var(--t-h2);
+  font-weight: 850;
+  font-variation-settings: 'wdth' 62;
+  line-height: 0.86;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.serif-em {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  font-variation-settings: normal;
+}
+
+.red {
+  color: var(--red);
+}
+
+.sec--paper .red-text {
+  color: var(--red-deep);
+}
+
+.mono {
+  font-family: var(--f-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Film grain over everything, cheap: one SVG turbulence tile. */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 1s steps(6) infinite;
+}
+
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-4%, 3%); }
+  40% { transform: translate(3%, -2%); }
+  60% { transform: translate(-2%, -4%); }
+  80% { transform: translate(4%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain {
+    animation: none;
+  }
+}

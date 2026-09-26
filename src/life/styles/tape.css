@@ -1,0 +1,229 @@
+/* The life tape. Desktop: pinned, horizontal. Mobile / reduced motion: a
+   plain vertical column of the same cards. */
+
+.tape {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.tape__head {
+  display: grid;
+  gap: 16px;
+  padding: var(--section-y) var(--gutter) 40px;
+}
+
+.tape__count {
+  color: var(--gray-60);
+}
+
+.tape__year-now {
+  color: var(--red-deep);
+}
+
+.tape__track {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0 var(--gutter) var(--section-y);
+}
+
+.tape__card {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding: 16px;
+  border: 1px solid var(--gray-20);
+  border-radius: var(--radius);
+  background: var(--white);
+  transition: border-color 0.25s, transform 0.4s var(--ease-out);
+}
+
+a.tape__card:hover {
+  border-color: var(--ink);
+  transform: translateY(-4px);
+}
+
+.tape__card--plan {
+  border-style: dashed;
+  border-color: var(--gray-40);
+  background: transparent;
+}
+
+.tape__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  margin: 0;
+  color: var(--gray-60);
+}
+
+.tape__no {
+  margin-left: auto;
+}
+
+.chip {
+  padding: 3px 7px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: var(--ink);
+}
+
+.chip--build,
+.chip--next {
+  border-color: var(--red);
+  background: var(--red);
+  color: var(--white);
+}
+
+.chip--music {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+}
+
+.tape__title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.9rem);
+  font-weight: 800;
+  font-variation-settings: 'wdth' 72;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.tape__card--big .tape__title {
+  font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.6rem);
+}
+
+.tape__arrow {
+  color: var(--red);
+}
+
+.tape__note {
+  margin: 0;
+  color: var(--gray-60);
+  font-size: var(--t-small);
+}
+
+.tape__year {
+  padding: 28px 0 6px;
+  font-family: var(--f-display);
+  font-size: clamp(4rem, 14vw, 7rem);
+  font-weight: 900;
+  font-variation-settings: 'wdth' 55;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ink);
+}
+
+.tape__now {
+  display: grid;
+  gap: 6px;
+  padding: 20px 16px;
+  border-left: 3px solid var(--red);
+}
+
+.tape__now p {
+  margin: 0;
+}
+
+.tape__now-q {
+  font-family: var(--f-display);
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--red);
+}
+
+.tape__end {
+  padding: 16px;
+  color: var(--gray-60);
+}
+
+.tape__ruler {
+  display: none;
+}
+
+/* ── desktop: one long horizontal strip ───────────────────── */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .tape {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  .tape__head {
+    grid-template-columns: 180px minmax(0, 1fr) auto;
+    align-items: end;
+    padding: 96px var(--gutter) 28px;
+  }
+
+  .tape__head .sec-title {
+    font-size: clamp(2.5rem, 1rem + 4vw, 5rem);
+  }
+
+  .tape__track {
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+    width: max-content;
+    padding: 0 var(--gutter);
+    will-change: transform;
+  }
+
+  .tape__card {
+    width: 250px;
+    min-height: 200px;
+  }
+
+  .tape__card--big {
+    width: 380px;
+  }
+
+  .tape__media {
+    max-height: 46vh;
+    object-fit: cover;
+  }
+
+  .slot--empty.tape__media {
+    max-height: 46vh;
+  }
+
+  .tape__year {
+    align-self: stretch;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 8px 0 24px;
+    font-size: clamp(7rem, 13vw, 13rem);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .tape__now {
+    width: 220px;
+  }
+
+  .tape__end {
+    width: 40vw;
+    padding-left: 60px;
+  }
+
+  .tape__ruler {
+    display: block;
+    height: 3px;
+    margin: 0 var(--gutter) 28px;
+    background: var(--gray-20);
+  }
+
+  .tape__playhead {
+    display: block;
+    height: 100%;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+}

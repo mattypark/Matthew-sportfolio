@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { Suspense, lazy, useCallback, useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import useLenis from '../hooks/useLenis'
@@ -17,11 +17,12 @@ import Footer from './components/Footer'
 import Marquee from './components/Marquee'
 
 // The commerce pages keep working exactly as before; they are the old
-// timeline build's components, reused untouched.
-import Shop from '../oldschool/components/Shop'
-import Lut from '../oldschool/components/Lut'
-import LutThanks from '../oldschool/components/LutThanks'
-import Call from '../oldschool/components/Call'
+// timeline build's components, reused untouched. Lazy so framer-motion and
+// their deps stay out of the home page bundle.
+const Shop = lazy(() => import('../oldschool/components/Shop'))
+const Lut = lazy(() => import('../oldschool/components/Lut'))
+const LutThanks = lazy(() => import('../oldschool/components/LutThanks'))
+const Call = lazy(() => import('../oldschool/components/Call'))
 
 function Home() {
   const [ready, setReady] = useState(false)
@@ -36,6 +37,12 @@ function Home() {
   useEffect(() => {
     document.fonts?.ready.then(() => ScrollTrigger.refresh())
   }, [])
+
+  // old URLs redirect to /#section; land there once the loader is gone
+  useEffect(() => {
+    if (!ready || !window.location.hash) return
+    document.getElementById(window.location.hash.slice(1))?.scrollIntoView()
+  }, [ready])
 
   return (
     <div className="life-root">
@@ -66,18 +73,20 @@ export default function LifeApp() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/lut" element={<Lut />} />
-        <Route path="/lut/thanks" element={<LutThanks />} />
-        <Route path="/call" element={<Call />} />
-        {/* old section URLs land on their new home-page anchors */}
-        <Route path="/values" element={<Navigate to="/#values" replace />} />
-        <Route path="/about" element={<Navigate to="/#why" replace />} />
-        <Route path="/projects" element={<Navigate to="/#built" replace />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/lut" element={<Lut />} />
+          <Route path="/lut/thanks" element={<LutThanks />} />
+          <Route path="/call" element={<Call />} />
+          {/* old section URLs land on their new home-page anchors */}
+          <Route path="/values" element={<Navigate to="/#values" replace />} />
+          <Route path="/about" element={<Navigate to="/#why" replace />} />
+          <Route path="/projects" element={<Navigate to="/#built" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }

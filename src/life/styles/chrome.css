@@ -141,7 +141,6 @@
 
 .burger {
   position: relative;
-  z-index: 71;
   display: grid;
   place-items: center;
   width: 44px;
@@ -181,7 +180,9 @@
 .menu {
   position: fixed;
   inset: 0;
-  z-index: 70;
+  /* under the top bar: its blend mode makes it a stacking context, so the
+     close button only stays tappable if the whole bar sits above the menu */
+  z-index: 55;
   overflow-y: auto;
   padding: 96px var(--gutter) var(--gutter);
   background: var(--ink);

@@ -22,11 +22,31 @@
   color: var(--red-deep);
 }
 
+/* vertical mode (phones, tablets, reduced motion): a card grid, years as
+   full-width dividers, big moments two columns wide where there's room */
 .tape__track {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  /* no dense packing: it would pull later moments ahead of their year */
+  align-items: start;
   gap: 14px;
   padding: 0 var(--gutter) var(--section-y);
+}
+
+.tape__now,
+.tape__end {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 600px) {
+  .tape__card--big {
+    grid-column: span 2;
+  }
+}
+
+.tape__media {
+  max-height: 52vh;
+  object-fit: cover;
 }
 
 .tape__card {
@@ -167,6 +187,7 @@ a.tape__card:hover {
   }
 
   .tape__track {
+    display: flex;
     flex-direction: row;
     align-items: center;
     gap: 18px;

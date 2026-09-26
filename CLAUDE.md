@@ -56,7 +56,19 @@ drums, guitar.
 
 ---
 
-## Architecture — the Gate and two sides
+## Current build — the life archive (branch `redesign-2026`)
+
+`src/main.jsx` renders `src/life/LifeApp.jsx`: one long home page (loader →
+text-pressure hero → manifesto → pinned horizontal life tape → built →
+numbers → recognition → values → CORTIS / music → next → footer) plus the old
+shop / LUT / call pages, lazy-loaded from `src/oldschool`. Black / white /
+red; Anybody (variable wght + wdth) · Inter · IBM Plex Mono · Instrument
+Serif. All content lives in `src/life/data/*`; every photo/video is a slot id
+in `src/life/data/media.js`. Status, open questions and the media list:
+[docs/REDESIGN.md](docs/REDESIGN.md). Reference library + component prompts:
+`~/Downloads/current-projects/portfolio-refs`.
+
+## Architecture — the Gate and two sides (previous builds, kept for reference)
 
 The site is one gate with two personalities.
 

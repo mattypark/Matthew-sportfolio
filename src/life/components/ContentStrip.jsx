@@ -69,8 +69,8 @@ export default function ContentStrip() {
           <a
             className="cstrip__dm"
             href={`mailto:${EMAIL}?subject=${subject}&body=${body}`}
-            aria-label="Email Matthew about a brand deal"
           >
+            <span className="sr-only">Email Matthew: </span>
             <span className="cstrip__dm-text">
               {typed}
               <span className="typewriter__cursor" aria-hidden>

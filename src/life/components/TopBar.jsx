@@ -57,7 +57,7 @@ export default function TopBar() {
   return (
     <>
       <header className="topbar">
-        <a href="#top" className="topbar__mark" aria-label="Matthew Park, back to top">
+        <a href="#top" className="topbar__mark" aria-label="M/P — Matthew Park, back to top">
           M<span className="red">/</span>P
         </a>
         <nav className="topbar__nav" aria-label="Sections">

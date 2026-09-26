@@ -45,7 +45,7 @@ export default function Manifesto() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         '.why__w',
-        { opacity: 0.12 },
+        { opacity: 0.22 },
         {
           opacity: 1,
           stagger: 0.05,

@@ -10,12 +10,12 @@
 
 export const media = {
   // hero constellation — real photos already in /public
-  'portrait-suit': { kind: 'photo', src: '/about-photo.png', w: 1396, h: 1864, alt: 'Matthew in a black suit under a magnolia tree' },
-  'portrait-seoul': { kind: 'photo', src: '/rotator-5569.jpg', w: 1179, h: 987, alt: 'Matthew in a Samsung Lions jersey at Jamsil, Seoul' },
-  'portrait-1': { kind: 'photo', src: '/rotator-5566.jpg', w: 512, h: 653, alt: 'Portrait of Matthew' },
-  'portrait-2': { kind: 'photo', src: '/rotator-5571.jpg', w: 987, h: 1398, alt: 'Portrait of Matthew' },
-  'portrait-3': { kind: 'photo', src: '/rotator-5572.jpg', w: 1179, h: 1122, alt: 'Portrait of Matthew' },
-  'portrait-4': { kind: 'photo', src: '/rotator-5568.jpg', w: 1179, h: 1064, alt: 'Portrait of Matthew' },
+  'portrait-suit': { kind: 'photo', src: '/media/portrait-suit.webp', w: 640, h: 855, alt: 'Matthew in a black suit under a magnolia tree' },
+  'portrait-seoul': { kind: 'photo', src: '/media/portrait-seoul.webp', w: 900, h: 753, alt: 'Matthew in a Samsung Lions jersey at Jamsil, Seoul' },
+  'portrait-1': { kind: 'photo', src: '/media/portrait-1.webp', w: 512, h: 653, alt: 'Portrait of Matthew' },
+  'portrait-2': { kind: 'photo', src: '/media/portrait-2.webp', w: 700, h: 991, alt: 'Portrait of Matthew' },
+  'portrait-3': { kind: 'photo', src: '/media/portrait-3.webp', w: 700, h: 666, alt: 'Portrait of Matthew' },
+  'portrait-4': { kind: 'photo', src: '/media/portrait-4.webp', w: 700, h: 632, alt: 'Portrait of Matthew' },
 
   // the tape — placeholders until Matthew sends files
   born: { kind: 'photo', ratio: '4/5', caption: 'Baby photo · Kentucky, 2010' },

@@ -46,7 +46,7 @@ export default function Loader({ onDone }) {
     })
 
     const hero = new Image()
-    hero.src = '/about-photo.png'
+    hero.src = '/media/portrait-suit.webp'
     const ready = Promise.all([
       document.fonts?.ready ?? Promise.resolve(),
       hero.decode().catch(() => undefined),

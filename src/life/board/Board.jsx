@@ -232,55 +232,58 @@ export default function Board() {
         </div>
       </header>
 
-      <svg className="doodle doodle--line" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden>
-        <path d="M 40 70 C 160 20, 250 110, 370 62 S 580 20, 640 66 S 860 110, 960 48" pathLength="1000" />
-      </svg>
-
       <div className="board__stage">
         <WrittenNote className="board__note hand">pick one ↓ (or use your arrow keys)</WrittenNote>
 
-        <ul id="boxes" ref={boxes} className={`boxes ${focus !== null ? 'has-focus' : ''}`} aria-label="Sections">
-          {SECTIONS.map((s, i) => {
-            // boxes left of the focused one lean left, boxes right of it lean right
-            const away = focus === null || focus === i ? 0 : Math.sign(i - focus) * AWAY_DEG
-            return (
-              <li key={s.id} className="boxes__item">
-                <button
-                  type="button"
-                  className={`box box--${s.id} ${hit === s.id ? 'is-hit' : ''} ${focus === i ? 'is-focus' : ''}`}
-                  style={{ '--c': s.color, '--cd': s.dark, '--tilt': `${tilts[i]}deg`, '--away': `${away}deg` }}
-                  onClick={() => go(s.id)}
-                  onPointerEnter={(e) => {
-                    trailColor.current = s.dark
-                    washFrom(e.currentTarget)
-                    setFocus(i)
-                  }}
-                  onPointerLeave={() => {
-                    trailColor.current = INK
-                    setFocus(null)
-                  }}
-                  onFocus={(e) => {
-                    washFrom(e.currentTarget)
-                    setFocus(i)
-                  }}
-                  onBlur={() => setFocus(null)}
-                  aria-keyshortcuts={s.key}
-                >
-                  <Arrow dir={s.arrow} color={s.color} className="box__arrow" />
-                  <span className="box__label">{s.label}</span>
-                  <span className="box__sub hand">{s.sub}</span>
-                  <span className="box__foot">
-                    <span className="box__peek mono">{s.peek}</span>
-                    <Preview id={s.id} />
-                  </span>
-                  <span className="box__key mono" aria-hidden>
-                    {s.arrow}
-                  </span>
-                </button>
-              </li>
-            )
-          })}
-        </ul>
+        {/* the boxes sit on one marker line, left → right, so the gaps read
+            as a progression */}
+        <div className="board__track">
+          <svg className="doodle doodle--line" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden>
+            <path d="M 0 64 C 120 40, 220 86, 340 60 S 560 40, 660 62 S 880 84, 1000 56" pathLength="1000" />
+          </svg>
+          <ul id="boxes" ref={boxes} className={`boxes ${focus !== null ? 'has-focus' : ''}`} aria-label="Sections">
+            {SECTIONS.map((s, i) => {
+              // boxes left of the focused one lean left, boxes right of it lean right
+              const away = focus === null || focus === i ? 0 : Math.sign(i - focus) * AWAY_DEG
+              return (
+                <li key={s.id} className="boxes__item">
+                  <button
+                    type="button"
+                    className={`box box--${s.id} ${hit === s.id ? 'is-hit' : ''} ${focus === i ? 'is-focus' : ''}`}
+                    style={{ '--c': s.color, '--cd': s.dark, '--tilt': `${tilts[i]}deg`, '--away': `${away}deg` }}
+                    onClick={() => go(s.id)}
+                    onPointerEnter={(e) => {
+                      trailColor.current = s.dark
+                      washFrom(e.currentTarget)
+                      setFocus(i)
+                    }}
+                    onPointerLeave={() => {
+                      trailColor.current = INK
+                      setFocus(null)
+                    }}
+                    onFocus={(e) => {
+                      washFrom(e.currentTarget)
+                      setFocus(i)
+                    }}
+                    onBlur={() => setFocus(null)}
+                    aria-keyshortcuts={s.key}
+                  >
+                    <Arrow dir={s.arrow} color={s.color} className="box__arrow" />
+                    <span className="box__label">{s.label}</span>
+                    <span className="box__sub hand">{s.sub}</span>
+                    <span className="box__foot">
+                      <span className="box__peek mono">{s.peek}</span>
+                      <Preview id={s.id} />
+                    </span>
+                    <span className="box__key mono" aria-hidden>
+                      {s.arrow}
+                    </span>
+                  </button>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
       </div>
 
       <footer className="board__foot">

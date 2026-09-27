@@ -9,6 +9,7 @@ import './life/styles/tape.css'
 import './life/styles/sections.css'
 import './life/styles/content.css'
 import './life/styles/github.css'
+import './life/styles/board.css'
 
 // The site is the life-archive build in src/life (branch redesign-2026).
 //

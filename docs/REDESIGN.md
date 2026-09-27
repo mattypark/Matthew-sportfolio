@@ -6,7 +6,24 @@ match `portfolio-refs/COMPONENTS.md`.
 
 Nothing is pushed or deployed. Every step is committed on `redesign-2026`.
 
-## What's on the page (top → bottom) — round 2, after Matthew's review
+## Round 3 — the whiteboard (current home)
+
+`/` is now a whiteboard with four Friday Night Funkin'-arrow boxes (`src/life/board/`). Opening a box floods the
+screen with its color bottom → top (GSAP liquid, `board/liquid.js`), then the content reveals piece by piece; closing
+drains it back. Arrow keys open the matching box, Esc closes. Each box has its own URL, so back/forward and deep links work.
+
+| Box | Key | Color | URL | Panel |
+|---|---|---|---|---|
+| Timeline | ← | purple `#cc57a3` | `/timeline` | big moments, past projects, doors to `/tape`, GitHub, `/archive` |
+| Right now | ↓ | cyan `#00c3ff` | `/now` | Terac, WAP, content (`data/now.js` — placeholder copy, edit it) |
+| Contact | ↑ | green `#12d82a` | `/contact` | email (click to copy), socials, shop |
+| Personality | → | red `#f9393f` | `/personality` | placeholder: CORTIS chip, off-the-clock chips, first 6 values |
+
+The previous long-scroll page lives on at `/archive`, and `/tape` stays. Old `/values` → `/personality`,
+`/projects` → `/timeline`. Waiting on Matthew: the GitHub example he mentioned (to fold into the transitions), real
+copy for Terac / WAP / the 30K figure, and what Personality should hold.
+
+## /archive — the round-2 long page (top → bottom)
 
 | # | Section | File |
 |---|---|---|

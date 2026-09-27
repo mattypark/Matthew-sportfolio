@@ -7,7 +7,7 @@ import { prefersReducedMotion } from '../hooks/motion'
 // grows out of its own button as a circle (clip-path) and lists everything.
 export default function TopBar({ home = true }) {
   // on the /tape page, section links have to go back to the home page first
-  const to = (id) => (home ? `#${id}` : `/#${id}`)
+  const to = (id) => (home ? `#${id}` : `/archive#${id}`)
 
   const [open, setOpen] = useState(false)
   const btn = useRef(null)
@@ -60,6 +60,9 @@ export default function TopBar({ home = true }) {
   return (
     <>
       <header className="topbar">
+        <a href="/" className="topbar__board mono">
+          ← the board
+        </a>
         <nav className="topbar__nav" aria-label="Sections">
           {nav.map((n) => (
             <a key={n.id} href={to(n.id)} className="topbar__link mono">

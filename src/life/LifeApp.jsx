@@ -15,6 +15,7 @@ import Values from './components/Values'
 import Next from './components/Next'
 import Footer from './components/Footer'
 import Marquee from './components/Marquee'
+import Board from './board/Board'
 
 // The commerce pages keep working exactly as before; they are the old
 // timeline build's components, reused untouched. Lazy so framer-motion and
@@ -60,7 +61,8 @@ function Chrome({ home, children }) {
   )
 }
 
-function Home() {
+// the previous long-scroll home page, kept whole at /archive
+function Archive() {
   const [ready, setReady] = useState(false)
   const onLoaded = useCallback(() => setReady(true), [])
   useLifeBody()
@@ -118,7 +120,10 @@ export default function LifeApp() {
       <ScrollToTop />
       <Suspense fallback={null}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          {/* one route for / and every box so Board stays mounted and the
+              liquid can animate between them; static paths below win */}
+          <Route path="/:section?" element={<Board />} />
+          <Route path="/archive" element={<Archive />} />
           <Route path="/tape" element={<TapePage />} />
           <Route
             path="/shop"
@@ -153,9 +158,9 @@ export default function LifeApp() {
             }
           />
           {/* old section URLs land on their new home */}
-          <Route path="/values" element={<Navigate to="/#values" replace />} />
-          <Route path="/about" element={<Navigate to="/#why" replace />} />
-          <Route path="/projects" element={<Navigate to="/#built" replace />} />
+          <Route path="/values" element={<Navigate to="/personality" replace />} />
+          <Route path="/about" element={<Navigate to="/archive#why" replace />} />
+          <Route path="/projects" element={<Navigate to="/timeline" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>

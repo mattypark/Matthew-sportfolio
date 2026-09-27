@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedMotion } from '../hooks/motion'
+import { useScroller } from '../board/scroller'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -21,6 +22,7 @@ const FUTURE = 'M 470 220 C 540 180, 580 60, 640 90 S 760 250, 820 210 S 940 70,
 
 export default function Next() {
   const root = useRef(null)
+  const scroller = useScroller()
 
   useEffect(() => {
     if (prefersReducedMotion()) return undefined
@@ -33,23 +35,23 @@ export default function Next() {
         {
           strokeDashoffset: 0,
           ease: 'none',
-          scrollTrigger: { trigger: '.route', start: 'top 75%', end: 'center 45%', scrub: 0.6 },
+          scrollTrigger: { trigger: '.route', scroller, start: 'top 75%', end: 'center 45%', scrub: 0.6 },
         },
       )
       gsap.from('.route__future', {
         opacity: 0,
         ease: 'none',
-        scrollTrigger: { trigger: '.route', start: 'center 60%', end: 'center 35%', scrub: 0.6 },
+        scrollTrigger: { trigger: '.route', scroller, start: 'center 60%', end: 'center 35%', scrub: 0.6 },
       })
       gsap.from('.route__stop', {
         opacity: 0,
         y: 10,
         stagger: 0.15,
-        scrollTrigger: { trigger: '.route', start: 'top 70%', end: 'center 35%', scrub: 0.6 },
+        scrollTrigger: { trigger: '.route', scroller, start: 'top 70%', end: 'center 35%', scrub: 0.6 },
       })
     }, root)
     return () => ctx.revert()
-  }, [])
+  }, [scroller])
 
   return (
     <section id="next" ref={root} className="sec sec--paper next" aria-labelledby="next-title">

@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Arrow from './Arrow'
 import Preview from './Preview'
 import WrittenNote from './WrittenNote'
 import MarkerTrail from './MarkerTrail'
 import { SECTIONS, byId } from './sections'
 import { createLiquid } from './liquid'
+import { ScrollerContext } from './scroller'
 import TimelinePanel from './panels/TimelinePanel'
 import NowPanel from './panels/NowPanel'
 import ContactPanel from './panels/ContactPanel'
@@ -59,6 +61,11 @@ export default function Board() {
   const back = useRef(null)
   const front = useRef(null)
   const panel = useRef(null)
+  const [panelEl, setPanelEl] = useState(null) // the panel's scroller, for ScrollTrigger
+  const panelRef = useCallback((node) => {
+    panel.current = node
+    setPanelEl(node)
+  }, [])
   const boxes = useRef(null)
   const trailColor = useRef(INK)
 
@@ -190,7 +197,15 @@ export default function Board() {
     gsap.fromTo(
       panel.current.querySelectorAll('.panel__head, [data-reveal]'),
       { y: 44, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, stagger: 0.07, ease: 'expo.out' },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.07,
+        ease: 'expo.out',
+        // scroll animations inside the panel measured mid-reveal; re-measure
+        onComplete: () => ScrollTrigger.refresh(),
+      },
     )
   }, [shown])
 
@@ -323,7 +338,7 @@ export default function Board() {
 
       {Panel && (
         <section
-          ref={panel}
+          ref={panelRef}
           className={`panel panel--${shown}`}
           style={{ '--c': active.color, '--cd': active.dark }}
           aria-labelledby="panel-title"
@@ -338,7 +353,9 @@ export default function Board() {
               Back to the board <span aria-hidden>· esc</span>
             </button>
           </div>
-          <Panel />
+          <ScrollerContext.Provider value={panelEl}>
+            <Panel />
+          </ScrollerContext.Provider>
           <nav className="panel__switch" aria-label="Other sections">
             {SECTIONS.filter((s) => s.id !== shown).map((s) => (
               <button key={s.id} type="button" className="panel__jump" onClick={() => go(s.id)}>

@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Slot from './Slot'
 import { EMAIL } from '../data/site'
 import { prefersReducedMotion } from '../hooks/motion'
+import { useScroller } from '../board/scroller'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -23,9 +24,20 @@ const HOLD_MS = 2200
 // oryzo's "so portable, it's wearable" beat, redone for the content side:
 // reels slide past behind a fixed phone frame, and a fake DM types itself.
 // SEND is real — it opens an email.
-export default function ContentStrip() {
+//
+// `title` / `sub` override the heading (the Right now box states its own
+// figure); the defaults are the archive's copy.
+export default function ContentStrip({
+  title = (
+    <>
+      30M views, <em className="serif-em">give or take</em>
+    </>
+  ),
+  sub = 'Short-form · UGC for brands · a YouTube documentary',
+}) {
   const root = useRef(null)
   const strip = useRef(null)
+  const scroller = useScroller()
   const [typed, setTyped] = useState(() => (prefersReducedMotion() ? DMS[0] : ''))
   const [current, setCurrent] = useState(0)
   const [started, setStarted] = useState(false)
@@ -36,12 +48,12 @@ export default function ContentStrip() {
       gsap.to(strip.current, {
         xPercent: -50,
         ease: 'none',
-        scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: 0.5 },
+        scrollTrigger: { trigger: root.current, scroller, start: 'top bottom', end: 'bottom top', scrub: 0.5 },
       })
-      ScrollTrigger.create({ trigger: root.current, start: 'top 60%', once: true, onEnter: () => setStarted(true) })
+      ScrollTrigger.create({ trigger: root.current, scroller, start: 'top 60%', once: true, onEnter: () => setStarted(true) })
     })
     return () => mm.revert()
-  }, [])
+  }, [scroller])
 
   useEffect(() => {
     if (!started || prefersReducedMotion()) return undefined
@@ -83,9 +95,9 @@ export default function ContentStrip() {
       <div className="cstrip__copy">
         <p className="sec-index">Content</p>
         <h3 id="cstrip-title" className="cstrip__title">
-          30M views, <em className="serif-em">give or take</em>
+          {title}
         </h3>
-        <p className="mono cstrip__sub">Short-form · UGC for brands · a YouTube documentary</p>
+        <p className="mono cstrip__sub">{sub}</p>
       </div>
 
       <div className="cstrip__stage">

@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Marker from './Marker'
 import { prefersReducedMotion } from '../hooks/motion'
+import { useScroller } from '../board/scroller'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -39,6 +40,7 @@ function Words({ text, kind }) {
 
 export default function Manifesto() {
   const root = useRef(null)
+  const scroller = useScroller()
 
   useEffect(() => {
     if (prefersReducedMotion()) return undefined
@@ -50,12 +52,12 @@ export default function Manifesto() {
           opacity: 1,
           stagger: 0.05,
           ease: 'none',
-          scrollTrigger: { trigger: '.why__text', start: 'top 78%', end: 'bottom 45%', scrub: 0.6 },
+          scrollTrigger: { trigger: '.why__text', scroller, start: 'top 78%', end: 'bottom 45%', scrub: 0.6 },
         },
       )
     }, root)
     return () => ctx.revert()
-  }, [])
+  }, [scroller])
 
   return (
     <section id="why" ref={root} className="sec sec--ink why" aria-labelledby="why-title">

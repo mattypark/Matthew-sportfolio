@@ -1,7 +1,15 @@
 import { useState } from 'react'
-import { EMAIL, socials } from '../../data/site'
+import Kit from './Kit'
+import Marker from '../../components/Marker'
+import Typewriter from '../../components/Typewriter'
+import Clock from '../../components/Clock'
+import Footer from '../../components/Footer'
+import { EMAIL, HOME_TZ } from '../../data/site'
 
-// ↑ Contact: the email as the one big button, then everywhere else.
+const REASONS = ['an internship', 'a hackathon', 'a brand video', 'something you’re building', 'a talk at your event']
+
+// ↑ Contact: the email as the one big button, what to write about, his time
+// right now, then the old footer (socials + colophon) as a card.
 export default function ContactPanel() {
   const [copied, setCopied] = useState(false)
   const [user, domain] = EMAIL.split('@')
@@ -19,7 +27,10 @@ export default function ContactPanel() {
   return (
     <div className="panel-contact">
       <p className="panel__lede" data-reveal>
-        Building something, hiring an intern, or running a hackathon? <em className="hand">Tell me.</em>
+        Building something, hiring an intern, or running a hackathon?{' '}
+        <Marker kind="circle" delay={400}>
+          <em className="hand">Tell me.</em>
+        </Marker>
       </p>
 
       <button type="button" className="big-email" onClick={copy} data-reveal>
@@ -33,16 +44,20 @@ export default function ContactPanel() {
         {copied ? 'Email copied' : ''}
       </span>
 
-      <ul className="socials" data-reveal>
-        {socials.map((s) => (
-          <li key={s.id}>
-            <a href={s.href} target="_blank" rel="noopener noreferrer">
-              {s.label} <span aria-hidden>↗</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div className="contact-row">
+        <Kit label="Write to me about">
+          <p className="contact-about">
+            <Typewriter phrases={REASONS} />
+          </p>
+        </Kit>
+        <Kit label="My time, right now">
+          <Clock {...HOME_TZ} className="contact-clock" />
+        </Kit>
+      </div>
 
+      <Kit className="kit--foot">
+        <Footer email={false} />
+      </Kit>
     </div>
   )
 }

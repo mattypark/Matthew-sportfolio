@@ -1,10 +1,12 @@
-import { values } from '../../data/work'
+import Kit from './Kit'
 import NowPlaying from '../../components/NowPlaying'
+import Manifesto from '../../components/Manifesto'
+import Values from '../../components/Values'
 
 const OFF_CLOCK = ['Tennis since 2021', 'Alto sax, All-State ×2', 'Drums', 'Guitar', 'Singing', 'Basketball', 'Calisthenics']
 
-// → Personality: a placeholder until Matthew decides what goes here. Seeded
-// with his values, what's on repeat, and what he does off the keyboard.
+// → Personality: still a work in progress until Matthew decides what goes
+// here. What's on repeat, off the keyboard, why he does it all, and the 14.
 export default function PersonalityPanel() {
   return (
     <div className="panel-personality">
@@ -22,13 +24,13 @@ export default function PersonalityPanel() {
         ))}
       </ul>
 
-      <ol className="values-mini">
-        {values.slice(0, 6).map((v, i) => (
-          <li key={v.text} data-reveal>
-            <span className="mono">{String(i + 1).padStart(2, '0')}</span> {v.text}
-          </li>
-        ))}
-      </ol>
+      <Kit label="Why">
+        <Manifesto />
+      </Kit>
+
+      <Kit label="Values">
+        <Values />
+      </Kit>
     </div>
   )
 }

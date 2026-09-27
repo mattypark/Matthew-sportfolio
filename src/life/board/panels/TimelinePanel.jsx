@@ -1,14 +1,23 @@
 import { Link } from 'react-router-dom'
+import Kit from './Kit'
+import TapeTeaser from '../../components/TapeTeaser'
+import Numbers from '../../components/Numbers'
+import Marquee from '../../components/Marquee'
+import MiniCard from '../../components/MiniCard'
+import Everything from '../../components/Everything'
+import GitHub from '../../components/GitHub'
 import { timeline, stamp } from '../../data/timeline'
-import { everything } from '../../data/work'
+import { projects } from '../../data/work'
 import gh from '../../data/github.json'
 
 const past = timeline.filter((e) => !e.plan)
 // the big moments only; the whole tape is one click away
 const HIGHLIGHTS = past.filter((e) => e.big).reverse()
+// the LUT is a shop item and nothing on the board links to the shop
+const BUILT = projects.filter((p) => p.id !== 'lut')
 
-// ← Timeline: past results. Highlights by date, past projects, and the doors
-// to the full tape, the long-form archive, and GitHub.
+// ← Timeline: past results. The big moments, the latest from the tape, the
+// numbers, what got built, GitHub, and the doors to the rest.
 export default function TimelinePanel() {
   return (
     <div className="panel-timeline">
@@ -25,16 +34,36 @@ export default function TimelinePanel() {
         ))}
       </ol>
 
-      <div className="tl-past" data-reveal>
-        <p className="mono tl-past__h">Past projects</p>
-        <ul className="tl-past__list">
-          {everything.slice(0, 9).map((p) => (
-            <li key={p.name} title={p.line ?? undefined}>
-              {p.name}
-            </li>
+      <Kit label="Latest on the tape">
+        <TapeTeaser />
+      </Kit>
+
+      <Kit label="Numbers">
+        <Numbers />
+      </Kit>
+
+      <Kit className="kit--bleed">
+        <Marquee text="BUILDER ✱ CREATOR ✱ SAX ✱ TENNIS ✱ DEBATE ✱ " />
+      </Kit>
+
+      <Kit label="Built">
+        <h3 className="kit__title">
+          Things I <em className="serif-em">shipped</em>
+        </h3>
+        <div className="built__grid">
+          {BUILT.map((p, i) => (
+            <MiniCard key={p.id} p={p} n={i + 1} total={BUILT.length} />
           ))}
-        </ul>
-      </div>
+        </div>
+      </Kit>
+
+      <Kit>
+        <Everything />
+      </Kit>
+
+      <Kit label="GitHub">
+        <GitHub />
+      </Kit>
 
       <div className="panel__doors" data-reveal>
         <Link to="/tape" className="door">

@@ -1,35 +1,46 @@
+import Kit from './Kit'
+import MiniCard from '../../components/MiniCard'
+import Typewriter from '../../components/Typewriter'
+import ContentStrip from '../../components/ContentStrip'
+import Next from '../../components/Next'
 import { now } from '../../data/now'
 
-// ↓ Right now: the three things that are live. data-reveal marks the pieces
-// the board reveals one by one after the liquid fills.
+const WHEN = ['today', 'this week', 'right now']
+
+// the now entries in the project-card shape, so each gets a live mini UI
+const CARDS = now.map((n) => ({ ...n, kind: n.tag, years: `since ${n.since}` }))
+
+// ↓ Right now: the three things that are live, the content side, and where
+// it's all heading.
 export default function NowPanel() {
   return (
     <div className="panel-now">
       <p className="panel__lede" data-reveal>
-        Everything else is past results. This is what I’m doing <em className="hand">today</em>.
+        Everything else is past results. This is what I’m doing{' '}
+        <Typewriter phrases={WHEN} className="hand" />
       </p>
+
       <div className="now-cards">
-        {now.map((n, i) => {
-          const Tag = n.href ? 'a' : 'article'
-          const link = n.href ? { href: n.href, target: '_blank', rel: 'noopener noreferrer' } : {}
-          return (
-            <Tag key={n.id} className="now-card" data-reveal {...link}>
-              <p className="now-card__meta mono">
-                <span>{String(i + 1).padStart(2, '0')}</span>
-                <span>
-                  {n.role} · since {n.since}
-                </span>
-              </p>
-              <h3 className="now-card__name">
-                {n.name}
-                {n.href && <span aria-hidden> ↗</span>}
-              </h3>
-              <p className="now-card__tag hand">{n.tag}</p>
-              <p className="now-card__line">{n.line}</p>
-            </Tag>
-          )
-        })}
+        {CARDS.map((p, i) => (
+          <div key={p.id} className="kit kit--tight" data-reveal>
+            <MiniCard p={p} n={i + 1} total={CARDS.length} />
+          </div>
+        ))}
       </div>
+
+      <Kit label="Content">
+        <ContentStrip
+          title={
+            <>
+              30K and <em className="serif-em">counting</em>
+            </>
+          }
+        />
+      </Kit>
+
+      <Kit label="Next">
+        <Next />
+      </Kit>
     </div>
   )
 }

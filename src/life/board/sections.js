@@ -24,7 +24,7 @@ export const SECTIONS = [
   },
   {
     id: 'contact',
-    peek: 'email · socials · shop',
+    peek: 'email · socials',
     arrow: '↑',
     key: 'ArrowUp',
     label: 'Contact',

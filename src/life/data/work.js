@@ -50,7 +50,7 @@ export const everything = [
   { name: 'BayouGuard', line: 'A Houston flood-risk app for the Congressional App Challenge. I built the frontend.' },
   { name: 'SlapShift', line: 'A macOS app with its own sign-and-notarize release pipeline.' },
   { name: 'Hand Vocoder', line: 'Hand gestures from the webcam drive a live vocal harmonizer in the browser.' },
-  { name: 'The LUT', line: 'My color grade as a .cube file, for sale in the shop. Five dollars.' },
+  { name: 'The LUT', line: 'My color grade, packaged as a .cube file anyone can use.' },
   { name: 'BounceBack', line: 'Working with Dillon on BounceBack pickleball since January 2026.' },
   { name: 'UGC for brands', line: 'Short-form videos made for brands since November 2025.' },
   { name: 'YouTube documentary', line: 'My first documentary. Posted 02.10.26, past 10K views in eleven days.' },

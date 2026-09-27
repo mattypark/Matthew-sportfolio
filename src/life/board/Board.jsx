@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { gsap } from 'gsap'
 import Arrow from './Arrow'
+import Preview from './Preview'
 import MarkerTrail from './MarkerTrail'
 import { SECTIONS, byId } from './sections'
 import { createLiquid } from './liquid'
@@ -9,15 +10,19 @@ import TimelinePanel from './panels/TimelinePanel'
 import NowPanel from './panels/NowPanel'
 import ContactPanel from './panels/ContactPanel'
 import PersonalityPanel from './panels/PersonalityPanel'
-import Slot from '../components/Slot'
 import Clock from '../components/Clock'
-import NowPlaying from '../components/NowPlaying'
 import { HANGUL_NAME, HOME_TZ } from '../data/site'
 import { prefersReducedMotion } from '../hooks/motion'
 
 const PANELS = { timeline: TimelinePanel, now: NowPanel, contact: ContactPanel, personality: PersonalityPanel }
 const INK = '#0b0b0b'
 const HIT_MS = 180
+const AWAY_DEG = 7 // how far the other boxes lean away from the focused one
+
+// A small random tilt per box, fresh every visit: Timeline ±1°, the rest ±2°.
+function randomTilts() {
+  return SECTIONS.map((s) => (Math.random() < 0.5 ? -1 : 1) * (s.id === 'timeline' ? 1 : 2))
+}
 
 // The home page: a whiteboard with four FNF-arrow boxes. Opening one floods
 // the screen with its color (liquid fill, bottom → top), then its content
@@ -31,6 +36,8 @@ export default function Board() {
 
   const [shown, setShown] = useState(null) // section whose content is mounted
   const [hit, setHit] = useState(null) // box flashing from a key press
+  const [focus, setFocus] = useState(null) // index of the hovered / focused box
+  const [tilts] = useState(randomTilts)
   const filled = useRef(null) // section the liquid currently holds
   const liquid = useRef(null)
   const svg = useRef(null)
@@ -56,15 +63,20 @@ export default function Board() {
       gsap
         .timeline({ defaults: { ease: 'back.out(1.7)' } })
         .from('.board__name > *', { y: 40, opacity: 0, duration: 0.8, stagger: 0.08 })
-        .from('.box', { y: -80, rotate: 0, opacity: 0, duration: 0.8, stagger: 0.09 }, 0.15)
-        .from('.polaroid', { scale: 1.4, opacity: 0, duration: 0.6, stagger: 0.12, ease: 'power4.out' }, 0.35)
+        // tween the <li> wrappers: the boxes themselves carry CSS transitions
+        // (focus / dim / tilt-away) that would fight a GSAP tween on them
+        .from('.boxes__item', { y: -80, opacity: 0, duration: 0.8, stagger: 0.09 }, 0.15)
         .fromTo(
           '.doodle path',
           { strokeDashoffset: 1000 },
           { strokeDashoffset: 0, duration: 1.4, ease: 'power2.out', stagger: 0.1 },
           0.5,
         )
-        .from('.board__note, .board__foot > *', { opacity: 0, y: 10, duration: 0.5, stagger: 0.06, ease: 'power2.out' }, 0.8)
+        .from(
+          '.board__note, .board__foot > *',
+          { opacity: 0, y: 10, duration: 0.5, stagger: 0.06, ease: 'power2.out' },
+          0.8,
+        )
     })
     return () => ctx.revert()
   }, [])
@@ -82,7 +94,7 @@ export default function Board() {
         setShown(id)
         return
       }
-      gsap.to('.box', { scale: 0.94, duration: 0.5, ease: 'power2.out' })
+      gsap.to('.boxes__item', { scale: 0.94, duration: 0.5, ease: 'power2.out' })
       // completion checks what the liquid holds now, not a per-run flag:
       // StrictMode runs this effect twice and the first fill must still land
       L.fill({ color: s.color, dark: s.dark, onComplete: () => filled.current === id && setShown(id) })
@@ -98,7 +110,7 @@ export default function Board() {
           then?.()
           return
         }
-        gsap.to('.box', { scale: 1, duration: 0.7, ease: 'back.out(2)', delay: 0.35 })
+        gsap.to('.boxes__item', { scale: 1, duration: 0.7, ease: 'back.out(2)', delay: 0.35 })
         L.drain({
           onComplete: () => {
             filled.current = null
@@ -108,7 +120,14 @@ export default function Board() {
       }
       const pieces = panel.current?.querySelectorAll('.panel__head, [data-reveal]')
       if (!reduced && pieces?.length) {
-        gsap.to([...pieces].reverse(), { y: -28, opacity: 0, duration: 0.24, stagger: 0.025, ease: 'power2.in', onComplete: finish })
+        gsap.to([...pieces].reverse(), {
+          y: -28,
+          opacity: 0,
+          duration: 0.24,
+          stagger: 0.025,
+          ease: 'power2.in',
+          onComplete: finish,
+        })
       } else {
         finish()
       }
@@ -173,66 +192,60 @@ export default function Board() {
           <p className="board__hangul" lang="ko">
             {HANGUL_NAME}
           </p>
-          <p className="board__sub hand">15 · born in Kentucky · does everything</p>
         </div>
-        <nav className="board__links" aria-label="Elsewhere">
-          <Link to="/archive" className="board__link mono">
-            The long version
-          </Link>
-          <Link to="/shop" className="board__shop mono">
-            Shop
-          </Link>
-        </nav>
       </header>
-
-      <div className="polaroid polaroid--a" aria-hidden>
-        <Slot id="portrait-suit" eager sizes="220px" />
-        <span className="polaroid__tape" />
-      </div>
-      <div className="polaroid polaroid--b" aria-hidden>
-        <Slot id="portrait-seoul" sizes="220px" />
-        <span className="polaroid__magnet" />
-      </div>
 
       <svg className="doodle doodle--line" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden>
         <path d="M 40 70 C 160 20, 250 110, 370 62 S 580 20, 640 66 S 860 110, 960 48" pathLength="1000" />
       </svg>
 
-      <p className="board__note board__note--pick hand" aria-hidden>
-        pick one ↓ (or use your arrow keys)
-      </p>
+      <div className="board__stage">
+        <p className="board__note board__note--pick hand" aria-hidden>
+          pick one ↓ (or use your arrow keys)
+        </p>
 
-      <ul id="boxes" ref={boxes} className="boxes" aria-label="Sections">
-        {SECTIONS.map((s) => (
-          <li key={s.id} className="boxes__item">
-            <button
-              type="button"
-              className={`box box--${s.id} ${hit === s.id ? 'is-hit' : ''}`}
-              style={{ '--c': s.color, '--cd': s.dark }}
-              onClick={() => go(s.id)}
-              onPointerEnter={() => {
-                trailColor.current = s.color
-              }}
-              onPointerLeave={() => {
-                trailColor.current = INK
-              }}
-              aria-keyshortcuts={s.key}
-            >
-              <Arrow dir={s.arrow} color={s.color} className="box__arrow" />
-              <span className="box__label">{s.label}</span>
-              <span className="box__sub hand">{s.sub}</span>
-              <span className="box__peek mono">{s.peek}</span>
-              <span className="box__key mono" aria-hidden>
-                {s.arrow}
-              </span>
-            </button>
-          </li>
-        ))}
-      </ul>
+        <ul id="boxes" ref={boxes} className={`boxes ${focus !== null ? 'has-focus' : ''}`} aria-label="Sections">
+          {SECTIONS.map((s, i) => {
+            // boxes left of the focused one lean left, boxes right of it lean right
+            const away = focus === null || focus === i ? 0 : Math.sign(i - focus) * AWAY_DEG
+            return (
+              <li key={s.id} className="boxes__item">
+                <button
+                  type="button"
+                  className={`box box--${s.id} ${hit === s.id ? 'is-hit' : ''} ${focus === i ? 'is-focus' : ''}`}
+                  style={{ '--c': s.color, '--cd': s.dark, '--tilt': `${tilts[i]}deg`, '--away': `${away}deg` }}
+                  onClick={() => go(s.id)}
+                  onPointerEnter={() => {
+                    trailColor.current = s.color
+                    setFocus(i)
+                  }}
+                  onPointerLeave={() => {
+                    trailColor.current = INK
+                    setFocus(null)
+                  }}
+                  onFocus={() => setFocus(i)}
+                  onBlur={() => setFocus(null)}
+                  aria-keyshortcuts={s.key}
+                >
+                  <Arrow dir={s.arrow} color={s.color} className="box__arrow" />
+                  <span className="box__label">{s.label}</span>
+                  <span className="box__sub hand">{s.sub}</span>
+                  <span className="box__foot">
+                    <span className="box__peek mono">{s.peek}</span>
+                    <Preview id={s.id} />
+                  </span>
+                  <span className="box__key mono" aria-hidden>
+                    {s.arrow}
+                  </span>
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
 
       <footer className="board__foot">
         <Clock {...HOME_TZ} />
-        <NowPlaying />
       </footer>
 
       <MarkerTrail colorRef={trailColor} active={!target} />

@@ -19,6 +19,11 @@ drains it back. Arrow keys open the matching box, Esc closes. Each box has its o
 | Contact | ↑ | green `#12d82a` | `/contact` | email (click to copy), socials, shop |
 | Personality | → | red `#f9393f` | `/personality` | placeholder: CORTIS chip, off-the-clock chips, first 6 values |
 
+Round 3b (Matthew's notes): the board is just the name, 박성호, the note and four smaller centered boxes, each with a random
+±1°/±2° tilt per visit. Hovering or focusing a box lifts it and shows a live preview; the other three fade, shrink
+and lean away. Removed: photos, subtitle, "the long version", the CORTIS chip on the board, and the shop (the `/shop`
+URL redirects home; `/lut` and `/call` still work for past buyers but nothing links to them).
+
 The previous long-scroll page lives on at `/archive`, and `/tape` stays. Old `/values` → `/personality`,
 `/projects` → `/timeline`. Waiting on Matthew: the GitHub example he mentioned (to fold into the transitions), real
 copy for Terac / WAP / the 30K figure, and what Personality should hold.

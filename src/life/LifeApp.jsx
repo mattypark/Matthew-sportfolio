@@ -20,7 +20,6 @@ import Board from './board/Board'
 // The commerce pages keep working exactly as before; they are the old
 // timeline build's components, reused untouched. Lazy so framer-motion and
 // their deps stay out of the home page bundle.
-const Shop = lazy(() => import('../oldschool/components/Shop'))
 const Lut = lazy(() => import('../oldschool/components/Lut'))
 const LutThanks = lazy(() => import('../oldschool/components/LutThanks'))
 const Call = lazy(() => import('../oldschool/components/Call'))
@@ -125,14 +124,8 @@ export default function LifeApp() {
           <Route path="/:section?" element={<Board />} />
           <Route path="/archive" element={<Archive />} />
           <Route path="/tape" element={<TapePage />} />
-          <Route
-            path="/shop"
-            element={
-              <LegacyFonts>
-                <Shop />
-              </LegacyFonts>
-            }
-          />
+          {/* the shop page is retired; /lut and /call stay live for past buyers */}
+          <Route path="/shop" element={<Navigate to="/" replace />} />
           <Route
             path="/lut"
             element={

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { EMAIL, socials, shop } from '../data/site'
+import { EMAIL, socials } from '../data/site'
 
 const BUILT_AT = typeof __BUILD_TIME__ !== 'undefined' ? new Date(__BUILD_TIME__) : new Date()
 
@@ -33,15 +33,6 @@ export default function Footer() {
         <span className="sr-only" aria-live="polite">
           {copied ? 'Email copied' : ''}
         </span>
-        <div className="foot__shop">
-          {shop.map((s) => (
-            <a key={s.lot} href={s.href} className="foot__lot">
-              <span className="mono">Lot {s.lot}</span>
-              <span>{s.name}</span>
-              <span className="red">{s.price}</span>
-            </a>
-          ))}
-        </div>
       </div>
 
       <ul className="foot__socials">

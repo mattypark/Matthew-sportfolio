@@ -21,12 +21,6 @@ export const socials = [
 
 export const EMAIL = 'mattyparkbusiness@gmail.com'
 
-// The two things for sale, mirrored from src/oldschool/data/lut.js pricing.
-export const shop = [
-  { lot: '001', name: 'The LUT', price: '$5', href: '/lut' },
-  { lot: '002', name: 'The Call', price: '$350', href: '/call' },
-]
-
 export const nav = [
   { id: 'built', label: 'Built' },
   { id: 'github', label: 'GitHub' },

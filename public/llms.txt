@@ -11,8 +11,10 @@
 - KMEA All-State alto sax (2nd chair, twice); tennis, basketball, drums, guitar, singing.
 
 ## Pages
-- [Home](https://matthewnpark.com/): the life tape, projects, numbers, recognition, values, music, and plans
-- [Shop](https://matthewnpark.com/shop): The LUT ($5) and The Call ($350)
+- [Home](https://matthewnpark.com/): a whiteboard with four sections
+- [Right now](https://matthewnpark.com/now): what Matthew is working on today
+- [Timeline](https://matthewnpark.com/timeline): past results, and the full tape at /tape
+- [Contact](https://matthewnpark.com/contact): email and socials
 
 ## Contact
 - Email: mattyparkbusiness@gmail.com

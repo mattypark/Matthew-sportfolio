@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
-import { nav, socials, shop } from '../data/site'
+import { nav, socials } from '../data/site'
 import { prefersReducedMotion } from '../hooks/motion'
 
-// Fixed top bar: monogram left, section chips + shop + menu right. The menu
+// Fixed top bar: back-to-board left, section chips + menu right. The menu
 // grows out of its own button as a circle (clip-path) and lists everything.
 export default function TopBar({ home = true }) {
   // on the /tape page, section links have to go back to the home page first
@@ -72,9 +72,6 @@ export default function TopBar({ home = true }) {
           <a href="/tape" className="topbar__link mono">
             The tape
           </a>
-          <a href="/shop" className="topbar__shop mono">
-            Shop
-          </a>
         </nav>
         <button
           ref={btn}
@@ -109,12 +106,6 @@ export default function TopBar({ home = true }) {
             </li>
           </ol>
           <div className="menu__side">
-            <p className="mono menu__label">Shop</p>
-            {shop.map((s) => (
-              <a key={s.lot} href={s.href} className="menu__shop">
-                <span className="mono">Lot {s.lot}</span> {s.name} <span className="red">{s.price}</span>
-              </a>
-            ))}
             <p className="mono menu__label">Elsewhere</p>
             <div className="menu__socials">
               {socials.map((s) => (

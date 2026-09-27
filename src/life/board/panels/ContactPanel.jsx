@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { EMAIL, socials, shop } from '../../data/site'
+import { EMAIL, socials } from '../../data/site'
 
 // ↑ Contact: the email as the one big button, then everywhere else.
 export default function ContactPanel() {
@@ -43,13 +43,6 @@ export default function ContactPanel() {
         ))}
       </ul>
 
-      <div className="panel__doors" data-reveal>
-        {shop.map((s) => (
-          <a key={s.lot} href={s.href} className="door">
-            {s.name} · {s.price} <span aria-hidden>→</span>
-          </a>
-        ))}
-      </div>
     </div>
   )
 }

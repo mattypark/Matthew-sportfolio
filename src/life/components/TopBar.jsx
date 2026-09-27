@@ -1,13 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { nav, socials } from '../data/site'
 import { prefersReducedMotion } from '../hooks/motion'
 
 // Fixed top bar: back-to-board left, section chips + menu right. The menu
 // grows out of its own button as a circle (clip-path) and lists everything.
-export default function TopBar({ home = true }) {
+//
+// `items` switches it to the board version: just the menu button, and the
+// menu lists those items as in-app routes ({ id, label, to, color? }) so the
+// board stays mounted and runs its own transition.
+export default function TopBar({ home = true, items = null, away = false }) {
   // on the /tape page, section links have to go back to the home page first
   const to = (id) => (home ? `#${id}` : `/archive#${id}`)
+  const board = Boolean(items)
+  const rows = items ?? [...nav.map((n) => ({ ...n, href: to(n.id) })), { id: 'tape', label: 'The tape', href: '/tape' }]
 
   const [open, setOpen] = useState(false)
   const btn = useRef(null)
@@ -59,20 +66,24 @@ export default function TopBar({ home = true }) {
 
   return (
     <>
-      <header className="topbar">
-        <a href="/" className="topbar__board mono">
-          ← the board
-        </a>
-        <nav className="topbar__nav" aria-label="Sections">
-          {nav.map((n) => (
-            <a key={n.id} href={to(n.id)} className="topbar__link mono">
-              {n.label}
+      <header className={`topbar ${board ? 'topbar--board' : ''} ${away ? 'is-away' : ''}`}>
+        {!board && (
+          <>
+            <a href="/" className="topbar__board mono">
+              ← the board
             </a>
-          ))}
-          <a href="/tape" className="topbar__link mono">
-            The tape
-          </a>
-        </nav>
+            <nav className="topbar__nav" aria-label="Sections">
+              {nav.map((n) => (
+                <a key={n.id} href={to(n.id)} className="topbar__link mono">
+                  {n.label}
+                </a>
+              ))}
+              <a href="/tape" className="topbar__link mono">
+                The tape
+              </a>
+            </nav>
+          </>
+        )}
         <button
           ref={btn}
           type="button"
@@ -87,23 +98,38 @@ export default function TopBar({ home = true }) {
         </button>
       </header>
 
-      <div id="life-menu" ref={panel} className="menu" hidden role="dialog" aria-modal="true" aria-label="Index">
+      <div
+        id="life-menu"
+        ref={panel}
+        className={`menu ${board ? 'menu--board' : ''}`}
+        hidden
+        role="dialog"
+        aria-modal="true"
+        aria-label="Index"
+      >
         <div className="menu__grid">
           <ol className="menu__list">
-            {nav.map((n, i) => (
-              <li key={n.id} className="menu__row">
-                <a href={to(n.id)} className="menu__item" onClick={close}>
+            {rows.map((n, i) => {
+              const body = (
+                <>
                   <span className="menu__num mono">{String(i + 1).padStart(2, '0')}</span>
                   {n.label}
-                </a>
-              </li>
-            ))}
-            <li className="menu__row">
-              <a href="/tape" className="menu__item" onClick={close}>
-                <span className="menu__num mono">{String(nav.length + 1).padStart(2, '0')}</span>
-                The tape
-              </a>
-            </li>
+                </>
+              )
+              return (
+                <li key={n.id} className="menu__row" style={n.color ? { '--c': n.color } : undefined}>
+                  {n.to ? (
+                    <Link to={n.to} className="menu__item" onClick={close}>
+                      {body}
+                    </Link>
+                  ) : (
+                    <a href={n.href} className="menu__item" onClick={close}>
+                      {body}
+                    </a>
+                  )}
+                </li>
+              )
+            })}
           </ol>
           <div className="menu__side">
             <p className="mono menu__label">Elsewhere</p>

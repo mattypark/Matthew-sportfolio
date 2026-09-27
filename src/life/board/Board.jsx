@@ -12,6 +12,8 @@ import NowPanel from './panels/NowPanel'
 import ContactPanel from './panels/ContactPanel'
 import PersonalityPanel from './panels/PersonalityPanel'
 import Clock from '../components/Clock'
+import Loader from '../components/Loader'
+import TopBar from '../components/TopBar'
 import TextPressure from '../components/TextPressure'
 import { BOARD_CLOCKS } from '../data/site'
 import { prefersReducedMotion } from '../hooks/motion'
@@ -20,6 +22,15 @@ const PANELS = { timeline: TimelinePanel, now: NowPanel, contact: ContactPanel, 
 const INK = '#0b0b0b'
 const HIT_MS = 180
 const AWAY_DEG = 7 // how far the other boxes lean away from the focused one
+
+// the circle menu on the board: the four boxes as routes, then the tape
+// ("the long version" stays off the board, per Matthew)
+const MENU = [
+  ...SECTIONS.map((s) => ({ id: s.id, label: s.label, to: `/${s.id}`, color: s.color })),
+  { id: 'tape', label: 'The tape', to: '/tape' },
+]
+
+const menuOpen = () => Boolean(document.querySelector('#life-menu:not([hidden])'))
 
 // A small random tilt per box, fresh every visit: Timeline ±1°, the rest ±2°.
 function randomTilts() {
@@ -36,6 +47,7 @@ export default function Board() {
   const navigate = useNavigate()
   const target = byId[section] ? section : null
 
+  const [ready, setReady] = useState(false) // the loader has lifted
   const [shown, setShown] = useState(null) // section whose content is mounted
   const [hit, setHit] = useState(null) // box flashing from a key press
   const [focus, setFocus] = useState(null) // index of the hovered / focused box
@@ -59,9 +71,13 @@ export default function Board() {
     }
   }, [])
 
-  // entrance: boxes drop onto the board, marker lines draw themselves
+  const onLoaded = useCallback(() => setReady(true), [])
+
+  // entrance: boxes drop onto the board, marker lines draw themselves. Runs
+  // once the loader lifts; until then the board is hidden (.is-loading), and
+  // a layout effect sets the start state before the first visible paint.
   useLayoutEffect(() => {
-    if (prefersReducedMotion()) return undefined
+    if (!ready || prefersReducedMotion()) return undefined
     const ctx = gsap.context(() => {
       gsap
         .timeline({ defaults: { ease: 'back.out(1.7)' } })
@@ -82,7 +98,7 @@ export default function Board() {
         )
     })
     return () => ctx.revert()
-  }, [])
+  }, [ready])
 
   // URL → animation
   useEffect(() => {
@@ -190,7 +206,7 @@ export default function Board() {
   // keys: ← ↓ ↑ → open a box (like hitting a note), Esc closes
   useEffect(() => {
     const onKey = (e) => {
-      if (e.metaKey || e.ctrlKey || e.altKey) return
+      if (e.metaKey || e.ctrlKey || e.altKey || menuOpen()) return
       if (e.key === 'Escape' && target) {
         go(null)
         return
@@ -215,7 +231,9 @@ export default function Board() {
   const active = shown ? byId[shown] : null
 
   return (
-    <div className={`board ${washColor ? 'is-washed' : ''}`}>
+    <div className={`board ${washColor ? 'is-washed' : ''} ${ready ? '' : 'is-loading'}`}>
+      <Loader onDone={onLoaded} image={null} className="loader--board" />
+      <TopBar items={MENU} away={Boolean(target)} />
       {/* hovering a box floods the whole board with its color, spreading
           out from the box */}
       <div

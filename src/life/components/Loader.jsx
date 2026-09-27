@@ -23,8 +23,9 @@ function markSeen() {
 }
 
 // 0 → 100 in the corner, tied to real readiness (fonts + the hero photo),
-// then the black sheet wipes up. Once per session.
-export default function Loader({ onDone }) {
+// then the sheet wipes up. Once per session. The board has no photo, so it
+// passes image={null} and waits on fonts alone; `className` restyles it.
+export default function Loader({ onDone, image = '/media/portrait-suit.webp', className = '' }) {
   const [skip] = useState(() => seenThisSession() || prefersReducedMotion())
   const [n, setN] = useState(0)
   const sheet = useRef(null)
@@ -45,11 +46,15 @@ export default function Loader({ onDone }) {
       onUpdate: () => setN(Math.round(count.v)),
     })
 
-    const hero = new Image()
-    hero.src = '/media/portrait-suit.webp'
+    const decoded = () => {
+      if (!image) return Promise.resolve()
+      const hero = new Image()
+      hero.src = image
+      return hero.decode().catch(() => undefined)
+    }
     const ready = Promise.all([
       document.fonts?.ready ?? Promise.resolve(),
-      hero.decode().catch(() => undefined),
+      decoded(),
       new Promise((r) => setTimeout(r, MIN_MS)),
     ])
 
@@ -75,12 +80,12 @@ export default function Loader({ onDone }) {
       cancelled = true
       crawl.pause()
     }
-  }, [skip, onDone])
+  }, [skip, onDone, image])
 
   if (skip) return null
 
   return (
-    <div ref={sheet} className="loader" role="status" aria-label="Loading">
+    <div ref={sheet} className={`loader ${className}`} role="status" aria-label="Loading">
       <span className="loader__name mono">Matthew Park — every step, in order</span>
       <span className="loader__num-wrap" aria-hidden>
         <span className="loader__num">{String(n).padStart(3, '0')}</span>

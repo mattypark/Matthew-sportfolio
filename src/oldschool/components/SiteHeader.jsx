@@ -147,8 +147,8 @@ const SiteHeader = () => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <p className="font-ibm text-[10px] text-white/30 uppercase tracking-widest">Email</p>
-                  <a href="mailto:mattyparkbusiness@gmail.com" className="font-ibm text-xs text-white hover:text-white/60 transition-colors">
-                    mattyparkbusiness@gmail.com
+                  <a href="mailto:matthew.parkk0@gmail.com" className="font-ibm text-xs text-white hover:text-white/60 transition-colors">
+                    matthew.parkk0@gmail.com
                   </a>
                 </div>
                 <div className="flex flex-col gap-2">

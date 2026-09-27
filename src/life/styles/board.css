@@ -1,5 +1,9 @@
 /* The whiteboard home: four FNF-arrow boxes, liquid fill, panels. */
 
+:root {
+  --focus-yellow: #ffe03d;
+}
+
 body.on-board {
   background: #efefeb;
 }
@@ -230,7 +234,9 @@ body.on-board {
 }
 
 .box.is-focus {
-  background: color-mix(in srgb, var(--c) 45%, var(--white));
+  /* yellow on every color: the board floods with the box's color, the box
+     itself stays the one bright thing */
+  background: var(--focus-yellow);
   scale: 1.07;
   translate: 0 -8px;
   box-shadow: 11px 13px 0 var(--ink);

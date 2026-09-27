@@ -135,8 +135,30 @@ export default function Board() {
       }
     }
 
+    // box → box: hide the old content, then pour the new color over the old
+    const swap = (id) => {
+      const from = byId[filled.current]
+      const s = byId[id]
+      filled.current = id
+      const pour = () => {
+        setShown(null)
+        if (reduced) {
+          L.set({ color: s.color, dark: s.dark, full: true })
+          setShown(id)
+          return
+        }
+        L.refill({ from: from.color, color: s.color, dark: s.dark, onComplete: () => filled.current === id && setShown(id) })
+      }
+      const pieces = panel.current?.querySelectorAll('.panel__head, [data-reveal]')
+      if (!reduced && pieces?.length) {
+        gsap.to([...pieces].reverse(), { y: -28, opacity: 0, duration: 0.22, stagger: 0.02, ease: 'power2.in', onComplete: pour })
+      } else {
+        pour()
+      }
+    }
+
     if (target && filled.current !== target) {
-      if (filled.current) close(() => open(target))
+      if (filled.current) swap(target)
       else open(target)
     } else if (!target && filled.current) {
       close()

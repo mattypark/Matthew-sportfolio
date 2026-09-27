@@ -26,7 +26,7 @@ export const socials = [
   { id: 'in', label: 'LinkedIn', short: 'IN', href: 'https://www.linkedin.com/in/matthew-park-487889350/' },
 ]
 
-export const EMAIL = 'mattyparkbusiness@gmail.com'
+export const EMAIL = 'matthew.parkk0@gmail.com'
 
 export const nav = [
   { id: 'built', label: 'Built' },

@@ -48,6 +48,23 @@ export function createLiquid(svg, back, front) {
       .to(state, { phase: `+=${Math.PI * 2.4}`, duration: FILL_S, ease: 'none' }, 0)
   }
 
+  // Box → box: the new color rises over the old one, which stays put as the
+  // backdrop until the new fill covers it. No trip back to the board.
+  const refill = ({ from, color, dark, onComplete }) => {
+    gsap.killTweensOf(state)
+    svg.style.background = from
+    state.level = 0
+    draw()
+    return fill({
+      color,
+      dark,
+      onComplete: () => {
+        svg.style.background = ''
+        onComplete?.()
+      },
+    })
+  }
+
   const drain = ({ onComplete }) => {
     gsap.killTweensOf(state)
     return gsap
@@ -75,5 +92,5 @@ export function createLiquid(svg, back, front) {
   const onResize = () => draw()
   window.addEventListener('resize', onResize)
 
-  return { fill, drain, set, destroy: () => window.removeEventListener('resize', onResize) }
+  return { fill, refill, drain, set, destroy: () => window.removeEventListener('resize', onResize) }
 }

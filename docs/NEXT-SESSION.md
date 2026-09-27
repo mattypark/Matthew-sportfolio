@@ -5,18 +5,22 @@ Continue Matthew's portfolio redesign in ~/Downloads/current-projects/matthewpor
 on branch `redesign-2026`. Read docs/REDESIGN.md and this file first. Commit after every
 change as Matthew Park <matthew.parkk0@gmail.com>. NEVER git push, never deploy.
 
-WHERE IT STANDS (Matthew: "this is literally perfect", then a few tweaks, all done)
+WHERE IT STANDS (round 4 done — see docs/REDESIGN.md "Round 4")
 - `/` is a whiteboard (src/life/board/Board.jsx + src/life/styles/board.css):
-  "Matthew Park" centered (Cherry Bomb One), a handwritten note that writes itself
+  "Matthew Park" on ONE line filling the board width, squishing toward the pointer
+  (TextPressure), a handwritten note that writes itself
   with human pauses ("pick one ↓ (or use your arrow keys)", WrittenNote.jsx), four
-  small centered boxes with Friday Night Funkin' arrows and a fresh random tilt per
-  visit (Timeline ±1°, others ±2°), dashed marker line, three clocks at the bottom
-  (EST New York, PST San Francisco, KST Seoul).
+  small (≤190px) boxes with wide gaps, Friday Night Funkin' arrows and a fresh random
+  tilt per visit (Timeline ±1°, others ±2°), one dashed marker line through all four
+  with a chevron per gap, three clocks at the bottom (EST New York, PST San Francisco,
+  KST Seoul). Loader 000→100 once per session; circle menu top-right.
 - Hover/focus a box → the whole board floods with that box's color (circle from the
-  box), the focused box turns YELLOW (--focus-yellow) and shows a live preview
-  (Preview.jsx); the other boxes fade, shrink and lean away.
+  box), the focused box stays WHITE (never yellow) and shows a live preview
+  (Preview.jsx); the other boxes stay white, shrink and lean away.
 - Click / arrow key → GSAP liquid fill bottom→top in the box color (liquid.js), then
-  the panel content reveals piece by piece (board/panels/*). Esc/back drains to the
+  the panel content reveals piece by piece (board/panels/*). Every round-1 animation
+  lives inside a panel as a white Kit card (styles/panel-kit.css, board/scroller.js
+  for ScrollTrigger inside the panel). Esc/back drains to the
   board. Box → box pours the new color straight over the old one (liquid.refill) —
   it must NOT go back to the board in between.
 - Boxes: ← Timeline #cc57a3 (/timeline) · ↓ Right now #00c3ff (/now) ·
@@ -26,6 +30,9 @@ WHERE IT STANDS (Matthew: "this is literally perfect", then a few tweaks, all do
   /shop redirects home; /lut and /call still exist ONLY for past LUT buyers, nothing links to them.
 
 HARD PREFERENCES (from Matthew, don't regress)
+- Focused box is WHITE, not yellow. Name is one line, as big as fits, squish on hover.
+- Boxes small with visible space between them (the progression must read).
+- Panels keep the board look: white cards, thick ink borders, hard shadows.
 - NOT on the board: his photos, a subtitle, a Korean name, "the long version" link,
   the CORTIS chip, the shop. No "currently building", no M/P monogram, no scroll hints.
 - No stat walls / "receipts", no recognition lists, no long sideways scrolls.

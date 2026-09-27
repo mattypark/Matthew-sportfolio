@@ -6,7 +6,41 @@ match `portfolio-refs/COMPONENTS.md`.
 
 Nothing is pushed or deployed. Every step is committed on `redesign-2026`.
 
-## Round 3 — the whiteboard (current home)
+## Round 4 — every round-1 animation, back inside the boxes
+
+Matthew's notes (09.27): no yellow, bring back all the old animations inside the boxes in the board's look, smaller
+boxes with room between them, a much bigger name that squishes on hover.
+
+- **Board:** the hovered box stays **white** on the color flood (the others stay white too; only their arrows go
+  quiet). Boxes are smaller (≤ 190px wide) with wide gaps; the dashed marker line runs through every box's middle with
+  a chevron in each gap, so the four read left → right. **"Matthew Park" fills the width on one line** (sized to the
+  board's inner width) and uses **TextPressure** (letters stretch tall near the pointer, the rest squash; idle sweep on
+  touch). His pick: one line, as big as fits, rather than a two-line true 3×.
+- **Loader 000 → 100** runs once per session on whiteboard paper; the board's entrance waits for it.
+- **Circle menu** (burger top-right): the four boxes as routes (each lights up in its color) + the tape. Hidden while
+  a box is open; arrow keys don't fire under it. "The long version" stays off the board.
+- **Panels:** every piece is a white card (`board/panels/Kit.jsx`), styled by `styles/panel-kit.css` (scoped to
+  `.panel`, so `/archive` is untouched). Panel frame styles moved to `styles/panels.css`. Scroll-driven animations get
+  the panel as their ScrollTrigger scroller through `board/scroller.js`.
+
+| Box | What's inside now |
+|---|---|
+| ← Timeline | big moments · tape teaser · **Numbers count-up + 2026 heatmap** (restored, no logo strip) · velocity marquee · mini-UI project cards (no LUT) · the Everything list · GitHub graph + repos · doors |
+| ↓ Right now | typewriter lede · Terac / WAP / content as live mini UIs (terminal, chat, poster — faces set in `data/now.js`) · phone + cycling DMs (SEND = email) · the self-drawing route KY → Stanford → SF → NYC |
+| ↑ Contact | marker-circled "Tell me." · big copy-email · typewriter "write to me about…" · live clock · the old footer as a card (socials, colophon, ghost MATTHEW) |
+| → Personality | now playing · off-the-clock chips · the manifesto inking in · all 14 values with the swapping inspiration card |
+
+Still out (not picked): the CORTIS "on repeat" section and the horizontal pinned tape.
+
+**Confirm before launch:** the Numbers figures (`stats` in `data/work.js`: 550+, 30M+, 7×, $10K, 20K IG, 10+) are
+from round-1 copy. They sit next to "30K" in Right now and "30M+ views" on the content card; say which is which.
+
+Verified: `vite build` 143 KB gz JS (budget 150), 19 KB gz CSS. Playwright at 1440 / 768 / 375 + reduced motion:
+hover → white box, name ≤ board width and squishing, loader once, menu open / Esc / navigate, every panel scrolled
+top → bottom (manifesto, route, content strip, count-ups all fire inside the panel), box → box pour, back, Esc, no
+console errors.
+
+## Round 3 — the whiteboard
 
 `/` is now a whiteboard with four Friday Night Funkin'-arrow boxes (`src/life/board/`). Opening a box floods the
 screen with its color bottom → top (GSAP liquid, `board/liquid.js`), then the content reveals piece by piece; closing

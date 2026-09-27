@@ -75,9 +75,12 @@ body.on-board {
   margin: 0;
   font-family: var(--f-display);
   font-synthesis: none;
-  font-size: clamp(2.6rem, 1rem + 6vw, 6.8rem);
+  /* one line, as wide as the board allows: the name is ~6.7em wide, so
+     divide the inner width (viewport minus the board's padding) by 6.9 */
+  font-size: clamp(2.4rem, calc((100vw - 2 * clamp(18px, 3vw, 40px)) / 6.9), 22rem);
   font-weight: 400;
   line-height: 0.92;
+  white-space: nowrap;
 }
 
 /* ── doodles + notes ─────────────────────────────────────── */

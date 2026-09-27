@@ -12,6 +12,7 @@ import NowPanel from './panels/NowPanel'
 import ContactPanel from './panels/ContactPanel'
 import PersonalityPanel from './panels/PersonalityPanel'
 import Clock from '../components/Clock'
+import TextPressure from '../components/TextPressure'
 import { BOARD_CLOCKS } from '../data/site'
 import { prefersReducedMotion } from '../hooks/motion'
 
@@ -228,7 +229,10 @@ export default function Board() {
 
       <header className="board__top">
         <div className="board__name">
-          <h1 className="board__title">Matthew Park</h1>
+          {/* the letters squish and stretch toward the pointer */}
+          <h1 className="board__title">
+            <TextPressure text="Matthew Park" radiusScale={1.4} />
+          </h1>
         </div>
       </header>
 

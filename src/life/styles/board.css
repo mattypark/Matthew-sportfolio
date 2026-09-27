@@ -1,9 +1,5 @@
 /* The whiteboard home: four FNF-arrow boxes, liquid fill, panels. */
 
-:root {
-  --focus-yellow: #ffe03d;
-}
-
 body.on-board {
   background: #efefeb;
 }
@@ -234,9 +230,9 @@ body.on-board {
 }
 
 .box.is-focus {
-  /* yellow on every color: the board floods with the box's color, the box
-     itself stays the one bright thing */
-  background: var(--focus-yellow);
+  /* the board floods with the box's color; the box itself stays white,
+     the one bright thing on top of it */
+  background: var(--white);
   scale: 1.07;
   translate: 0 -8px;
   box-shadow: 11px 13px 0 var(--ink);
@@ -244,9 +240,13 @@ body.on-board {
 }
 
 .boxes.has-focus .box:not(.is-focus) {
-  opacity: 0.38;
   scale: 0.9;
-  filter: saturate(0.4);
+}
+
+/* the others stay white too; only their arrows go quiet */
+.boxes.has-focus .box:not(.is-focus) .box__arrow {
+  filter: saturate(0.3);
+  opacity: 0.6;
 }
 
 .box:focus-visible {
@@ -258,6 +258,7 @@ body.on-board {
   width: clamp(52px, 5vw, 84px);
   height: auto;
   margin-bottom: clamp(4px, 1vh, 12px);
+  transition: filter 0.35s var(--ease-out), opacity 0.35s var(--ease-out);
 }
 
 .box.is-focus .box__arrow {

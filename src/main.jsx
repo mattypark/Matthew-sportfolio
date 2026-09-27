@@ -10,6 +10,8 @@ import './life/styles/sections.css'
 import './life/styles/content.css'
 import './life/styles/github.css'
 import './life/styles/board.css'
+import './life/styles/panels.css'
+import './life/styles/panel-kit.css'
 
 // The site is the life-archive build in src/life (branch redesign-2026).
 //

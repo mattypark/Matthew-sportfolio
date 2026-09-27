@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { prefersReducedMotion } from '../hooks/motion'
+import { useScroller } from '../board/scroller'
 
 const BASE_SPEED = 0.6 // px per frame at rest
 const VELOCITY_GAIN = 0.12
@@ -8,18 +9,21 @@ const VELOCITY_GAIN = 0.12
 // flips direction with scroll direction. The ✱ glyphs spin with it.
 export default function Marquee({ text, className = '' }) {
   const track = useRef(null)
+  // inside a board panel the panel scrolls, not the window
+  const scroller = useScroller()
 
   useEffect(() => {
     const el = track.current
     if (!el || prefersReducedMotion()) return undefined
     let x = 0
     let dir = -1
-    let lastY = window.scrollY
+    const scrollY = () => (scroller ? scroller.scrollTop : window.scrollY)
+    let lastY = scrollY()
     let spin = 0
     let raf
 
     const frame = () => {
-      const y = window.scrollY
+      const y = scrollY()
       const v = y - lastY
       lastY = y
       if (v !== 0) dir = v > 0 ? -1 : 1
@@ -35,7 +39,7 @@ export default function Marquee({ text, className = '' }) {
     }
     raf = requestAnimationFrame(frame)
     return () => cancelAnimationFrame(raf)
-  }, [])
+  }, [scroller])
 
   const parts = text.split('✱')
   const run = parts.map((p, i) => (

@@ -39,6 +39,17 @@ export const projects = [
   },
 ]
 
+// The count-up numbers in the Timeline box. Matthew's own figures from the
+// round-1 copy — TODO(Matthew): confirm each before launch.
+export const stats = [
+  { value: 550, suffix: '+', label: 'interns through Axiom', source: 'Axiom' },
+  { value: 30, suffix: 'M+', label: 'views across platforms', source: 'content' },
+  { value: 7, suffix: '×', label: 'Prayer Lock revenue', source: '$2K MRR → $14K' },
+  { value: 10, prefix: '$', suffix: 'K', label: 'Google grant', source: '08.07.26' },
+  { value: 20, suffix: 'K', label: 'Instagram followers', source: '07.31.26' },
+  { value: 10, suffix: '+', label: 'startups partnered', source: 'Axiom' },
+]
+
 // The flat "everything" list. Click a row to open its line. `line: null`
 // shows "description coming" until Matthew writes it.
 export const everything = [

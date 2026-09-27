@@ -3,7 +3,9 @@ import { EMAIL, socials } from '../data/site'
 
 const BUILT_AT = typeof __BUILD_TIME__ !== 'undefined' ? new Date(__BUILD_TIME__) : new Date()
 
-export default function Footer() {
+// `email={false}` drops the email pill when the page already has a bigger one
+// (the Contact box).
+export default function Footer({ email = true }) {
   const [copied, setCopied] = useState(false)
 
   const copy = async () => {
@@ -25,15 +27,17 @@ export default function Footer() {
         ambitious<span className="red">.</span>
       </h2>
 
-      <div className="foot__row">
-        <button type="button" className="foot__email" onClick={copy}>
-          <span>{EMAIL}</span>
-          <span aria-hidden>{copied ? '✓ copied' : '→'}</span>
-        </button>
-        <span className="sr-only" aria-live="polite">
-          {copied ? 'Email copied' : ''}
-        </span>
-      </div>
+      {email && (
+        <div className="foot__row">
+          <button type="button" className="foot__email" onClick={copy}>
+            <span>{EMAIL}</span>
+            <span aria-hidden>{copied ? '✓ copied' : '→'}</span>
+          </button>
+          <span className="sr-only" aria-live="polite">
+            {copied ? 'Email copied' : ''}
+          </span>
+        </div>
+      )}
 
       <ul className="foot__socials">
         {socials.map((s) => (

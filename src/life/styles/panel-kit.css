@@ -1,0 +1,468 @@
+/* Round-1 archive components, re-dressed for the board's panels.
+   Every rule is scoped under .panel so /archive keeps its own look.
+   The board language: white cards, thick ink borders, hard offset shadows,
+   Cherry Bomb headings, Gveret accents, mono labels. The archive's red
+   becomes the open box's own deep color (--cd). */
+
+/* ── the card ────────────────────────────────────────────── */
+.panel .kit {
+  position: relative;
+  margin-top: clamp(28px, 4vh, 48px);
+  padding: clamp(20px, 3vw, 40px);
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 7px 7px 0 var(--ink);
+}
+
+.panel .kit__label {
+  margin: 0 0 clamp(14px, 2vw, 24px);
+  color: var(--gray-60);
+}
+
+.panel .kit__title {
+  margin: 0 0 clamp(18px, 3vw, 32px);
+  font-family: var(--f-display);
+  font-synthesis: none;
+  font-size: clamp(2rem, 1rem + 3vw, 4rem);
+  font-weight: 400;
+  line-height: 0.92;
+}
+
+/* edge-to-edge strips (the marquee) */
+.panel .kit--bleed {
+  padding: clamp(10px, 1.6vw, 20px) 0;
+  overflow: hidden;
+}
+
+.panel .kit--tight {
+  margin-top: 0;
+  padding: 14px;
+}
+
+/* ── archive sections become card content ────────────────── */
+.panel .kit .sec,
+.panel .kit .foot {
+  padding: 0;
+  background: none;
+  color: inherit;
+}
+
+.panel .kit .sec-head {
+  display: block;
+  margin-bottom: clamp(18px, 3vw, 32px);
+}
+
+/* the archive numbered its sections (01 / Why …); the card label says it */
+.panel .kit .sec-head .sec-index,
+.panel .kit .foot > .sec-index,
+.panel .kit .cstrip__copy .sec-index {
+  display: none;
+}
+
+.panel .kit .sec-title {
+  font-size: clamp(2rem, 1rem + 3vw, 4rem);
+  line-height: 0.92;
+  text-transform: none;
+}
+
+.panel .kit :is(.red, .serif-em) {
+  color: var(--cd);
+}
+
+.panel .marker__svg path {
+  stroke: currentColor;
+}
+
+.panel .kit .marker__svg path {
+  stroke: var(--cd);
+}
+
+/* ── tape teaser ─────────────────────────────────────────── */
+.panel .teaser__list {
+  border-top-width: 2.5px;
+}
+
+.panel .teaser__cta {
+  border: 2.5px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--cd);
+  text-transform: none;
+}
+
+.panel .teaser__cta:hover {
+  background: var(--cd);
+}
+
+.panel .chip--build,
+.panel .chip--next {
+  border-color: var(--cd);
+  background: var(--cd);
+}
+
+/* ── numbers + heatmap ───────────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: 14px;
+}
+
+.stat {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  padding: 18px;
+  border: 2.5px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.stat__n {
+  font-family: var(--f-display);
+  font-synthesis: none;
+  font-size: clamp(3rem, 1.8rem + 3.4vw, 5.4rem);
+  line-height: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat__label {
+  font-weight: 600;
+}
+
+.stat__src,
+.heat__cap,
+.numbers__alive {
+  color: var(--gray-60);
+}
+
+.heat {
+  margin: 36px 0 0;
+}
+
+.heat__grid {
+  display: grid;
+  grid-template-columns: repeat(53, minmax(9px, 1fr));
+  gap: 3px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.heat__col {
+  display: grid;
+  gap: 3px;
+}
+
+.heat__cell {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  background: #ecebe7;
+}
+
+.heat__cell.is-out {
+  background: transparent;
+}
+
+.heat__cell.is-hit {
+  background: var(--cd, var(--red));
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+
+.heat__cap,
+.numbers__alive {
+  margin: 12px 0 0;
+}
+
+/* ── marquee ─────────────────────────────────────────────── */
+.panel .marquee__run {
+  font-size: clamp(3rem, 1rem + 7vw, 8rem);
+}
+
+.panel .marquee__star {
+  color: var(--cd);
+}
+
+/* ── project cards (built grid + right now) ──────────────── */
+.panel .built__grid {
+  gap: 22px;
+}
+
+.panel .work-card:nth-child(3n + 2) {
+  translate: none;
+}
+
+.panel .work-card__name {
+  text-transform: none;
+}
+
+.panel .mini {
+  border: 2.5px solid var(--ink);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.panel .mini--poster,
+.panel .mini__bar--red,
+.panel .mini__bubble--me,
+.panel .mini__dots i:first-child {
+  background: var(--cd);
+}
+
+.panel .mini--poster {
+  color: var(--white);
+}
+
+.panel .now-cards {
+  margin-top: 8px;
+}
+
+.panel .now-cards .work-card__meta {
+  border-top-width: 2px;
+}
+
+/* ── everything list ─────────────────────────────────────── */
+.panel .everything {
+  margin-top: 0;
+}
+
+.panel .everything__btn {
+  text-transform: none;
+}
+
+.panel .everything__btn::before {
+  inset: 0 calc(clamp(20px, 3vw, 40px) * -1);
+  background: var(--c);
+}
+
+.panel .everything__btn:hover,
+.panel .everything__btn:hover .everything__n {
+  color: var(--ink);
+}
+
+.panel .everything__row.is-open .everything__btn,
+.panel .everything__row.is-open .everything__n {
+  color: var(--white);
+}
+
+/* ── github ──────────────────────────────────────────────── */
+.panel .l0 { background: #ecebe7; }
+.panel .l1 { background: color-mix(in srgb, var(--cd) 30%, white); }
+.panel .l2 { background: color-mix(in srgb, var(--cd) 55%, white); }
+.panel .l3 { background: color-mix(in srgb, var(--cd) 80%, white); }
+.panel .l4 { background: var(--cd); }
+
+.panel .repo {
+  border: 2.5px solid var(--ink);
+  border-radius: 16px;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+}
+
+.panel .repo:hover {
+  border-color: var(--ink);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--cd);
+}
+
+.panel .repo__desc {
+  color: #3a3a3a;
+}
+
+.panel .repo__meta,
+.panel .gh-graph__cap,
+.panel .gh-recent__meta {
+  color: var(--gray-60);
+}
+
+.panel .gh-recent,
+.panel .gh-recent a {
+  border-color: var(--gray-20);
+}
+
+.panel .gh-recent a {
+  color: var(--ink);
+}
+
+.panel .gh-recent a:hover {
+  color: var(--cd);
+}
+
+.panel .gh-follow {
+  border: 2.5px solid var(--ink);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.panel .gh-follow:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+/* ── content strip ───────────────────────────────────────── */
+.panel .cstrip {
+  margin-top: 0;
+}
+
+.panel .cstrip__title {
+  text-transform: none;
+}
+
+.panel .cstrip__stage {
+  margin: 0;
+  border: 2.5px solid var(--ink);
+  border-radius: 18px;
+  background: var(--c);
+}
+
+.panel .cstrip__strip {
+  opacity: 0.8;
+}
+
+.panel .cstrip__phone {
+  outline-color: rgba(11, 11, 11, 0.45);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+
+.panel .cstrip__dm {
+  border: 2.5px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.panel .cstrip__send {
+  background: var(--cd);
+}
+
+/* ── next route ──────────────────────────────────────────── */
+.panel .next__lede {
+  margin-left: 0;
+}
+
+.panel .route__past,
+.panel .route__dot {
+  stroke: var(--cd);
+}
+
+.panel .route__dot {
+  fill: var(--cd);
+}
+
+.panel .route__dot--plan {
+  fill: var(--white);
+  stroke: var(--ink);
+}
+
+.panel .route__label {
+  text-transform: none;
+}
+
+/* ── manifesto ───────────────────────────────────────────── */
+.panel .why__text {
+  max-width: 24ch;
+  margin-left: 0;
+  font-size: clamp(1.8rem, 1rem + 3vw, 4.2rem);
+  text-transform: none;
+}
+
+.panel .why__sign {
+  margin-left: 0;
+  color: var(--gray-60);
+}
+
+/* ── values ──────────────────────────────────────────────── */
+.panel .values__list {
+  padding-bottom: 20vh;
+}
+
+.panel .value.is-active .value__n {
+  color: var(--cd);
+}
+
+.panel .values__card {
+  top: 18vh;
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 7px 7px 0 var(--ink);
+}
+
+.panel .values__card img {
+  border-radius: 8px;
+}
+
+.panel .values__card-type {
+  border-radius: 8px;
+}
+
+.panel .values__card-n {
+  color: var(--c);
+}
+
+/* ── contact: footer as a card ───────────────────────────── */
+.contact-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 0 20px;
+}
+
+.contact-about {
+  margin: 0;
+  min-height: 1.2em;
+  font-family: var(--f-display);
+  font-synthesis: none;
+  font-size: clamp(1.6rem, 1rem + 2vw, 2.8rem);
+  line-height: 1.05;
+}
+
+.contact-clock {
+  display: block;
+  font-size: clamp(1rem, 0.8rem + 0.8vw, 1.5rem);
+}
+
+.panel .kit--foot {
+  overflow: hidden;
+}
+
+.panel .foot__title {
+  margin-top: 0;
+  font-size: clamp(2.4rem, 1rem + 6vw, 7rem);
+  text-transform: none;
+}
+
+.panel .foot__socials {
+  gap: 10px;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.panel .foot__socials a {
+  display: inline-block;
+  padding: 10px 14px;
+  border: 2.5px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+.panel .foot__socials a:hover {
+  color: var(--ink);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--cd);
+}
+
+.panel .colophon {
+  color: #3a3a3a;
+}
+
+.panel .colophon__h {
+  color: var(--ink);
+}
+
+.panel .foot__ghost {
+  color: var(--c);
+  font-size: 20vw;
+}
+
+.panel .foot__legal {
+  color: var(--gray-60);
+}

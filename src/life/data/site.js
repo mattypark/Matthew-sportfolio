@@ -6,6 +6,13 @@ export const BIRTHDAY = '2010-10-12'
 export const HOME_TZ = { label: 'MATTHEW TIME', zone: 'America/New_York' }
 export const HERITAGE_TZ = { label: 'SEOUL', zone: 'Asia/Seoul' }
 
+// the board shows all three: where he is, where he's headed, where he's from
+export const BOARD_CLOCKS = [
+  { label: 'EST · NEW YORK', zone: 'America/New_York' },
+  { label: 'PST · SAN FRANCISCO', zone: 'America/Los_Angeles' },
+  { label: 'KST · SEOUL', zone: 'Asia/Seoul' },
+]
+
 export const status = [
   { dot: 'red', pulse: true, text: 'Born in Kentucky · Korean-American' },
   { dot: 'ink', text: 'Portfolio · v2026.9' },

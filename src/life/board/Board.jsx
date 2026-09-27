@@ -3,6 +3,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { gsap } from 'gsap'
 import Arrow from './Arrow'
 import Preview from './Preview'
+import WrittenNote from './WrittenNote'
 import MarkerTrail from './MarkerTrail'
 import { SECTIONS, byId } from './sections'
 import { createLiquid } from './liquid'
@@ -11,7 +12,7 @@ import NowPanel from './panels/NowPanel'
 import ContactPanel from './panels/ContactPanel'
 import PersonalityPanel from './panels/PersonalityPanel'
 import Clock from '../components/Clock'
-import { HANGUL_NAME, HOME_TZ } from '../data/site'
+import { BOARD_CLOCKS } from '../data/site'
 import { prefersReducedMotion } from '../hooks/motion'
 
 const PANELS = { timeline: TimelinePanel, now: NowPanel, contact: ContactPanel, personality: PersonalityPanel }
@@ -38,6 +39,7 @@ export default function Board() {
   const [hit, setHit] = useState(null) // box flashing from a key press
   const [focus, setFocus] = useState(null) // index of the hovered / focused box
   const [tilts] = useState(randomTilts)
+  const [wash, setWash] = useState({ x: 0, y: 0 }) // where the color flood starts
   const filled = useRef(null) // section the liquid currently holds
   const liquid = useRef(null)
   const svg = useRef(null)
@@ -73,7 +75,7 @@ export default function Board() {
           0.5,
         )
         .from(
-          '.board__note, .board__foot > *',
+          '.board__foot > *',
           { opacity: 0, y: 10, duration: 0.5, stagger: 0.06, ease: 'power2.out' },
           0.8,
         )
@@ -155,6 +157,13 @@ export default function Board() {
 
   const go = useCallback((id) => navigate(id ? `/${id}` : '/'), [navigate])
 
+  // the flood only moves its origin when it starts; box-to-box keeps it full
+  const washFrom = (el) => {
+    if (focus !== null) return
+    const r = el.getBoundingClientRect()
+    setWash({ x: r.left + r.width / 2, y: r.top + r.height / 2 })
+  }
+
   // keys: ← ↓ ↑ → open a box (like hitting a note), Esc closes
   useEffect(() => {
     const onKey = (e) => {
@@ -177,11 +186,20 @@ export default function Board() {
 
   if (section && !target) return <Navigate to="/" replace />
 
+  const washColor = focus !== null && !target ? SECTIONS[focus].color : null
+
   const Panel = shown ? PANELS[shown] : null
   const active = shown ? byId[shown] : null
 
   return (
-    <div className="board">
+    <div className={`board ${washColor ? 'is-washed' : ''}`}>
+      {/* hovering a box floods the whole board with its color, spreading
+          out from the box */}
+      <div
+        className={`board__wash ${washColor ? 'is-on' : ''}`}
+        style={{ '--wash': washColor ?? 'transparent', '--wx': `${wash.x}px`, '--wy': `${wash.y}px` }}
+        aria-hidden
+      />
       <a href="#boxes" className="skip-link">
         Skip to the four boxes
       </a>
@@ -189,9 +207,6 @@ export default function Board() {
       <header className="board__top">
         <div className="board__name">
           <h1 className="board__title">Matthew Park</h1>
-          <p className="board__hangul" lang="ko">
-            {HANGUL_NAME}
-          </p>
         </div>
       </header>
 
@@ -200,9 +215,7 @@ export default function Board() {
       </svg>
 
       <div className="board__stage">
-        <p className="board__note board__note--pick hand" aria-hidden>
-          pick one ↓ (or use your arrow keys)
-        </p>
+        <WrittenNote className="board__note hand">pick one ↓ (or use your arrow keys)</WrittenNote>
 
         <ul id="boxes" ref={boxes} className={`boxes ${focus !== null ? 'has-focus' : ''}`} aria-label="Sections">
           {SECTIONS.map((s, i) => {
@@ -215,15 +228,19 @@ export default function Board() {
                   className={`box box--${s.id} ${hit === s.id ? 'is-hit' : ''} ${focus === i ? 'is-focus' : ''}`}
                   style={{ '--c': s.color, '--cd': s.dark, '--tilt': `${tilts[i]}deg`, '--away': `${away}deg` }}
                   onClick={() => go(s.id)}
-                  onPointerEnter={() => {
-                    trailColor.current = s.color
+                  onPointerEnter={(e) => {
+                    trailColor.current = s.dark
+                    washFrom(e.currentTarget)
                     setFocus(i)
                   }}
                   onPointerLeave={() => {
                     trailColor.current = INK
                     setFocus(null)
                   }}
-                  onFocus={() => setFocus(i)}
+                  onFocus={(e) => {
+                    washFrom(e.currentTarget)
+                    setFocus(i)
+                  }}
                   onBlur={() => setFocus(null)}
                   aria-keyshortcuts={s.key}
                 >
@@ -245,7 +262,9 @@ export default function Board() {
       </div>
 
       <footer className="board__foot">
-        <Clock {...HOME_TZ} />
+        {BOARD_CLOCKS.map((c) => (
+          <Clock key={c.zone} {...c} />
+        ))}
       </footer>
 
       <MarkerTrail colorRef={trailColor} active={!target} />

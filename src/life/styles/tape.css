@@ -1,5 +1,4 @@
-/* The life tape. Desktop: pinned, horizontal. Mobile / reduced motion: a
-   plain vertical column of the same cards. */
+/* The life tape page (/tape) and its home-page teaser. */
 
 .tape {
   position: relative;
@@ -45,7 +44,7 @@
 }
 
 .tape__media {
-  max-height: 52vh;
+  max-height: 44vh;
   object-fit: cover;
 }
 
@@ -107,9 +106,9 @@ a.tape__card:hover {
 .tape__title {
   margin: 0;
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.9rem);
-  font-weight: 800;
-  font-variation-settings: 'wdth' 72;
+  font-weight: 400;
   line-height: 0.98;
   letter-spacing: -0.01em;
   text-transform: uppercase;
@@ -132,9 +131,9 @@ a.tape__card:hover {
 .tape__year {
   padding: 28px 0 6px;
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: clamp(4rem, 14vw, 7rem);
-  font-weight: 900;
-  font-variation-settings: 'wdth' 55;
+  font-weight: 400;
   line-height: 0.8;
   color: transparent;
   -webkit-text-stroke: 1.5px var(--ink);
@@ -153,8 +152,9 @@ a.tape__card:hover {
 
 .tape__now-q {
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: 3.5rem;
-  font-weight: 900;
+  font-weight: 400;
   line-height: 1;
   color: var(--red);
 }
@@ -164,87 +164,125 @@ a.tape__card:hover {
   color: var(--gray-60);
 }
 
-.tape__ruler {
-  display: none;
+
+
+.tape .tape__head {
+  padding-top: 120px;
 }
 
-/* ── desktop: one long horizontal strip ───────────────────── */
-@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
-  .tape {
-    height: 100vh;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
+.tape__filters {
+  display: grid;
+  gap: 10px;
+  padding: 0 var(--gutter) 32px;
+}
+
+.tape__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fchip {
+  padding: 7px 12px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.fchip:hover,
+.fchip.is-on {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.fchip.is-on {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.tape__empty {
+  grid-column: 1 / -1;
+  color: var(--gray-60);
+}
+
+/* ── home teaser ─────────────────────────────────────────── */
+.teaser__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ink);
+}
+
+.teaser__row {
+  display: grid;
+  grid-template-columns: 90px auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--gray-20);
+}
+
+.teaser__date {
+  color: var(--gray-60);
+}
+
+.teaser__row .chip {
+  justify-self: start;
+}
+
+.teaser__title {
+  font-family: var(--f-display);
+  font-synthesis: none;
+  font-size: clamp(1.3rem, 1rem + 1.2vw, 2.1rem);
+  line-height: 1;
+}
+
+@media (max-width: 599px) {
+  .teaser__row {
+    grid-template-columns: auto minmax(0, 1fr);
   }
 
-  .tape__head {
-    grid-template-columns: 180px minmax(0, 1fr) auto;
-    align-items: end;
-    padding: 96px var(--gutter) 28px;
+  .teaser__title {
+    grid-column: 1 / -1;
   }
+}
 
-  .tape__head .sec-title {
-    font-size: clamp(2.5rem, 1rem + 4vw, 5rem);
-  }
+.teaser__cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 36px;
+  padding: 22px 26px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--f-display);
+  font-synthesis: none;
+  font-size: clamp(1.2rem, 0.9rem + 1.2vw, 2rem);
+  text-transform: uppercase;
+  transition: background 0.3s var(--ease-out);
+}
 
-  .tape__track {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 18px;
-    width: max-content;
-    padding: 0 var(--gutter);
-    will-change: transform;
-  }
+.teaser__cta:hover {
+  background: var(--red);
+}
 
-  .tape__card {
-    width: 250px;
-    min-height: 200px;
-  }
+.teaser__cta .serif-em {
+  text-transform: none;
+}
 
-  .tape__card--big {
-    width: 380px;
-  }
+.teaser__cta:hover .serif-em {
+  color: var(--white);
+}
 
-  .tape__media {
-    max-height: 46vh;
-    object-fit: cover;
-  }
+.teaser__arrow {
+  transition: transform 0.4s var(--ease-out);
+}
 
-  .slot--empty.tape__media {
-    max-height: 46vh;
-  }
-
-  .tape__year {
-    align-self: stretch;
-    display: flex;
-    align-items: flex-end;
-    padding: 0 8px 0 24px;
-    font-size: clamp(7rem, 13vw, 13rem);
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-  }
-
-  .tape__now {
-    width: 220px;
-  }
-
-  .tape__end {
-    width: 40vw;
-    padding-left: 60px;
-  }
-
-  .tape__ruler {
-    display: block;
-    height: 3px;
-    margin: 0 var(--gutter) 28px;
-    background: var(--gray-20);
-  }
-
-  .tape__playhead {
-    display: block;
-    height: 100%;
-    background: var(--red);
-    transform: scaleX(0);
-    transform-origin: left;
-  }
+.teaser__cta:hover .teaser__arrow {
+  transform: translateX(8px);
 }

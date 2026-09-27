@@ -7,8 +7,7 @@ export const HOME_TZ = { label: 'MATTHEW TIME', zone: 'America/New_York' }
 export const HERITAGE_TZ = { label: 'SEOUL', zone: 'Asia/Seoul' }
 
 export const status = [
-  { dot: 'red', pulse: true, text: 'Currently building · always' },
-  { dot: 'ink', text: 'Born in Kentucky · Korean-American' },
+  { dot: 'red', pulse: true, text: 'Born in Kentucky · Korean-American' },
   { dot: 'ink', text: 'Portfolio · v2026.9' },
 ]
 
@@ -29,11 +28,11 @@ export const shop = [
 ]
 
 export const nav = [
-  { id: 'tape', label: 'Tape' },
   { id: 'built', label: 'Built' },
-  { id: 'numbers', label: 'Numbers' },
-  { id: 'recognition', label: 'Proof' },
+  { id: 'github', label: 'GitHub' },
   { id: 'values', label: 'Values' },
-  { id: 'repeat', label: 'On repeat' },
   { id: 'next', label: 'Next' },
 ]
+
+// the Korean name next to PARK in the hero
+export const HANGUL_NAME = '박성호'

@@ -4,7 +4,8 @@ import TextPressure from './TextPressure'
 import Typewriter from './Typewriter'
 import Clock from './Clock'
 import Slot from './Slot'
-import { status, BIRTHDAY, HOME_TZ, HERITAGE_TZ } from '../data/site'
+import NowPlaying from './NowPlaying'
+import { status, BIRTHDAY, HOME_TZ, HERITAGE_TZ, HANGUL_NAME } from '../data/site'
 import { prefersReducedMotion } from '../hooks/motion'
 
 const ROLES = ['builder', 'creator', 'alto sax player', 'tennis player', 'debater', 'future Stanford kid']
@@ -13,7 +14,7 @@ const ROLES = ['builder', 'creator', 'alto sax player', 'tennis player', 'debate
 const CONSTELLATION = [
   { id: 'portrait-suit', x: 74, y: 9, w: 15, depth: 0.9, rot: 2 },
   { id: 'portrait-seoul', x: 3, y: 57, w: 18, depth: 0.6, rot: -3 },
-  { id: 'portrait-1', x: 37, y: 5, w: 7, depth: 1.6, rot: -5 },
+  { id: 'portrait-1', x: 66, y: 68, w: 7, depth: 1.6, rot: -5 },
   { id: 'portrait-3', x: 44, y: 71, w: 11, depth: 0.4, rot: -2 },
 ]
 
@@ -91,13 +92,15 @@ export default function Hero({ ready }) {
       <h1 id="hero-name" className="hero__name">
         <span className="hero__mask">
           <span className="hero__line">
-            <TextPressure text="MATTHEW" accent={false} />
+            <TextPressure text="MATTHEW" />
           </span>
         </span>
         <span className="hero__mask">
           <span className="hero__line hero__line--second">
-            <TextPressure text="PARK" accent={false} />
-            <span className="hero__hangul" lang="ko">박</span>
+            <TextPressure text="PARK" />
+            <span className="hero__hangul" lang="ko">
+              {HANGUL_NAME}
+            </span>
           </span>
         </span>
       </h1>
@@ -110,9 +113,7 @@ export default function Hero({ ready }) {
         </p>
         <Clock {...HOME_TZ} className="hero__clock hero__clock--home" />
         <Clock {...HERITAGE_TZ} className="hero__clock hero__clock--seoul" />
-        <a href="#why" className="hero__scroll mono">
-          Scroll — it&apos;s a long story ↓
-        </a>
+        <NowPlaying className="hero__np" />
       </div>
     </section>
   )

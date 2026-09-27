@@ -1,5 +1,5 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import useLenis from '../hooks/useLenis'
 
@@ -7,12 +7,11 @@ import Loader from './components/Loader'
 import TopBar from './components/TopBar'
 import Hero from './components/Hero'
 import Manifesto from './components/Manifesto'
+import TapeTeaser from './components/TapeTeaser'
 import Tape from './components/Tape'
 import Built from './components/Built'
-import Numbers from './components/Numbers'
-import Recognition from './components/Recognition'
+import GitHub from './components/GitHub'
 import Values from './components/Values'
-import OnRepeat from './components/OnRepeat'
 import Next from './components/Next'
 import Footer from './components/Footer'
 import Marquee from './components/Marquee'
@@ -25,14 +24,46 @@ const Lut = lazy(() => import('../oldschool/components/Lut'))
 const LutThanks = lazy(() => import('../oldschool/components/LutThanks'))
 const Call = lazy(() => import('../oldschool/components/Call'))
 
-function Home() {
-  const [ready, setReady] = useState(false)
-  const onLoaded = useCallback(() => setReady(true), [])
+// The old build's fonts, loaded only when a commerce page mounts.
+const LEGACY_FONTS =
+  'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap'
 
+function LegacyFonts({ children }) {
+  useEffect(() => {
+    if (document.querySelector(`link[href="${LEGACY_FONTS}"]`)) return
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = LEGACY_FONTS
+    document.head.appendChild(link)
+  }, [])
+  return children
+}
+
+function useLifeBody() {
   useEffect(() => {
     document.body.classList.add('life')
     return () => document.body.classList.remove('life')
   }, [])
+}
+
+function Chrome({ home, children }) {
+  return (
+    <div className="life-root">
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
+      <TopBar home={home} />
+      <main id="main">{children}</main>
+      <Footer />
+      <div className="grain" aria-hidden />
+    </div>
+  )
+}
+
+function Home() {
+  const [ready, setReady] = useState(false)
+  const onLoaded = useCallback(() => setReady(true), [])
+  useLifeBody()
 
   // pinned sections measure layout; re-measure once fonts settle
   useEffect(() => {
@@ -46,28 +77,37 @@ function Home() {
   }, [ready])
 
   return (
-    <div className="life-root">
-      <a href="#main" className="skip-link">
-        Skip to content
-      </a>
+    <>
       <Loader onDone={onLoaded} />
-      <TopBar />
-      <main id="main">
+      <Chrome home>
         <Hero ready={ready} />
         <Manifesto />
-        <Tape />
+        <TapeTeaser />
         <Marquee text="BUILDER ✱ CREATOR ✱ SAX ✱ TENNIS ✱ DEBATE ✱ " className="divider-marquee" />
         <Built />
-        <Numbers />
-        <Recognition />
+        <GitHub />
         <Values />
-        <OnRepeat />
         <Next />
-      </main>
-      <Footer />
-      <div className="grain" aria-hidden />
-    </div>
+      </Chrome>
+    </>
   )
+}
+
+function TapePage() {
+  useLifeBody()
+  return (
+    <Chrome home={false}>
+      <Tape />
+    </Chrome>
+  )
+}
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    if (!window.location.hash) window.scrollTo(0, 0)
+  }, [pathname])
+  return null
 }
 
 export default function LifeApp() {
@@ -75,14 +115,44 @@ export default function LifeApp() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/lut" element={<Lut />} />
-          <Route path="/lut/thanks" element={<LutThanks />} />
-          <Route path="/call" element={<Call />} />
-          {/* old section URLs land on their new home-page anchors */}
+          <Route path="/tape" element={<TapePage />} />
+          <Route
+            path="/shop"
+            element={
+              <LegacyFonts>
+                <Shop />
+              </LegacyFonts>
+            }
+          />
+          <Route
+            path="/lut"
+            element={
+              <LegacyFonts>
+                <Lut />
+              </LegacyFonts>
+            }
+          />
+          <Route
+            path="/lut/thanks"
+            element={
+              <LegacyFonts>
+                <LutThanks />
+              </LegacyFonts>
+            }
+          />
+          <Route
+            path="/call"
+            element={
+              <LegacyFonts>
+                <Call />
+              </LegacyFonts>
+            }
+          />
+          {/* old section URLs land on their new home */}
           <Route path="/values" element={<Navigate to="/#values" replace />} />
           <Route path="/about" element={<Navigate to="/#why" replace />} />
           <Route path="/projects" element={<Navigate to="/#built" replace />} />

@@ -1,13 +1,13 @@
-/* 01 Why · 03 Built · 04 Numbers · 05 Values · 07 Next */
+/* Why · Built · Values · Next */
 
 /* ── 01 why ─────────────────────────────────────────────── */
 .why__text {
   max-width: 22ch;
   margin: 0;
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: clamp(2rem, 1rem + 4.2vw, 5.4rem);
-  font-weight: 800;
-  font-variation-settings: 'wdth' 64;
+  font-weight: 400;
   line-height: 0.96;
   letter-spacing: -0.01em;
   text-transform: uppercase;
@@ -21,8 +21,7 @@
 }
 
 .why__text .serif-em {
-  color: var(--white);
-  font-size: 1.1em;
+  font-size: 1.15em;
 }
 
 .why__sign {
@@ -82,9 +81,9 @@
 .work-card__name {
   margin: 0;
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: var(--t-h3);
-  font-weight: 850;
-  font-variation-settings: 'wdth' 62;
+  font-weight: 400;
   line-height: 0.9;
   text-transform: uppercase;
 }
@@ -117,9 +116,9 @@ a.work-card:hover .mini {
 
 .mini__big {
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: clamp(5rem, 11vw, 9rem);
-  font-weight: 900;
-  font-variation-settings: 'wdth' 55;
+  font-weight: 400;
   line-height: 0.8;
   font-variant-numeric: tabular-nums;
 }
@@ -155,8 +154,9 @@ a.work-card:hover .mini {
   left: 20px;
   top: 14px;
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: 3.5rem;
-  font-weight: 900;
+  font-weight: 400;
   line-height: 1;
 }
 
@@ -210,9 +210,9 @@ a.work-card:hover .mini {
 
 .mini__poster-big {
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: clamp(5rem, 12vw, 10rem);
-  font-weight: 900;
-  font-variation-settings: 'wdth' 55;
+  font-weight: 400;
   line-height: 0.85;
 }
 
@@ -228,22 +228,31 @@ a.work-card:hover .mini {
 
 .everything__row {
   position: relative;
+  border-top: 1px solid var(--gray-20);
+  isolation: isolate;
+}
+
+.everything__btn {
   display: flex;
   align-items: baseline;
   gap: 16px;
-  padding: 2px 0;
-  border-top: 1px solid var(--gray-20);
+  width: 100%;
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
   font-family: var(--f-display);
-  font-size: clamp(1.8rem, 1rem + 3.4vw, 4.2rem);
-  font-weight: 850;
-  font-variation-settings: 'wdth' 60;
-  line-height: 1;
+  font-synthesis: none;
+  font-size: clamp(1.6rem, 1rem + 2.6vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.05;
+  text-align: left;
   text-transform: uppercase;
-  isolation: isolate;
+  cursor: pointer;
   transition: color 0.2s;
 }
 
-.everything__row::before {
+.everything__btn::before {
   content: '';
   position: absolute;
   inset: 0 calc(var(--gutter) * -1);
@@ -253,12 +262,18 @@ a.work-card:hover .mini {
   transition: transform 0.35s var(--ease-out);
 }
 
-.everything__row:hover {
+.everything__btn:hover,
+.everything__row.is-open .everything__btn {
   color: var(--white);
 }
 
-.everything__row:hover::before {
+.everything__btn:hover::before,
+.everything__row.is-open .everything__btn::before {
   transform: scaleY(1);
+}
+
+.everything__row.is-open .everything__btn::before {
+  background: var(--ink);
 }
 
 .everything__n {
@@ -266,144 +281,45 @@ a.work-card:hover .mini {
   color: var(--gray-60);
 }
 
-.everything__row:hover .everything__n {
+.everything__btn:hover .everything__n,
+.everything__row.is-open .everything__n {
   color: var(--white);
 }
 
-/* ── 04 numbers ─────────────────────────────────────────── */
-.stats {
+.everything__plus {
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: 1.4rem;
+}
+
+/* height animates via grid rows: 0fr → 1fr */
+.everything__panel {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease-out);
 }
 
-@media (min-width: 900px) {
-  .stats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+.everything__row.is-open .everything__panel {
+  grid-template-rows: 1fr;
 }
 
-.stats {
-  border-top: 1px solid var(--line-dark);
-}
-
-.stat {
-  display: grid;
-  gap: 6px;
-  padding: 24px 20px 28px 0;
-  border-bottom: 1px solid var(--line-dark);
-}
-
-.stat__n {
-  font-family: var(--f-display);
-  font-size: clamp(3.6rem, 2rem + 5vw, 7rem);
-  font-weight: 900;
-  font-variation-settings: 'wdth' 55;
-  line-height: 0.85;
-  font-variant-numeric: tabular-nums;
-}
-
-.stat--hero .stat__n {
-  color: var(--red);
-}
-
-.stat--hero .stat__n .red {
-  color: var(--white);
-}
-
-.stat__src {
-  color: var(--gray-60);
-}
-
-.heat {
-  margin: 64px 0 0;
-}
-
-.heat__grid {
-  display: grid;
-  grid-template-columns: repeat(53, minmax(9px, 1fr));
-  gap: 3px;
-  overflow-x: auto;
-  padding-bottom: 6px;
-}
-
-.heat__col {
-  display: grid;
-  gap: 3px;
-}
-
-.heat__cell {
-  aspect-ratio: 1;
-  border-radius: 2px;
-  background: #1f1f1f;
-}
-
-.heat__cell.is-out {
-  background: transparent;
-}
-
-.heat__cell.is-hit {
-  background: var(--red);
-}
-
-.heat__cap,
-.numbers__alive {
-  margin-top: 12px;
-  color: var(--gray-40);
-}
-
-.proof {
-  margin-top: 64px;
-}
-
-.proof__label {
-  color: var(--gray-40);
-}
-
-.proof__eyes {
-  color: var(--white);
-  letter-spacing: -0.1em;
-}
-
-.proof__viewport {
+.everything__line {
+  min-height: 0;
   overflow: hidden;
-  margin-top: 16px;
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-
-.proof__track {
-  display: flex;
-  gap: 56px;
-  width: max-content;
   margin: 0;
-  padding: 0;
-  list-style: none;
-  animation: proof-run 40s linear infinite;
+  padding-left: calc(2.5em * 0.3 + 16px);
+  font-size: var(--t-lead);
+  line-height: 1.4;
+  color: #2b2b2b;
 }
 
-.proof__track li {
-  font-family: var(--f-display);
-  font-size: clamp(1.6rem, 1rem + 2vw, 2.8rem);
-  font-weight: 700;
-  font-variation-settings: 'wdth' 75;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: var(--gray-40);
-  transition: color 0.2s;
+.everything__row.is-open .everything__line {
+  padding-top: 14px;
+  padding-bottom: 20px;
+  color: #e9e6e1;
 }
 
-.proof__track li:hover {
-  color: var(--white);
-}
-
-.proof__viewport:hover .proof__track {
-  animation-play-state: paused;
-}
-
-@keyframes proof-run {
-  to { transform: translateX(-50%); }
-}
-
-/* ── 05 values ──────────────────────────────────────────── */
+/* ── values ──────────────────────────────────────────── */
 .values__body {
   display: grid;
   gap: 40px;
@@ -489,14 +405,14 @@ a.work-card:hover .mini {
 
 .values__card-n {
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: 9rem;
-  font-weight: 900;
-  font-variation-settings: 'wdth' 55;
+  font-weight: 400;
   line-height: 1;
   color: var(--red);
 }
 
-/* ── 07 next ────────────────────────────────────────────── */
+/* ── next ────────────────────────────────────────────── */
 .next__lede {
   max-width: 40ch;
   margin: 0 0 48px;
@@ -548,8 +464,8 @@ a.work-card:hover .mini {
 }
 
 .route__label {
-  font: 800 18px var(--f-display);
-  font-variation-settings: 'wdth' 70;
+  font: 400 18px var(--f-display);
+  font-synthesis: none;
   text-anchor: middle;
   text-transform: uppercase;
   fill: var(--ink);
@@ -568,12 +484,6 @@ a.work-card:hover .mini {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .proof__track {
-    animation: none;
-    flex-wrap: wrap;
-    width: auto;
-  }
-
   .mini__caret {
     animation: none;
   }

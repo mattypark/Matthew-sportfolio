@@ -54,7 +54,7 @@ export default function Next() {
   return (
     <section id="next" ref={root} className="sec sec--paper next" aria-labelledby="next-title">
       <div className="sec-head">
-        <p className="sec-index">08 / Next</p>
+        <p className="sec-index">06 / Next</p>
         <h2 id="next-title" className="sec-title">
           Kentucky kid, <em className="serif-em">SF address</em>
         </h2>

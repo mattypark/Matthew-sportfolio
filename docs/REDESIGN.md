@@ -6,26 +6,32 @@ match `portfolio-refs/COMPONENTS.md`.
 
 Nothing is pushed or deployed. Every step is committed on `redesign-2026`.
 
-## What's on the page (top → bottom)
+## What's on the page (top → bottom) — round 2, after Matthew's review
 
-| # | Section | File | Built from (ref ids) |
-|---|---|---|---|
-| — | Loader 000 → 100, once per session | `components/Loader.jsx` | `loader-counter-0-100` |
-| — | Top bar + circle-reveal index menu | `components/TopBar.jsx` | `nav-menu-morph`, `nav-status-strip` |
-| hero | Text-pressure name, red sun, photo constellation, clocks, typewriter roles | `components/Hero.jsx`, `TextPressure.jsx` | `type-text-pressure`, `detail-red-circle-device`, `media-photo-constellation`, `type-typewriter-loop`, `detail-live-clock-dual`, `type-bilingual-wordmark` |
-| 01 | Why — manifesto, red numbers, words ink in on scroll | `components/Manifesto.jsx` | `type-manifesto-red-numbers`, `type-scroll-word-reveal`, `detail-marker-annotations` |
-| 02 | The tape — every dated moment, pinned horizontal on desktop | `components/Tape.jsx` | `scroll-horizontal-tape` |
-| — | Velocity marquee divider | `components/Marquee.jsx` | `type-velocity-marquee` |
-| 03 | Built — live mini-UI cards, content strip + fake DM, hover-band list | `components/Built.jsx`, `MiniCard.jsx`, `ContentStrip.jsx` | `media-live-mini-ui-cards`, `scroll-filmstrip-phone-dm`, `media-hover-band-list` |
-| 04 | Numbers — counters, 2026 heatmap, "as seen at" marquee | `components/Numbers.jsx` | `data-stat-counters`, `proof-shipping-heatmap`, `proof-as-seen-on-marquee` |
-| 05 | Recognition — 15 awards in groups with see-more | `components/Recognition.jsx` | `proof-recognition-groups` |
-| 06 | Values — the 14, focus list + tilting inspiration card | `components/Values.jsx` | `scroll-focus-list` |
-| 07 | On repeat — CORTIS, JYP, singing, sax; stage lights | `components/OnRepeat.jsx` | `moment-audio-reactive-stage` (visual only, no audio yet) |
-| 08 | Next — self-drawing route KY → Stanford → SF → NYC | `components/Next.jsx` | `scroll-self-drawing-route` |
-| 09 | Say hi — email copy pill, shop lots, colophon, ghost wordmark | `components/Footer.jsx` | `contact-email-pill-qr`, `footer-colophon-toggles`, `footer-ghost-wordmark` |
+| # | Section | File |
+|---|---|---|
+| — | Loader 000 → 100, once per session | `components/Loader.jsx` |
+| — | Top bar (no monogram) + circle-reveal index menu; works from /tape too | `components/TopBar.jsx` |
+| hero | MATTHEW PARK 박성호, squish-on-hover name, red sun, photos, clocks, typewriter, CORTIS "on repeat" chip | `components/Hero.jsx`, `TextPressure.jsx`, `NowPlaying.jsx` |
+| 01 | Why — manifesto, words ink in on scroll | `components/Manifesto.jsx` |
+| 02 | Tape teaser — latest 4 moments + link to /tape | `components/TapeTeaser.jsx` |
+| — | Velocity marquee divider | `components/Marquee.jsx` |
+| 03 | Built — mini-UI project cards, content phone + cycling DMs, click-to-open "everything" list | `components/Built.jsx`, `MiniCard.jsx`, `ContentStrip.jsx`, `Everything.jsx` |
+| 04 | GitHub — contribution graph, pinned repos, latest pushes (build-time snapshot) | `components/GitHub.jsx`, `data/github.json` |
+| 05 | Values — the 14, focus list + inspiration card | `components/Values.jsx` |
+| 06 | Next — self-drawing route KY → Stanford → SF → NYC | `components/Next.jsx` |
+| 07 | Say hi — email pill, shop lots, colophon | `components/Footer.jsx` |
+| /tape | Every moment as a card grid, filter by year or chapter | `components/Tape.jsx` |
 
-Shop, `/lut`, `/lut/thanks` and `/call` are the old oldschool components, lazy-loaded and untouched. Stripe/Resend
-`api/` is untouched. Old URLs `/values`, `/about`, `/projects` land on their home-page sections.
+Removed in round 2: the "currently building" status, the M/P mark, the scroll hint, the pinned horizontal tape on the
+home page, Numbers ("receipts"), Recognition, and the full CORTIS section. Nothing claims growth work at MathGPT or
+Turbolearn AI anymore.
+
+**Fonts** (all in `styles/tokens.css`, swap one line for the custom face): Cherry Bomb One (display), Gveret Levin
+(handwritten accents), SF Pro via the system stack (body; can't be self-hosted), SF Mono via `ui-monospace`, Jua for 박성호.
+
+**GitHub data:** run `node scripts/github-snapshot.mjs` before a deploy to refresh `src/life/data/github.json`. Only
+public, owned, non-fork repos are written.
 
 ## Where to edit content
 
@@ -33,9 +39,9 @@ Shop, `/lut`, `/lut/thanks` and `/call` are the old oldschool components, lazy-l
 |---|---|
 | Timeline moments (add a row = new card on the tape) | `src/life/data/timeline.js` |
 | Status strip, clocks, socials, email, shop lots, nav | `src/life/data/site.js` |
-| Projects, stats, the "everything" list, values, inspiration people | `src/life/data/work.js` |
-| Awards | `src/life/data/recognition.js` |
-| CORTIS video | `src/life/data/repeat.js` (`youtubeId`) |
+| Projects, the "everything" list (+ descriptions), values, inspiration people | `src/life/data/work.js` |
+| GitHub snapshot | `node scripts/github-snapshot.mjs` → `src/life/data/github.json` |
+| CORTIS chip link | `src/life/data/repeat.js` |
 | Every photo / video | `src/life/data/media.js` |
 
 ## Media slots still waiting for files
@@ -67,14 +73,11 @@ loops, H.264, ≤ 3 MB, with a poster JPG. Photos: WebP ≤ 1200px wide.
 
 ## Open questions for Matthew
 
-1. **Clocks:** "Matthew Time" is set to Louisville (America/New_York) + Seoul. Houston instead?
-2. **CORTIS:** which official video goes in the embed (paste the YouTube id)?
-3. **Numbers:** 30M views and the 20K / 550+ / 10+ figures are from your own copy. Confirm before launch; they're the
-   first thing a reviewer will check.
-4. **JYP audition** is public on the old timeline too. Keep it this prominent?
-5. **Axiom link** points to axiompathways.org. Right domain?
-6. **Hero at rest:** the reduced-motion version (the static wide wordmark, see `public/og.jpg`) may read stronger than
-   the moving pressure effect. Keep the effect, or only run it on hover?
+1. **Turbolearn AI and MathGPT descriptions**: the list says "Description coming soon" until you send one line each
+   (`everything` in `src/life/data/work.js`).
+2. **Custom font**: when it's ready, drop the files in `public/fonts/` and point `--f-display` at it.
+3. **Clocks**: "Matthew Time" is Louisville + Seoul. Houston instead?
+4. **Numbers** in the manifesto ($2K → $14K, 550+) are from your copy. Confirm before launch.
 
 ## Verified
 

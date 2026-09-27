@@ -1,35 +1,30 @@
 import { useEffect, useRef } from 'react'
 import { prefersReducedMotion } from '../hooks/motion'
 
-// Variable-font "pressure": the letter nearest the pointer swells to full
-// weight and width while distant letters collapse thin. Idea from React Bits'
-// Text Pressure (MIT); rebuilt on Anybody's wght + wdth axes.
+// "Pressure": the letter nearest the pointer stretches tall and bulges while
+// its neighbours squash, like pressing into something soft. Idea from React
+// Bits' Text Pressure (MIT). This version uses transforms, not font axes, so
+// it works with any display face — including the custom font to come.
 //
-// Touch / no pointer: a virtual pointer sweeps slowly across the word so the
-// effect still reads on phones.
+// Touch / idle pointer: a virtual pointer sweeps slowly across the word so
+// the effect still reads on phones.
 
-const AXES = { wdthMin: 66, wdthMax: 132, wghtMin: 380, wghtMax: 900 }
+const STRETCH_Y = 0.34 // how much taller the pressed letter gets
+const BULGE_X = 0.14 // how much wider it gets
+const SQUASH_X = 0.08 // how much the far letters narrow
 const LERP = 0.14
 const IDLE_MS = 2200
 
-export default function TextPressure({ text, className = '', radiusScale = 1.8, accent = true }) {
+export default function TextPressure({ text, className = '', radiusScale = 1.7 }) {
   const wrap = useRef(null)
   const chars = useRef([])
 
   useEffect(() => {
     const el = wrap.current
-    if (!el) return undefined
+    if (!el || prefersReducedMotion()) return undefined
     const letters = chars.current.filter(Boolean)
-
-    if (prefersReducedMotion()) {
-      letters.forEach((s) => {
-        s.style.fontVariationSettings = `'wght' 820, 'wdth' 88`
-      })
-      return undefined
-    }
-
     const pointer = { x: -9999, y: -9999, last: 0 }
-    const current = letters.map(() => ({ t: 0 }))
+    const current = letters.map(() => 0)
     let raf
 
     const onMove = (e) => {
@@ -41,27 +36,26 @@ export default function TextPressure({ text, className = '', radiusScale = 1.8, 
 
     const frame = (now) => {
       const box = el.getBoundingClientRect()
-      // off-screen: skip the work
       if (box.bottom > 0 && box.top < window.innerHeight) {
         let px = pointer.x
         let py = pointer.y
         if (now - pointer.last > IDLE_MS) {
-          const phase = (Math.sin(now / 1400) + 1) / 2
-          px = box.left + box.width * phase
+          px = box.left + box.width * ((Math.sin(now / 1500) + 1) / 2)
           py = box.top + box.height / 2
         }
-        const radius = (box.width / letters.length) * radiusScale * 2
+        const radius = (box.width / letters.length) * radiusScale
 
         letters.forEach((s, i) => {
-          const r = s.getBoundingClientRect()
-          const d = Math.hypot(px - (r.left + r.width / 2), py - (r.top + r.height / 2))
+          // measure the untransformed slot: offsetLeft/Width ignore transforms
+          const cx = box.left + s.offsetLeft + s.offsetWidth / 2
+          const cy = box.top + s.offsetTop + s.offsetHeight / 2
+          const d = Math.hypot(px - cx, py - cy)
           const target = Math.max(0, 1 - d / radius)
-          const c = current[i]
-          c.t += (target * target - c.t) * LERP
-          const wdth = AXES.wdthMin + (AXES.wdthMax - AXES.wdthMin) * c.t
-          const wght = AXES.wghtMin + (AXES.wghtMax - AXES.wghtMin) * Math.min(1, c.t * 1.3 + 0.35)
-          s.style.fontVariationSettings = `'wght' ${wght.toFixed(0)}, 'wdth' ${wdth.toFixed(1)}`
-          if (accent) s.style.color = c.t > 0.72 ? 'var(--red)' : ''
+          current[i] += (target * target - current[i]) * LERP
+          const t = current[i]
+          const sx = 1 + BULGE_X * t - SQUASH_X * (1 - t)
+          const sy = 1 + STRETCH_Y * t
+          s.style.transform = `scale(${sx.toFixed(3)}, ${sy.toFixed(3)})`
         })
       }
       raf = requestAnimationFrame(frame)
@@ -72,7 +66,7 @@ export default function TextPressure({ text, className = '', radiusScale = 1.8, 
       cancelAnimationFrame(raf)
       window.removeEventListener('pointermove', onMove)
     }
-  }, [text, radiusScale, accent])
+  }, [text, radiusScale])
 
   return (
     <span ref={wrap} className={`pressure ${className}`} aria-label={text} role="text">

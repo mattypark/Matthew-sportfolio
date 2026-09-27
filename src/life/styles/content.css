@@ -1,4 +1,4 @@
-/* Content strip (inside Built) and 05 Recognition. */
+/* Content strip (inside Built). */
 
 /* ── content strip ──────────────────────────────────────── */
 .cstrip {
@@ -14,9 +14,9 @@
 .cstrip__title {
   margin: 0;
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: var(--t-h2);
-  font-weight: 850;
-  font-variation-settings: 'wdth' 62;
+  font-weight: 400;
   line-height: 0.88;
   text-transform: uppercase;
 }
@@ -111,102 +111,4 @@
     left: -6%;
     right: -6%;
   }
-}
-
-/* ── 05 recognition ─────────────────────────────────────── */
-.rec__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
-  gap: 20px;
-  align-items: start;
-}
-
-.rec {
-  padding: 20px;
-  border: 1px solid var(--gray-20);
-  border-radius: var(--radius);
-  background: var(--white);
-}
-
-.rec__head {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--ink);
-}
-
-.rec__n,
-.rec__count {
-  color: var(--gray-60);
-}
-
-.rec__count {
-  margin-left: auto;
-}
-
-.rec__group {
-  margin: 0;
-  font-family: var(--f-display);
-  font-size: 1.6rem;
-  font-weight: 850;
-  font-variation-settings: 'wdth' 64;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.rec__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.rec__row {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--gray-20);
-}
-
-.rec__text {
-  flex: 1;
-  min-width: 0;
-}
-
-.rec__title {
-  margin: 0;
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-.rec__by {
-  margin: 4px 0 0;
-  color: var(--gray-60);
-}
-
-.rec__thumb {
-  flex: none;
-  width: 64px;
-}
-
-.rec__thumb .slot__kind,
-.rec__thumb .slot__caption {
-  display: none;
-}
-
-.rec__more {
-  margin-top: 14px;
-  padding: 8px 12px;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--ink);
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-
-.rec__more:hover {
-  background: var(--ink);
-  color: var(--white);
 }

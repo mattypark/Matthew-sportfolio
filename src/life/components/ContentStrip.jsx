@@ -8,8 +8,17 @@ import { prefersReducedMotion } from '../hooks/motion'
 gsap.registerPlugin(ScrollTrigger)
 
 const STRIP = ['reel-1', 'reel-2', 'reel-3', 'reel-4', 'reel-5', 'reel-6']
-const DM = 'hey @matty.park, can you make my brand go viral?'
+// Cycles like a real inbox. SEND emails whichever one is on screen.
+const DMS = [
+  'hey @matty.park, want to build something together?',
+  'what are you working on right now?',
+  'could you make a video for our brand?',
+  'would you come speak at our event?',
+  'how did Axiom get to 550+ interns??',
+]
 const TYPE_MS = 38
+const DELETE_MS = 18
+const HOLD_MS = 2200
 
 // oryzo's "so portable, it's wearable" beat, redone for the content side:
 // reels slide past behind a fixed phone frame, and a fake DM types itself.
@@ -17,7 +26,8 @@ const TYPE_MS = 38
 export default function ContentStrip() {
   const root = useRef(null)
   const strip = useRef(null)
-  const [typed, setTyped] = useState(() => (prefersReducedMotion() ? DM : ''))
+  const [typed, setTyped] = useState(() => (prefersReducedMotion() ? DMS[0] : ''))
+  const [current, setCurrent] = useState(0)
   const [started, setStarted] = useState(false)
 
   useEffect(() => {
@@ -34,18 +44,39 @@ export default function ContentStrip() {
   }, [])
 
   useEffect(() => {
-    if (!started) return undefined
+    if (!started || prefersReducedMotion()) return undefined
+    let i = 0
     let n = 0
-    const id = setInterval(() => {
-      n += 1
-      setTyped(DM.slice(0, n))
-      if (n >= DM.length) clearInterval(id)
-    }, TYPE_MS)
-    return () => clearInterval(id)
+    let deleting = false
+    let timer
+    const tick = () => {
+      const msg = DMS[i]
+      if (!deleting) {
+        n += 1
+        setTyped(msg.slice(0, n))
+        if (n === msg.length) {
+          deleting = true
+          timer = setTimeout(tick, HOLD_MS)
+          return
+        }
+        timer = setTimeout(tick, TYPE_MS)
+        return
+      }
+      n -= 1
+      setTyped(msg.slice(0, n))
+      if (n === 0) {
+        deleting = false
+        i = (i + 1) % DMS.length
+        setCurrent(i)
+      }
+      timer = setTimeout(tick, DELETE_MS)
+    }
+    timer = setTimeout(tick, 300)
+    return () => clearTimeout(timer)
   }, [started])
 
-  const subject = encodeURIComponent('Brand deal / UGC')
-  const body = encodeURIComponent(`${DM}\n\n`)
+  const subject = encodeURIComponent('Hey Matthew')
+  const body = encodeURIComponent(`${DMS[current]}\n\n`)
 
   return (
     <div ref={root} className="cstrip" aria-labelledby="cstrip-title">

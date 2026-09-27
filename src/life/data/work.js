@@ -19,12 +19,6 @@ export const projects = [
     card: 'poster', big: '30M+', label: 'views',
   },
   {
-    id: 'turbolearn', name: 'Turbolearn AI', role: 'Growth', years: '2025', kind: 'Startup',
-    line: 'Growth for an AI study tool.', card: 'terminal',
-    lines: ['> growth --campaign ugc', 'creators booked ........ ok', 'posts shipped .......... ok', 'signups ................ ↑'],
-    href: 'https://turbo.ai',
-  },
-  {
     id: 'bery', name: 'Bery', role: 'Solo build', years: '2026', kind: 'AI agent',
     line: 'A personal CRM: describe a person, the agent fills in the rest.',
     card: 'chat', lines: ['met a founder at YC SS, builds dev tools', '→ profile created · 6 links found'],
@@ -45,26 +39,30 @@ export const projects = [
   },
 ]
 
-// The flat "everything" list (hover-band index): projects + side quests.
+// The flat "everything" list. Click a row to open its line. `line: null`
+// shows "description coming" until Matthew writes it.
 export const everything = [
-  'Axiom', 'Prayer Lock', 'Turbolearn AI', 'MathGPT', 'Bery', 'BayouGuard', 'SlapShift', 'Hand Vocoder',
-  'The LUT', 'BounceBack', 'UGC for brands', 'YouTube documentary', 'Substack', 'Speech & Debate',
-  'LRSEF science fair', 'All-State sax', 'Tennis', 'Basketball', 'Drums', 'Guitar', 'Singing', 'JYP audition',
-]
-
-// Big numbers. `source` says where the figure comes from so it can be checked.
-export const stats = [
-  { value: 550, suffix: '+', label: 'interns through Axiom', source: 'Axiom' },
-  { value: 30, suffix: 'M+', label: 'views across platforms', source: 'content' },
-  { value: 7, suffix: '×', label: 'Prayer Lock revenue', source: '$2K MRR → $14K' },
-  { value: 10, prefix: '$', suffix: 'K', label: 'Google grant', source: '08.07.26' },
-  { value: 20, suffix: 'K', label: 'Instagram followers', source: '07.31.26' },
-  { value: 10, suffix: '+', label: 'startups partnered', source: 'Axiom' },
-]
-
-export const proofLogos = [
-  'Stanford ASES', 'YC Startup School', 'LRSEF', 'MIT Critical Data', 'Turbolearn AI',
-  'Google', 'KMEA All-State', 'JYP', 'Prayer Lock', 'Axiom',
+  { name: 'Axiom', line: 'A nonprofit that uses AI to help high schoolers land real internships. 550+ interns and 10+ partner startups so far.' },
+  { name: 'Prayer Lock', line: 'Former CMO and cofounder. Took it from $2K MRR to $14K in revenue, 7× the business.' },
+  { name: 'Turbolearn AI', line: null },
+  { name: 'MathGPT', line: null },
+  { name: 'Bery', line: 'A personal CRM with an AI agent: describe a person and it fills in the profile for you.' },
+  { name: 'BayouGuard', line: 'A Houston flood-risk app for the Congressional App Challenge. I built the frontend.' },
+  { name: 'SlapShift', line: 'A macOS app with its own sign-and-notarize release pipeline.' },
+  { name: 'Hand Vocoder', line: 'Hand gestures from the webcam drive a live vocal harmonizer in the browser.' },
+  { name: 'The LUT', line: 'My color grade as a .cube file, for sale in the shop. Five dollars.' },
+  { name: 'BounceBack', line: 'Working with Dillon on BounceBack pickleball since January 2026.' },
+  { name: 'UGC for brands', line: 'Short-form videos made for brands since November 2025.' },
+  { name: 'YouTube documentary', line: 'My first documentary. Posted 02.10.26, past 10K views in eleven days.' },
+  { name: 'Substack', line: 'Started writing in August 2026.' },
+  { name: 'Speech & Debate', line: 'State qualifier. 1st in Impromptu Sales at the Marshall University tournament.' },
+  { name: 'LRSEF science fair', line: 'National Sustainable Development Award and 1st in the ESGD category, same day.' },
+  { name: 'All-State sax', line: 'KMEA All-State alto sax, 2nd chair — in 2024 and again in 2025.' },
+  { name: 'Tennis', line: 'Playing since January 2021. 3.0 UTR by September 2022.' },
+  { name: 'Basketball', line: 'Since November 2021. Career high: 22 points.' },
+  { name: 'Drums', line: 'Picked them up in February 2026.' },
+  { name: 'Guitar', line: 'Since June 2022.' },
+  { name: 'Singing', line: 'Started in March 2026. Auditioned for JYP four months later.' },
 ]
 
 export const values = [

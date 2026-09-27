@@ -38,7 +38,7 @@ export const timeline = [
   { date: '2025-07-29', chapter: 'life', slot: 'switzerland', title: 'Visits Switzerland' },
   { date: '2025-08-13', chapter: 'content', big: true, slot: 'first-viral', title: 'First viral talking-head video on TikTok' },
   { date: '2025-11-03', chapter: 'content', title: 'Starts doing UGC' },
-  { date: '2025-11-03', chapter: 'build', title: 'Joins Turbolearn AI as growth', link: 'https://turbo.ai' },
+  { date: '2025-11-03', chapter: 'build', title: 'Joins Turbolearn AI', link: 'https://turbo.ai' },
   { date: '2025-11-08', chapter: 'build', title: 'Creates his first portfolio website' },
   { date: '2025-12-01', chapter: 'build', title: 'Starts building his first solo AI app' },
   { date: '2025-12-04', chapter: 'content', title: 'Posts his first X post', link: 'https://x.com/MattyparkW/status/1996768218082418915' },

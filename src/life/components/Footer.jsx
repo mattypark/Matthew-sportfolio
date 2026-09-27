@@ -18,7 +18,7 @@ export default function Footer() {
 
   return (
     <footer id="contact" className="foot" aria-labelledby="foot-title">
-      <p className="sec-index">09 / Say hi</p>
+      <p className="sec-index">07 / Say hi</p>
       <h2 id="foot-title" className="foot__title">
         Let&apos;s build <em className="serif-em">something</em>
         <br />
@@ -61,7 +61,7 @@ export default function Footer() {
         </div>
         <div>
           <p className="mono colophon__h">Type</p>
-          <p>Anybody · Inter · IBM Plex Mono · Instrument Serif.</p>
+          <p>Cherry Bomb One · Gveret Levin · SF Pro · Jua. A custom face is on the way.</p>
         </div>
         <div>
           <p className="mono colophon__h">Small print</p>

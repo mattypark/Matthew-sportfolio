@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger)
 // His own words (the /about page), set big. Words ink in as you scroll;
 // numbers are red; one word switches to the serif.
 const COPY = [
-  ['This year I did growth at MathGPT and Turbolearn AI, took Prayer Lock from '],
+  ['This year I took Prayer Lock from '],
   ['$2K MRR to $14K', 'red'],
   [', started a nonprofit that has put '],
   ['550+ high schoolers', 'red'],

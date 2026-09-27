@@ -1,7 +1,8 @@
 import MiniCard from './MiniCard'
 import Marker from './Marker'
 import ContentStrip from './ContentStrip'
-import { projects, everything } from '../data/work'
+import Everything from './Everything'
+import { projects } from '../data/work'
 
 export default function Built() {
   return (
@@ -20,18 +21,7 @@ export default function Built() {
       </div>
 
       <ContentStrip />
-
-      <div className="everything" aria-labelledby="everything-title">
-        <p id="everything-title" className="sec-index">Everything, flattened</p>
-        <ul className="everything__list">
-          {everything.map((name, i) => (
-            <li key={name} className="everything__row">
-              <span className="everything__n mono">{String(i + 1).padStart(2, '0')}</span>
-              <span className="everything__name">{name}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <Everything />
     </section>
   )
 }

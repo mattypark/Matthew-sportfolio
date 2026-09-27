@@ -5,7 +5,10 @@ import { prefersReducedMotion } from '../hooks/motion'
 
 // Fixed top bar: monogram left, section chips + shop + menu right. The menu
 // grows out of its own button as a circle (clip-path) and lists everything.
-export default function TopBar() {
+export default function TopBar({ home = true }) {
+  // on the /tape page, section links have to go back to the home page first
+  const to = (id) => (home ? `#${id}` : `/#${id}`)
+
   const [open, setOpen] = useState(false)
   const btn = useRef(null)
   const panel = useRef(null)
@@ -57,15 +60,15 @@ export default function TopBar() {
   return (
     <>
       <header className="topbar">
-        <a href="#top" className="topbar__mark" aria-label="M/P — Matthew Park, back to top">
-          M<span className="red">/</span>P
-        </a>
         <nav className="topbar__nav" aria-label="Sections">
           {nav.map((n) => (
-            <a key={n.id} href={`#${n.id}`} className="topbar__link mono">
+            <a key={n.id} href={to(n.id)} className="topbar__link mono">
               {n.label}
             </a>
           ))}
+          <a href="/tape" className="topbar__link mono">
+            The tape
+          </a>
           <a href="/shop" className="topbar__shop mono">
             Shop
           </a>
@@ -89,12 +92,18 @@ export default function TopBar() {
           <ol className="menu__list">
             {nav.map((n, i) => (
               <li key={n.id} className="menu__row">
-                <a href={`#${n.id}`} className="menu__item" onClick={close}>
+                <a href={to(n.id)} className="menu__item" onClick={close}>
                   <span className="menu__num mono">{String(i + 1).padStart(2, '0')}</span>
                   {n.label}
                 </a>
               </li>
             ))}
+            <li className="menu__row">
+              <a href="/tape" className="menu__item" onClick={close}>
+                <span className="menu__num mono">{String(nav.length + 1).padStart(2, '0')}</span>
+                The tape
+              </a>
+            </li>
           </ol>
           <div className="menu__side">
             <p className="mono menu__label">Shop</p>

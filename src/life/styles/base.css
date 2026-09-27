@@ -46,7 +46,8 @@ body.life ::selection {
   color: var(--white);
 }
 
-.life-root a {
+/* :where() keeps this at zero specificity so component link colors win */
+:where(.life-root) a {
   color: inherit;
   text-decoration: none;
 }
@@ -129,21 +130,22 @@ body.life ::selection {
 .sec-title {
   margin: 0;
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: var(--t-h2);
-  font-weight: 850;
-  font-variation-settings: 'wdth' 62;
+  font-weight: 400;
   line-height: 0.86;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
 .serif-em {
-  font-family: var(--f-serif);
-  font-style: italic;
+  /* the one handwritten word per heading, in marker red: color outside the lines */
+  font-family: var(--f-hand);
+  font-style: normal;
   font-weight: 400;
   text-transform: none;
-  letter-spacing: -0.01em;
-  font-variation-settings: normal;
+  letter-spacing: 0;
+  color: var(--red);
 }
 
 .red {

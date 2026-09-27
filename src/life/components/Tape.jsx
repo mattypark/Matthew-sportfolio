@@ -1,16 +1,13 @@
-import { Fragment, useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useMemo, useState } from 'react'
 import Slot from './Slot'
 import { timeline, CHAPTERS, stamp, yearOf, todayStamp } from '../data/timeline'
-import { prefersReducedMotion } from '../hooks/motion'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const past = timeline.filter((e) => !e.plan)
 const future = timeline.filter((e) => e.plan)
+const YEARS = [...new Set(past.map(yearOf))]
+const ALL = 'all'
 
-function Card({ e, i }) {
+function Card({ e, n }) {
   const Tag = e.link ? 'a' : 'article'
   const linkProps = e.link
     ? { href: e.link, ...(e.link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {}) }
@@ -21,7 +18,7 @@ function Card({ e, i }) {
       <p className="tape__meta mono">
         <span className={`chip chip--${e.chapter}`}>{CHAPTERS[e.chapter]}</span>
         <span>{e.plan ? 'someday' : stamp(e.date)}</span>
-        <span className="tape__no">#{String(i + 1).padStart(3, '0')}</span>
+        <span className="tape__no">#{String(n).padStart(3, '0')}</span>
       </p>
       <h3 className="tape__title">
         {e.title}
@@ -32,103 +29,104 @@ function Card({ e, i }) {
   )
 }
 
-// The life tape: every dated moment, left to right. On desktop vertical
-// scroll drives the track sideways (pinned); on small screens it's a column.
+// The full life tape, on its own page: a chronological card grid you can
+// narrow to one year or one chapter.
 export default function Tape() {
-  const root = useRef(null)
-  const track = useRef(null)
+  const [year, setYear] = useState(ALL)
+  const [chapter, setChapter] = useState(ALL)
 
-  useEffect(() => {
-    const mm = gsap.matchMedia()
-    mm.add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
-      const distance = () => track.current.scrollWidth - window.innerWidth
-      const tween = gsap.to(track.current, {
-        x: () => -distance(),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: root.current,
-          pin: true,
-          scrub: 0.8,
-          start: 'top top',
-          end: () => `+=${distance()}`,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            gsap.set('.tape__playhead', { scaleX: self.progress })
-            const year = root.current.querySelector('.tape__year-now')
-            if (year) {
-              const all = track.current.querySelectorAll('.tape__year')
-              let current = all[0]?.dataset.year
-              all.forEach((y) => {
-                if (y.getBoundingClientRect().left < window.innerWidth * 0.5) current = y.dataset.year
-              })
-              year.textContent = current
-            }
-          },
-        },
-      })
-      gsap.utils.toArray('.tape__card--big .tape__media').forEach((m) => {
-        gsap.fromTo(
-          m,
-          { clipPath: 'inset(12% 12% 12% 12%)' },
-          {
-            clipPath: 'inset(0% 0% 0% 0%)',
-            ease: 'none',
-            scrollTrigger: { trigger: m, containerAnimation: tween, start: 'left 95%', end: 'left 45%', scrub: true },
-          },
-        )
-      })
-    })
-    return () => mm.revert()
-  }, [])
+  const shown = useMemo(
+    () =>
+      past
+        .map((e, i) => ({ e, n: i + 1 }))
+        .filter(({ e }) => (year === ALL || yearOf(e) === year) && (chapter === ALL || e.chapter === chapter)),
+    [year, chapter],
+  )
+  const chapters = Object.keys(CHAPTERS).filter((c) => past.some((e) => e.chapter === c))
+  const filtered = year !== ALL || chapter !== ALL
 
   let lastYear = null
 
   return (
-    <section id="tape" ref={root} className="tape sec--paper" aria-labelledby="tape-title">
+    <section id="tape" className="tape sec--paper" aria-labelledby="tape-title">
       <div className="tape__head">
-        <p className="sec-index">02 / The tape</p>
-        <h2 id="tape-title" className="sec-title">
+        <p className="sec-index">The tape</p>
+        <h1 id="tape-title" className="sec-title">
           Every step, <em className="serif-em">in order.</em>
-        </h2>
+        </h1>
         <p className="tape__count mono">
-          {past.length} moments · 2010 → <span className="tape__year-now">2010</span>
+          {past.length} moments · 2010 → {todayStamp()}
         </p>
       </div>
 
-      <div ref={track} className="tape__track">
-        {past.map((e, i) => {
+      <div className="tape__filters" role="group" aria-label="Filter the tape">
+        <div className="tape__chips">
+          {[ALL, ...YEARS].map((y) => (
+            <button
+              key={y}
+              type="button"
+              className={`fchip mono ${year === y ? 'is-on' : ''}`}
+              aria-pressed={year === y}
+              onClick={() => setYear(y)}
+            >
+              {y === ALL ? 'All years' : y}
+            </button>
+          ))}
+        </div>
+        <div className="tape__chips">
+          {[ALL, ...chapters].map((c) => (
+            <button
+              key={c}
+              type="button"
+              className={`fchip mono ${chapter === c ? 'is-on' : ''}`}
+              aria-pressed={chapter === c}
+              onClick={() => setChapter(c)}
+            >
+              {c === ALL ? 'Everything' : CHAPTERS[c]}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="tape__track" aria-live="polite">
+        {shown.map(({ e, n }) => {
           const y = yearOf(e)
-          const newYear = y !== lastYear
+          const newYear = !filtered && y !== lastYear
           lastYear = y
           return (
-            <Fragment key={`${e.date}-${e.title}`}>
-              {newYear && (
-                <div className="tape__year" data-year={y} aria-hidden>
-                  {y}
-                </div>
-              )}
-              <Card e={e} i={i} />
-            </Fragment>
+            <FragmentWithYear key={`${e.date}-${e.title}`} year={newYear ? y : null}>
+              <Card e={e} n={n} />
+            </FragmentWithYear>
           )
         })}
+        {shown.length === 0 && <p className="mono tape__empty">Nothing in that combo — yet.</p>}
 
-        <div className="tape__now" aria-label="Today">
-          <span className="dot dot--red dot--pulse" aria-hidden />
-          <p className="mono">Now · {todayStamp()}</p>
-          <p className="tape__now-q">???</p>
-        </div>
-
-        {future.map((e, i) => (
-          <Card key={e.title} e={e} i={past.length + i} />
-        ))}
-        <div className="tape__end mono" aria-hidden>
-          to be continued →
-        </div>
-      </div>
-
-      <div className="tape__ruler" aria-hidden>
-        <span className="tape__playhead" />
+        {!filtered && (
+          <>
+            <div className="tape__now" aria-label="Today">
+              <span className="dot dot--red dot--pulse" aria-hidden />
+              <p className="mono">Now · {todayStamp()}</p>
+              <p className="tape__now-q">???</p>
+            </div>
+            {future.map((e, i) => (
+              <Card key={e.title} e={e} n={past.length + i + 1} />
+            ))}
+          </>
+        )}
       </div>
     </section>
+  )
+}
+
+function FragmentWithYear({ year, children }) {
+  return (
+    <>
+      {year && (
+        <div className="tape__year" aria-hidden>
+          {year}
+        </div>
+      )}
+      {children}
+    </>
   )
 }

@@ -57,10 +57,11 @@
   align-self: center;
   margin: 0;
   font-family: var(--f-display);
-  font-size: clamp(4.4rem, 17vw, 21rem);
-  font-weight: 800;
-  line-height: 0.8;
-  letter-spacing: -0.02em;
+  font-synthesis: none;
+  font-size: clamp(3.4rem, 12.5vw, 15rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0;
   color: var(--ink);
   text-transform: uppercase;
 }
@@ -84,19 +85,21 @@
 }
 
 .pressure {
+  position: relative; /* letters measure their slot against this box */
   display: inline-flex;
 }
 
 .pressure__ch {
   display: inline-block;
-  font-variation-settings: 'wght' 760, 'wdth' 92;
-  transition: color 0.2s;
+  transform-origin: 50% 90%;
+  will-change: transform;
 }
 
 .hero__hangul {
-  margin-bottom: 0.08em;
+  margin-bottom: 0.12em;
   font-family: var(--f-hangul);
-  font-size: 0.34em;
+  font-size: 0.26em;
+  white-space: nowrap;
   line-height: 1;
   color: var(--red);
 }
@@ -137,13 +140,77 @@
   50% { opacity: 0; }
 }
 
-.hero__scroll {
+.hero__np {
   justify-self: start;
 }
 
 @media (min-width: 900px) {
-  .hero__scroll {
+  .hero__np {
     justify-self: end;
+  }
+}
+
+/* ── on-repeat chip (CORTIS) ───────────────────────────── */
+.nowplaying {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 8px 10px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--white);
+  transition: transform 0.35s var(--ease-out);
+}
+
+.nowplaying:hover {
+  transform: translateY(-2px) rotate(-1deg);
+}
+
+.nowplaying__eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+}
+
+.nowplaying__eq i {
+  width: 3px;
+  height: 100%;
+  background: var(--red);
+  transform-origin: bottom;
+  animation: eq 0.9s var(--ease-in-out) infinite alternate;
+}
+
+.nowplaying__eq i:nth-child(2) { animation-delay: -0.3s; }
+.nowplaying__eq i:nth-child(3) { animation-delay: -0.6s; }
+.nowplaying__eq i:nth-child(4) { animation-delay: -0.15s; }
+
+@keyframes eq {
+  from { transform: scaleY(0.25); }
+  to { transform: scaleY(1); }
+}
+
+.nowplaying__label {
+  color: var(--gray-40);
+}
+
+.nowplaying__artist {
+  font-family: var(--f-display);
+  font-synthesis: none;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.nowplaying__tag {
+  font-family: var(--f-hand);
+  color: var(--red);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+@media (max-width: 420px) {
+  .nowplaying__tag {
+    display: none;
   }
 }
 
@@ -193,7 +260,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .typewriter__cursor,
-  .clock__colon {
+  .clock__colon,
+  .nowplaying__eq i {
     animation: none;
   }
 }

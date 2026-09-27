@@ -28,9 +28,9 @@
 .loader__num {
   display: block;
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: clamp(6rem, 22vw, 20rem);
-  font-weight: 900;
-  font-variation-settings: 'wdth' 55;
+  font-weight: 400;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.03em;
 }
@@ -86,9 +86,9 @@
 
 .topbar__mark {
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: 1.35rem;
-  font-weight: 900;
-  font-variation-settings: 'wdth' 70;
+  font-weight: 400;
   letter-spacing: -0.02em;
 }
 
@@ -223,9 +223,9 @@
   gap: 16px;
   padding: 6px 0;
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: clamp(2.6rem, 8vw, 6.5rem);
-  font-weight: 850;
-  font-variation-settings: 'wdth' 60;
+  font-weight: 400;
   line-height: 0.95;
   text-transform: uppercase;
   transition: color 0.25s, transform 0.4s var(--ease-out);
@@ -378,9 +378,9 @@
 .marquee__run {
   padding-right: 0.3em;
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: var(--t-mega);
-  font-weight: 900;
-  font-variation-settings: 'wdth' 58;
+  font-weight: 400;
   line-height: 0.85;
   letter-spacing: -0.02em;
 }
@@ -410,9 +410,9 @@
 .foot__title {
   margin: 28px 0 48px;
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: clamp(3rem, 1rem + 9vw, 10rem);
-  font-weight: 900;
-  font-variation-settings: 'wdth' 60;
+  font-weight: 400;
   line-height: 0.86;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -506,9 +506,9 @@
 .foot__ghost {
   margin: 48px 0 0;
   font-family: var(--f-display);
+  font-synthesis: none;
   font-size: 23vw;
-  font-weight: 900;
-  font-variation-settings: 'wdth' 60;
+  font-weight: 400;
   line-height: 0.75;
   letter-spacing: -0.03em;
   /* solid, not translucent: overlapping glyphs would show seams */

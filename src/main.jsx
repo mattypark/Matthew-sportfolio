@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Analytics } from '@vercel/analytics/react'
 import LifeApp from './life/LifeApp.jsx'
+import { startAnalytics } from './analytics.js'
 import './life/styles/base.css'
 import './life/styles/chrome.css'
 import './life/styles/hero.css'
@@ -18,6 +19,8 @@ import './life/styles/panel-kit.css'
 // The previous timeline build (src/oldschool) is still in the repo: its shop,
 // LUT and call pages are reused by LifeApp. To switch the whole site back,
 // import ./oldschool/OldSchoolApp.jsx + ./oldschool/oldschool.css here.
+startAnalytics()
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <LifeApp />

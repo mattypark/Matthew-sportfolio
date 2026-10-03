@@ -33,3 +33,6 @@ dist-ssr
 
 # The LUT is the product. Public repo: never commit it.
 private/*.cube
+
+# screenshots and boards (device-board output)
+build/

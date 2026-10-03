@@ -1,0 +1,61 @@
+// Every word on the one-pager. Facts come from the repo brief (CLAUDE.md),
+// Matthew's own lines in src/life/data/work.js, and the live product sites
+// (nudgy.run, axiompathways.org). Nothing here is invented.
+
+export const NAME = 'Matthew Park'
+export const EMAIL = 'matthew.parkk0@gmail.com'
+// written out the way Instinct and Noah Shinn do it, so scrapers skip it
+export const EMAIL_SPOKEN = 'matthew.parkk0[at]gmail[dot]com'
+
+export const lead =
+  "I'm Matthew Park, born in Kentucky with my eyes on San Francisco. I build things people use, and right now I'm building two of them."
+
+export const building = [
+  {
+    id: 'nudgy',
+    name: 'Nudgy',
+    href: 'https://nudgy.run',
+    line: 'is an iPhone assistant that listens to your day and quietly does the next thing.',
+    more: 'Say “remind me to call Mom tonight” in passing and the reminder is set. Wonder out loud about the weather and the answer is on your Lock Screen a second later. Invite-only, and free during the beta.',
+    // B's list form of the same thing
+    blurb: 'An iPhone assistant that listens to your day and quietly does the next thing. Invite-only, and free during the beta.',
+    kind: 'iPhone app',
+    since: '2026',
+    links: [{ label: 'nudgy.run', href: 'https://nudgy.run' }],
+  },
+  {
+    id: 'axiom',
+    name: 'Axiom Pathways',
+    href: 'https://axiompathways.org',
+    line: 'is a nonprofit that helps high schoolers land real internships at startups.',
+    more: 'Chapters teach AI, computer science and marketing, and the most passionate students, not the most credentialed, go on to intern. 550+ interns and 10+ startups so far.',
+    blurb: 'A nonprofit that helps high schoolers land real internships at startups. 550+ interns and 10+ startups so far.',
+    kind: 'Nonprofit',
+    since: '2026',
+    links: [{ label: 'axiompathways.org', href: 'https://axiompathways.org' }],
+  },
+]
+
+export const cta = { label: 'Email me to say hi', href: `mailto:${EMAIL}` }
+
+export const about =
+  'I build software, mostly AI, and make short videos about it. Off the keyboard: varsity tennis, alto sax (KMEA All-State, twice) and speech & debate.'
+
+// Past work, in Matthew's own words from the "everything" list
+export const before = [
+  { name: 'Prayer Lock', line: 'Former CMO and cofounder. Took it from $2K MRR to $14K in revenue, 7× the business.' },
+  { name: 'BayouGuard', line: 'A Houston flood-risk app for the Congressional App Challenge. I built the frontend.' },
+  { name: 'Bery', line: 'A personal CRM with an AI agent: describe a person and it fills in the profile for you.' },
+  { name: 'SlapShift', line: 'A macOS app with its own sign-and-notarize release pipeline.' },
+  { name: 'Hand Vocoder', line: 'Hand gestures from the webcam drive a live vocal harmonizer in the browser.' },
+  { name: 'YouTube documentary', line: 'My first one. Past 10K views in eleven days.' },
+]
+
+export const socials = [
+  { label: 'Instagram', href: 'https://www.instagram.com/matty.park/' },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@mattparxy' },
+  { label: 'YouTube', href: 'https://www.youtube.com/@Matty_park' },
+  { label: 'X', href: 'https://x.com/MattyparkW' },
+  { label: 'GitHub', href: 'https://github.com/mattypark' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/matthew-park-487889350/' },
+]

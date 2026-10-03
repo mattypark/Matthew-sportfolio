@@ -1,0 +1,22 @@
+/* The LUT / call pages are the old timeline build's components, built on
+   Tailwind utilities. This sheet is imported only by LegacyPages, so Vite
+   splits it out and the one-pager never downloads Tailwind. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-custom: #fb6e1c;
+  --background: oklch(98% 0 0);
+  --foreground: oklch(14.5% 0 0);
+  --muted-foreground: oklch(55.6% 0 0);
+  --border: oklch(92.2% 0 0);
+}
+
+.legacy {
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}

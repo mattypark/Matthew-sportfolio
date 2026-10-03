@@ -24,8 +24,9 @@ part of the story, not something to hide.
 
 ### Currently building
 
-- **Axiom** — a nonprofit using AI to help high schoolers land internships.
-  550+ interns, 10+ startups. The vision is global.
+- **Axiom Pathways** — a nonprofit that helps young people (high school and
+  college) land internships at startups. 800+ interns, 10+ startups. The goal
+  is millions.
 - **AI research** — looking for the right topic. Wants something academically
   intelligent *and* genuinely interesting. Still figuring it out.
 - **Marketing experiments** — has shipped real campaigns, real revenue.

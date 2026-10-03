@@ -7,8 +7,22 @@ export const EMAIL = 'matthew.parkk0@gmail.com'
 // written out the way Instinct and Noah Shinn do it, so scrapers skip it
 export const EMAIL_SPOKEN = 'matthew.parkk0[at]gmail[dot]com'
 
-export const lead =
-  "I'm Matthew Park, born in Kentucky with my eyes on San Francisco. I build things people use, and right now I'm building two of them."
+const BIRTHDAY = new Date(2010, 9, 12) // 12 Oct 2010
+
+// counted on each visit, so "15-year-old" turns 16 on its own
+function ageToday(now = new Date()) {
+  const hadBirthday =
+    now.getMonth() > BIRTHDAY.getMonth() ||
+    (now.getMonth() === BIRTHDAY.getMonth() && now.getDate() >= BIRTHDAY.getDate())
+  return now.getFullYear() - BIRTHDAY.getFullYear() - (hadBirthday ? 0 : 1)
+}
+
+export const AGE = ageToday()
+
+export const lead = `I'm Matthew Park, a ${AGE}-year-old kid from Kentucky. Founder of Nudgy and Axiom Pathways.`
+
+// the same line for B's Contact block, where his name is already the heading
+export const tagline = `A ${AGE}-year-old kid from Kentucky. Founder of Nudgy and Axiom Pathways.`
 
 export const building = [
   {

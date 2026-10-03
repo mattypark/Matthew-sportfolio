@@ -134,19 +134,6 @@ body {
   fill: var(--ink);
 }
 
-.brush-dry {
-  fill: none;
-  stroke: var(--paper);
-  stroke-width: 2;
-  stroke-linecap: round;
-  opacity: 0.9;
-}
-
-.brush-dry--thin {
-  stroke-width: 1.2;
-  opacity: 0.8;
-}
-
 .drawn-link {
   position: relative;
   display: inline-block;
@@ -286,7 +273,7 @@ body {
   position: relative;
   display: flex;
   width: fit-content;
-  padding-bottom: 0.4em;
+  padding-bottom: 0.5em;
 }
 
 .sa-cta-label {
@@ -296,11 +283,15 @@ body {
 
 .sa-cta-brush {
   position: absolute;
-  top: 84%;
-  left: 26%;
-  width: 92%;
-  rotate: -3deg;
+  top: 1.18em; /* clear of the descenders in "say" */
+  left: -3%;
+  width: 106%;
+  rotate: -1deg;
   pointer-events: none;
+}
+
+.sa-cta-brush .brush-svg {
+  height: 0.46em;
 }
 
 .sa-legal {

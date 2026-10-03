@@ -44,8 +44,7 @@ export function SelfDoodle({ className = '' }) {
   )
 }
 
-// A marker swipe: thick in the middle, tapered at the ends, with a few dry
-// streaks of paper showing through, like a marker running dry.
+// A marker swipe: thick in the middle, tapered at the ends.
 export function Brush({ className = '' }) {
   return (
     <span className={`brush ${className}`} aria-hidden="true">
@@ -54,10 +53,6 @@ export function Brush({ className = '' }) {
           className="brush-ink"
           d="M10 26C60 18 140 12 230 10C300 8.5 360 8 406 9C415 9.5 419 16 416 24C413 30 406 32 398 32.5C330 35 250 39 170 43C110 46 60 48 18 49.5C7 50 2 42 4 34C5 30 7 27.5 10 26Z"
         />
-        <path className="brush-dry" d="M30 37C120 30 250 23 392 19" />
-        <path className="brush-dry brush-dry--thin" d="M64 43C160 37 280 31 380 28" />
-        <path className="brush-dry brush-dry--thin" d="M340 13C365 12 390 12 410 13.5" />
-        <path className="brush-dry brush-dry--thin" d="M20 45C40 44 60 43 90 41.5" />
       </svg>
     </span>
   )

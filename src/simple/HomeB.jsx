@@ -1,5 +1,5 @@
 import { SelfDoodle, DrawnLink } from './Doodles'
-import { NAME, EMAIL, EMAIL_SPOKEN, building, about, before, socials } from './content'
+import { NAME, EMAIL, EMAIL_SPOKEN, tagline, building, about, before, socials } from './content'
 
 // B: Noah Shinn's page, written by hand. Plain document order (name, photo,
 // Contact, Building, About, Before), default-ish HTML rhythm, every word in
@@ -27,7 +27,7 @@ export default function HomeB() {
         <section className="sb-section" aria-labelledby="sb-contact">
           <h2 id="sb-contact">Contact</h2>
           <p>
-            Born in Kentucky, eyes on San Francisco
+            {tagline}
             <br />
             Email: <DrawnLink href={`mailto:${EMAIL}`}>{EMAIL_SPOKEN}</DrawnLink>
           </p>

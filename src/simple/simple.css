@@ -1,13 +1,27 @@
 /* ============================================================
    SIMPLE — the one-pager. Black on white, every word in Poor
    Story, no motion except the hand-drawn doodles.
-   A = Instinct's layout (.sa-*), B = Noah Shinn's page (.sb-*).
+   The layout is Instinct's (.sa-*), picked over a Noah Shinn
+   style page on 2026-10-03.
    ============================================================ */
+
+/* Poor Story, Latin slice of the Google Fonts build (SIL Open Font License).
+   Self-hosted and preloaded in index.html so the first paint is already in
+   it; a late swap would reflow every line. */
+@font-face {
+  font-family: 'Poor Story';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/poor-story-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
 
 :root {
   --paper: #ffffff;
   --ink: #0a0a0a;
-  --ink-soft: #5e5e5e; /* 6.4:1 on white */
   --rule: #e6e6e6;
 
   --f-hand: 'Poor Story', 'Bradley Hand', 'Segoe Print', 'Comic Sans MS', system-ui, sans-serif;
@@ -90,10 +104,7 @@ body {
 
 /* Poor Story ships one weight. "Bold" is a hair of stroke around the glyph,
    which reads like pressing the pen harder instead of a smeared fake bold. */
-.sa-lead,
-.sb-name,
-.sb-section h2,
-.sb-title {
+.sa-lead {
   font-weight: 400;
   -webkit-text-stroke: 0.028em currentColor;
   paint-order: stroke fill;
@@ -221,7 +232,7 @@ body {
 }
 
 /* ============================================================
-   A — Instinct's layout
+   the page — Instinct's layout
    ============================================================ */
 
 .sa {
@@ -239,6 +250,45 @@ body {
 .sa-home {
   display: block;
   width: 32px;
+}
+
+.sa-header--row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.sa-back,
+.sa-legal-privacy {
+  position: relative;
+}
+
+/* a bigger tap target than the word */
+.sa-back::after,
+.sa-legal-privacy::after {
+  content: '';
+  position: absolute;
+  inset: -12px -8px;
+}
+
+.sa-back:hover,
+.sa-legal-privacy:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.sa-legal-privacy {
+  margin-left: var(--space-m);
+}
+
+.sa-pressed {
+  -webkit-text-stroke: 0.028em currentColor;
+  paint-order: stroke fill;
+}
+
+.sa-updated {
+  font-size: var(--t-small);
 }
 
 .sa-main {
@@ -386,108 +436,5 @@ body {
 
   .sa-legal-email {
     display: block;
-  }
-}
-
-/* ============================================================
-   B — Noah Shinn's page, by hand
-   ============================================================ */
-
-.sb-doc {
-  max-width: 46rem;
-  padding: var(--space-xl) var(--space-m) var(--space-2xl);
-}
-
-.sb-name {
-  font-size: clamp(2.4rem, 1.6rem + 3vw, 3.6rem);
-  line-height: 1;
-}
-
-.sb-portrait {
-  display: flex;
-  align-items: flex-end;
-  gap: var(--space-m);
-  margin: var(--space-l) 0 var(--space-xl);
-}
-
-.sb-photo {
-  display: block;
-  width: 172px;
-  height: auto;
-  aspect-ratio: 1;
-  object-fit: cover;
-}
-
-.sb-doodle {
-  width: 30px;
-  margin-bottom: 2px;
-}
-
-.sb-section + .sb-section {
-  margin-top: var(--space-xl);
-}
-
-.sb-section h2 {
-  margin-bottom: var(--space-s);
-  font-size: 1.45em;
-  line-height: 1.1;
-}
-
-.sb-inline {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs) var(--space-m);
-  margin-top: var(--space-s);
-  list-style: none;
-}
-
-.sb-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-l);
-  padding-left: 1.1em;
-  list-style: disc;
-}
-
-.sb-list--plain {
-  gap: var(--space-s);
-}
-
-.sb-list li::marker {
-  font-size: 0.8em;
-}
-
-.sb-list li > span {
-  display: block;
-}
-
-.sb-meta {
-  color: var(--ink-soft);
-  font-size: 0.85em;
-}
-
-.sb-links {
-  display: flex;
-  gap: var(--space-m);
-  margin-top: 2px;
-}
-
-.sb-foot {
-  margin-top: var(--space-3xl);
-  color: var(--ink-soft);
-  font-size: var(--t-small);
-}
-
-@media (min-width: 48rem) {
-  .sb-doc {
-    padding: var(--space-2xl) var(--space-xl) var(--space-3xl);
-  }
-
-  .sb-photo {
-    width: 200px;
-  }
-
-  .sb-doodle {
-    width: 36px;
   }
 }

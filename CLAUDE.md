@@ -60,13 +60,13 @@ drums, guitar.
 ## Current build — the simple one-pager (branch `simple-2026`)
 
 `src/main.jsx` renders `src/simple/SimpleApp.jsx`: one page at `/`, black on
-white, every word in Poor Story, Nudgy and Axiom Pathways up front. Two
-variants while Matthew picks: A (`HomeA.jsx`, Instinct's layout, default) and
-B (`HomeB.jsx`, Noah Shinn's plain page by hand, `?v=b`). All copy is in
-`src/simple/content.js`; the only motion is the hand-drawn SVG in
-`Doodles.jsx` (stick figure, brush, link underlines), finished under reduced
-motion. `/lut`, `/lut/thanks` and `/call` load from `src/oldschool` as one
-lazy chunk with Tailwind (`LegacyPages.jsx`); every other path goes to `/`.
+white, every word in Poor Story, Nudgy and Axiom Pathways up front, in
+Instinct's layout (`Home.jsx`; he picked it over a Noah Shinn style page on
+2026-10-03). All copy is in `src/simple/content.js`; the only motion is the
+hand-drawn SVG in `Doodles.jsx` (stick figure, brush, link underlines),
+finished under reduced motion. `/lut`, `/lut/thanks` and `/call` load from
+`src/oldschool` as one lazy chunk with Tailwind (`LegacyPages.jsx`); every
+other path goes to `/`.
 
 The life archive / board build (`src/life`, branch `redesign-2026`) is still
 in the repo, unrouted.

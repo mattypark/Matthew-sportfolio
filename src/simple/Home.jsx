@@ -1,10 +1,11 @@
+import { Link } from 'react-router-dom'
 import { SelfDoodle, Brush, DrawnLink } from './Doodles'
 import { NAME, EMAIL_SPOKEN, lead, building, cta, socials } from './content'
 
-// A: Instinct's layout. The doodle top left, one lead paragraph, a paragraph
-// per thing he's building, the brushed CTA, and the legal-links row pinned to
-// the bottom of the first screen.
-export default function HomeA() {
+// Instinct's layout: the doodle top left, one lead paragraph, a paragraph per
+// thing he's building, the brushed CTA, and the legal-links row pinned to the
+// bottom of the first screen.
+export default function Home() {
   const year = new Date().getFullYear()
 
   return (
@@ -37,6 +38,9 @@ export default function HomeA() {
         <footer className="sa-legal">
           <p className="sa-legal-copy">
             Copyright © {year} {NAME}
+            <Link to="/privacy" className="sa-legal-privacy">
+              Privacy
+            </Link>
           </p>
           <nav aria-label="Elsewhere" className="sa-legal-nav">
             <ul className="sa-legal-list">

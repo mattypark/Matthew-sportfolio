@@ -56,17 +56,19 @@ drums, guitar.
 
 ---
 
-## Current build — the life archive (branch `redesign-2026`)
+## Current build — the simple one-pager (branch `simple-2026`)
 
-`src/main.jsx` renders `src/life/LifeApp.jsx`: one long home page (loader →
-text-pressure hero → manifesto → pinned horizontal life tape → built →
-numbers → recognition → values → CORTIS / music → next → footer) plus the old
-shop / LUT / call pages, lazy-loaded from `src/oldschool`. Black / white /
-red; Anybody (variable wght + wdth) · Inter · IBM Plex Mono · Instrument
-Serif. All content lives in `src/life/data/*`; every photo/video is a slot id
-in `src/life/data/media.js`. Status, open questions and the media list:
-[docs/REDESIGN.md](docs/REDESIGN.md). Reference library + component prompts:
-`~/Downloads/current-projects/portfolio-refs`.
+`src/main.jsx` renders `src/simple/SimpleApp.jsx`: one page at `/`, black on
+white, every word in Poor Story, Nudgy and Axiom Pathways up front. Two
+variants while Matthew picks: A (`HomeA.jsx`, Instinct's layout, default) and
+B (`HomeB.jsx`, Noah Shinn's plain page by hand, `?v=b`). All copy is in
+`src/simple/content.js`; the only motion is the hand-drawn SVG in
+`Doodles.jsx` (stick figure, brush, link underlines), finished under reduced
+motion. `/lut`, `/lut/thanks` and `/call` load from `src/oldschool` as one
+lazy chunk with Tailwind (`LegacyPages.jsx`); every other path goes to `/`.
+
+The life archive / board build (`src/life`, branch `redesign-2026`) is still
+in the repo, unrouted.
 
 ## Architecture — the Gate and two sides (previous builds, kept for reference)
 

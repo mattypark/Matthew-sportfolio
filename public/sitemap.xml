@@ -6,23 +6,7 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://matthewnpark.com/now</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://matthewnpark.com/timeline</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://matthewnpark.com/contact</loc>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://matthewnpark.com/personality</loc>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://matthewnpark.com/tape</loc>
-    <changefreq>weekly</changefreq>
+    <loc>https://matthewnpark.com/privacy</loc>
+    <changefreq>yearly</changefreq>
   </url>
 </urlset>

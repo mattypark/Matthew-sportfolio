@@ -3,12 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon-mp.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- One face for the whole page: Poor Story. Google serves it in
-         unicode-range slices, so only the Latin slice downloads. -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-doodle.svg" />
+    <!-- One face for the whole page: Poor Story (SIL OFL), self-hosted Latin
+         slice, preloaded so it is in hand before React paints any text. -->
+    <link
+      rel="preload"
+      href="/fonts/poor-story-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <title>Matthew Park</title>
     <meta
       name="description"

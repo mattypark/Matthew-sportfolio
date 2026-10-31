@@ -1,21 +1,27 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Analytics } from '@vercel/analytics/react'
-import SimpleApp from './simple/SimpleApp.jsx'
+import CasefileApp from './casefile/CasefileApp.jsx'
 import { startAnalytics } from './analytics.js'
-import './simple/simple.css'
+import './casefile/styles/base.css'
+import './casefile/styles/ui.css'
+import './casefile/styles/hud.css'
+import './casefile/styles/index.css'
+import './casefile/styles/rooms.css'
+import './casefile/styles/phone.css'
 
-// The site is the one-pager in src/simple (branch simple-2026).
+// The site is the case file in src/casefile (branch casefile-2026).
 //
-// Earlier builds are still in the repo, unrouted: the life archive / board
-// (src/life, branch redesign-2026) and the timeline (src/oldschool, whose
-// LUT and call pages SimpleApp still serves). To switch back, render
-// ./life/LifeApp.jsx with its styles, as redesign-2026's main.jsx does.
+// Earlier builds are still in the repo, unrouted: the simple one-pager
+// (src/simple, branch simple-2026, whose privacy copy and /lut /call pages
+// the case file reuses), the life archive (src/life) and the timeline
+// (src/oldschool). To switch back, render ./simple/SimpleApp.jsx with
+// ./simple/simple.css, as simple-2026's main.jsx does.
 startAnalytics()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <SimpleApp />
+    <CasefileApp />
     <Analytics />
   </React.StrictMode>,
 )

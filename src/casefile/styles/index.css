@@ -1,0 +1,950 @@
+/* The index page: studio, driver card, clip, the case-file copy, block 02,
+   the footer.
+   Every layer is fixed to the viewport; IndexPage's scroll moves them. */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.cf-index {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--white);
+  color: var(--ink);
+  touch-action: none;
+}
+
+/* a lit white studio: brightest behind him, falling off to a soft grey
+   floor, the way the titles light their white sets */
+.cf-index__studio {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 42%, #ffffff 0%, rgba(255, 255, 255, 0) 70%),
+    linear-gradient(180deg, #f4f4f1 0%, #ecece8 62%, #dcdcd7 100%);
+}
+
+.cf-index__figure {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 1s var(--ease-out) 0.1s, transform 1.2s var(--ease-osmo) 0.1s;
+}
+
+/* until the HUD's gauge reaches 100, only the HUD is on the page */
+html.is-loading .cf-index__figure {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+/* ---- the driver card ---------------------------------------------------- */
+
+/* no z-index here on purpose: the ghost and the marks sit behind him
+   (z 1) and the name in front (z 4), which a stacking context would merge */
+.ttl {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* the surname as giant hairline letters behind him, rolling right forever */
+.ttl__ghost {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 6vh;
+  white-space: nowrap;
+  will-change: transform;
+  animation: ttl-fade-in 2s var(--ease-out) both;
+}
+
+.ttl__track {
+  display: flex;
+  width: max-content;
+  animation: ttl-roll 48s linear infinite;
+  will-change: transform;
+}
+
+.ttl__track span {
+  display: block;
+  padding-right: 8vw;
+  font-family: var(--f-wide);
+  font-stretch: 125%;
+  font-weight: 800;
+  font-size: 44vw;
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(5, 5, 5, 0.11);
+}
+
+@keyframes ttl-roll {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes ttl-fade-in {
+  from { opacity: 0; }
+}
+
+.ttl__marks {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+}
+
+.ttl__num,
+.ttl__team {
+  position: absolute;
+  font-family: var(--f-num);
+  text-transform: uppercase;
+  color: var(--ink);
+  animation: ttl-fade 1s var(--ease-out) 0.5s both;
+}
+
+/* the numbers drift side to side, out of step with each other */
+.ttl__num {
+  animation:
+    ttl-fade 1s var(--ease-out) 0.5s both,
+    ttl-sway 5.5s ease-in-out 1.5s infinite alternate;
+}
+
+.ttl__num--br {
+  animation-duration: 1s, 7s;
+}
+
+@keyframes ttl-sway {
+  from { transform: translateX(-28px); }
+  to { transform: translateX(28px); }
+}
+
+.ttl__num {
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+/* inside the HUD's 293px columns, where the titles keep their corners */
+.ttl__num--tl { left: calc(293px + 3vw); top: 15vh; }
+.ttl__num--br { right: calc(293px + 3vw); bottom: 17vh; }
+
+.ttl__team {
+  right: calc(293px + 3vw);
+  top: calc(15vh + 10px);
+  font-size: 15px;
+  letter-spacing: 0.55em;
+  margin-right: -0.55em;
+}
+
+@keyframes ttl-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* the name: signature over the surname, a lower third across the chest */
+.ttl__lock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 57vh;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  will-change: clip-path, transform;
+}
+
+/* white blended by difference: black over the studio, white over his shirt */
+.ttl__lock--name {
+  mix-blend-mode: difference;
+}
+
+.ttl__lock--name .ttl__first,
+.ttl__lock--sign .ttl__last {
+  visibility: hidden;
+}
+
+.ttl__lock--name .ttl__last {
+  color: #fff;
+}
+
+/* the lockup redraws on a loop: the signature writes in, the surname wipes
+   in letter by letter, both hold, then wipe out to the right, and again */
+.ttl__first {
+  position: relative;
+  z-index: 1;
+  margin-right: 0.12em;
+  transform: translateY(0.12em) rotate(-6deg);
+  font-family: var(--f-sign);
+  font-size: 120px;
+  line-height: 1;
+  color: var(--green);
+  animation: ttl-sign 7s var(--ease-out) 0.15s infinite both;
+}
+
+@keyframes ttl-sign {
+  0% { clip-path: inset(-20% 100% -20% 0); }
+  18% { clip-path: inset(-20% -10% -20% 0); }
+  82% { clip-path: inset(-20% -10% -20% 0); }
+  94% { clip-path: inset(-20% -10% -20% 100%); }
+  100% { clip-path: inset(-20% -10% -20% 100%); }
+}
+
+.ttl__last {
+  display: flex;
+  font-family: var(--f-wide);
+  font-stretch: 125%;
+  font-weight: 800;
+  font-size: 128px;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* each letter wipes in a beat after the last, the titles' HAMILTO, HAMILTON,
+   on the same 7s loop as the signature */
+.ttl__last > span {
+  display: inline-block;
+  animation: ttl-letter-loop 7s var(--ease-osmo) infinite both;
+  animation-delay: calc(0.35s + var(--k) * 0.07s);
+}
+
+@keyframes ttl-letter-loop {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    transform: translateX(-0.15em);
+  }
+  8%,
+  80% {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+  90%,
+  100% {
+    clip-path: inset(0 0 0 100%);
+    transform: translateX(0.15em);
+  }
+}
+
+@keyframes ttl-letter {
+  from {
+    clip-path: inset(0 100% 0 0);
+    transform: translateX(-0.15em);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+
+html.is-loading .ttl * {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .b2__mow,
+  .b2::before,
+  .b2::after,
+  .ttl__ghost,
+  .ttl__track,
+  .ttl__num,
+  .ttl__first,
+  .ttl__last > span {
+    animation: none;
+  }
+}
+
+/* ---- block 01 copy ------------------------------------------------------ */
+
+.about__stage {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.about__column {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  will-change: transform;
+  color: var(--ink);
+}
+
+.about__line {
+  position: absolute;
+  height: 5px;
+  display: flex;
+  align-items: baseline;
+}
+
+.about__line > p {
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.about__line[data-side='l'] {
+  right: calc(50% + 22px);
+  justify-content: flex-end;
+}
+
+.about__line[data-side='r'] {
+  left: calc(50% + 22px);
+  justify-content: flex-start;
+}
+
+/* ---- block 02 ----------------------------------------------------------- */
+
+/* the lawn: Wimbledon green, mown in alternating stripes */
+.b2 {
+  position: fixed;
+  inset: 0;
+  z-index: 41;
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.86);
+  visibility: hidden;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.045) 0 9vw, transparent 9vw 18vw),
+    linear-gradient(180deg, #0a7343 0%, var(--green) 55%, #00502e 100%);
+}
+
+.b2__corner {
+  position: absolute;
+  top: var(--edge);
+  display: grid;
+  row-gap: 6px;
+  opacity: var(--corner-a, 1);
+}
+
+.b2__corner--l { left: var(--edge); }
+.b2__corner--r { right: var(--edge); text-align: right; }
+
+.b2__corner .a {
+  position: absolute;
+  top: 0;
+}
+
+.b2__corner--l .a { left: 0; }
+.b2__corner--r .a { right: 0; }
+
+.b2__corner .b {
+  display: grid;
+  row-gap: 6px;
+  margin-left: 105px;
+}
+
+.b2__corner--r .b {
+  margin-left: 0;
+  margin-right: 105px;
+}
+
+/* the cluster at the top centre: meta, words, the framed tag, the number */
+.b2__top {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 200px);
+  width: 520px;
+  height: 160px;
+}
+
+.b2__na {
+  position: absolute;
+  left: 0;
+  top: 33px;
+}
+
+.b2__words {
+  position: absolute;
+  right: 380px;
+  top: 33px;
+  display: grid;
+  row-gap: 6px;
+  text-align: right;
+}
+
+.b2__tag {
+  position: absolute;
+  left: 172px;
+  top: 33px;
+  width: 100px;
+}
+
+.b2__frame {
+  position: relative;
+  margin-top: 16px;
+  height: 46px;
+  padding: 18px 13px 0;
+  display: grid;
+  row-gap: 6px;
+}
+
+.b2__frame .c {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 0 solid currentColor;
+}
+
+.b2__frame .tl { left: 0; top: 0; border-left-width: 1px; border-top-width: 1px; }
+.b2__frame .tr { right: 0; top: 0; border-right-width: 1px; border-top-width: 1px; }
+.b2__frame .bl { left: 0; bottom: 0; border-left-width: 1px; border-bottom-width: 1px; }
+.b2__frame .br { right: 0; bottom: 0; border-right-width: 1px; border-bottom-width: 1px; }
+
+.b2__out {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 22px;
+}
+
+.b2__vdots {
+  display: grid;
+  row-gap: 2px;
+}
+
+.b2__vdots i {
+  display: block;
+  width: 3px;
+  height: 3px;
+  background: currentColor;
+}
+
+.b2__num {
+  position: absolute;
+  left: 292px;
+  top: -14px;
+  font-family: var(--f-num);
+  font-size: 96px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #fff;
+  transform-origin: 0 0;
+  transform: rotate(90deg) translate(0, -100%);
+}
+
+.b2__fig {
+  position: absolute;
+  left: 455px;
+  top: 76px;
+  height: 66px;
+  width: auto;
+  filter: brightness(0);
+}
+
+/* him from behind as a pure white shape, the reference's plain head made
+   his own; behind the type (z 0), the hips fading into the grass */
+.b2__back {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  bottom: -46vh;
+  height: 120vh;
+  width: auto;
+  filter: brightness(0) invert(1);
+  will-change: transform;
+}
+
+.b2__corner,
+.b2__top,
+.b2__colmask {
+  z-index: 2;
+}
+
+/* the lawn is never still: the mown stripes slide across, cloud shadows
+   drift over, a band of sunlight sweeps through every few seconds, and the
+   edges breathe a shade darker and back */
+.b2 {
+  background: linear-gradient(180deg, #0a7343 0%, var(--green) 55%, #00502e 100%);
+}
+
+.b2__mow,
+.b2::before,
+.b2::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.b2__mow {
+  inset: 0;
+  z-index: 0;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0 9vw, transparent 9vw 18vw);
+  background-size: 18vw 100%;
+  animation: b2-mow 14s linear infinite;
+}
+
+@keyframes b2-mow {
+  from { background-position: 0 0; }
+  to { background-position: 18vw 0; }
+}
+
+.b2::before {
+  inset: -30%;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 30% 22% at 30% 40%, rgba(0, 20, 10, 0.5), transparent 70%),
+    radial-gradient(ellipse 26% 18% at 72% 65%, rgba(0, 20, 10, 0.45), transparent 70%),
+    radial-gradient(ellipse 22% 16% at 55% 15%, rgba(0, 20, 10, 0.4), transparent 70%),
+    linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.1) 50%, transparent 58%);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 250% 100%;
+  animation:
+    b2-clouds 12s ease-in-out infinite alternate,
+    b2-sun 6s ease-in-out infinite;
+}
+
+.b2::after {
+  inset: 0;
+  z-index: 3;
+  background: radial-gradient(ellipse 80% 70% at 50% 45%, transparent 40%, rgba(0, 18, 9, 0.6) 100%);
+  animation: b2-breathe 5s ease-in-out infinite alternate;
+}
+
+@keyframes b2-clouds {
+  from { transform: translate3d(-10%, -4%, 0) scale(1); }
+  to { transform: translate3d(12%, 5%, 0) scale(1.15); }
+}
+
+@keyframes b2-sun {
+  from { background-position: 0 0, 0 0, 0 0, 120% 0; }
+  to { background-position: 0 0, 0 0, 0 0, -20% 0; }
+}
+
+@keyframes b2-breathe {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+
+/* the tennis reels, out on the flanks, framed in corner ticks */
+.reel {
+  position: absolute;
+  z-index: 1;
+  top: 42vh;
+  width: min(24vw, 360px);
+  height: 34vh;
+  margin: 0;
+}
+
+.reel--l { left: 6vw; }
+.reel--r { right: 6vw; }
+
+.reel canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.reel__c {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 0 solid rgba(255, 255, 255, 0.7);
+}
+
+.reel__c.tl { left: -10px; top: -10px; border-left-width: 1px; border-top-width: 1px; }
+.reel__c.tr { right: -10px; top: -10px; border-right-width: 1px; border-top-width: 1px; }
+.reel__c.bl { left: -10px; bottom: -10px; border-left-width: 1px; border-bottom-width: 1px; }
+.reel__c.br { right: -10px; bottom: -10px; border-right-width: 1px; border-bottom-width: 1px; }
+
+.reel__cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 22px);
+  display: flex;
+  justify-content: space-between;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+/* the rising words fade out before they reach the cluster at the top */
+.b2__colmask {
+  position: absolute;
+  inset: 0;
+  mask-image: linear-gradient(180deg, transparent 0, transparent 24vh, #000 34vh);
+}
+
+.b2__cols {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  color: var(--ui-ink);
+  display: flex;
+  gap: 64px;
+  align-items: flex-start;
+  will-change: transform;
+}
+
+.b2__col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.b2__col--l { width: 91px; align-items: flex-start; }
+.b2__col--r { width: 71px; align-items: flex-end; text-align: right; }
+
+.b2__mark {
+  width: 6px;
+  height: 6.667px;
+  opacity: 0.5;
+  display: block;
+}
+
+.b2__mark2 {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  opacity: 0.5;
+}
+
+/* ---- footer: Wimbledon whites ------------------------------------------- */
+
+.ftr {
+  position: fixed;
+  inset: 0;
+  z-index: 62;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 30%, #ffffff 0%, rgba(255, 255, 255, 0) 70%),
+    linear-gradient(180deg, #f4f4f1 0%, #ecece8 70%, #e2e2dd 100%);
+  pointer-events: none;
+  visibility: hidden;
+  --ftr-title-top: 10px;
+  --ftr-title-h: 294px;
+  --ftr-title-gap: 64px;
+  --ftr-band-top: calc(var(--ftr-title-top) + var(--ftr-title-h) + var(--ftr-title-gap));
+  --ftr-band-h: 170px;
+  --ftr-foot: 252px;
+}
+
+.ftr.is-open a {
+  pointer-events: auto;
+}
+
+/* the white is never still: soft green and optic-yellow light drifts
+   through it, and around the ball a glow and a grass-dot grid come up
+   (--mx/--my, set from the pointer) */
+.ftr__sky,
+.ftr__glow,
+.ftr__dots {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ftr__sky {
+  inset: -25%;
+  background:
+    radial-gradient(ellipse 34% 28% at 22% 30%, rgba(0, 101, 58, 0.16), transparent 70%),
+    radial-gradient(ellipse 30% 26% at 78% 70%, rgba(47, 191, 113, 0.16), transparent 70%),
+    radial-gradient(ellipse 26% 22% at 60% 20%, rgba(219, 233, 74, 0.18), transparent 70%),
+    radial-gradient(ellipse 28% 24% at 35% 80%, rgba(0, 101, 58, 0.1), transparent 70%);
+  filter: blur(20px);
+  animation: ftr-sky 16s ease-in-out infinite alternate;
+}
+
+@keyframes ftr-sky {
+  0% { transform: translate3d(-6%, -4%, 0) rotate(0deg) scale(1); }
+  50% { transform: translate3d(5%, 3%, 0) rotate(8deg) scale(1.08); }
+  100% { transform: translate3d(-2%, 6%, 0) rotate(-6deg) scale(1.02); }
+}
+
+.ftr__glow {
+  background: radial-gradient(
+    circle 340px at var(--mx, 50%) var(--my, 50%),
+    rgba(47, 191, 113, 0.22),
+    rgba(219, 233, 74, 0.08) 45%,
+    transparent 75%
+  );
+}
+
+.ftr__dots {
+  background-image: radial-gradient(rgba(0, 101, 58, 0.55) 1px, transparent 1.6px);
+  background-size: 14px 14px;
+  mask-image: radial-gradient(circle 220px at var(--mx, 50%) var(--my, 50%), #000, transparent 75%);
+}
+
+.ftr__title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--ftr-title-top) + 6.5px);
+  height: var(--ftr-title-h);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+}
+
+.ftr__lockup {
+  display: flex;
+  align-items: baseline;
+}
+
+/* the opening's lockup again, larger: signature, then the surname letters */
+.ftr__sign {
+  margin-right: 0.12em;
+  font-family: var(--f-sign);
+  font-size: 160px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--green);
+  transform: translateY(0.1em) rotate(-6deg);
+  clip-path: inset(-20% 100% -20% 0);
+}
+
+.ftr.is-in .ftr__sign {
+  animation: ttl-sign 7s var(--ease-out) 0.1s infinite both;
+}
+
+.ftr__last {
+  display: flex;
+  font-family: var(--f-wide);
+  font-stretch: 125%;
+  font-weight: 800;
+  font-size: 150px;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.ftr__last > span {
+  display: inline-block;
+  clip-path: inset(0 100% 0 0);
+}
+
+.ftr.is-in .ftr__last > span {
+  animation: ttl-letter-loop 7s var(--ease-osmo) infinite both;
+  animation-delay: calc(0.35s + var(--k) * 0.07s);
+}
+
+.ftr__band {
+  position: absolute;
+  left: var(--edge);
+  right: var(--edge);
+  top: var(--ftr-band-top);
+  height: var(--ftr-band-h);
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 6%, transparent 6% 12%),
+    var(--green);
+  overflow: hidden;
+}
+
+.ftr__court {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ftr__lines {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.ftr__net {
+  stroke-dasharray: 2 4;
+  stroke: rgba(255, 255, 255, 0.6);
+}
+
+.ftr__path {
+  fill: none;
+  stroke: none;
+}
+
+/* optic yellow: the one colour on the site that is not black, white or green,
+   because a tennis ball is not any of them */
+.ftr__ball circle {
+  fill: #dbe94a;
+}
+
+.ftr__ball path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.4;
+}
+
+.ftr__nav {
+  position: absolute;
+  left: 11.1111%;
+  top: 9px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.ftr__navi,
+.ftr__bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.ftr__navi {
+  color: #fff;
+}
+
+.ftr__navi:hover {
+  color: #dbe94a;
+}
+
+.ftr__sq {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #fff;
+}
+
+.ftr__sq--tl { left: 10px; top: 10px; }
+.ftr__sq--tr { right: 10px; top: 10px; }
+.ftr__sq--bl { left: 10px; bottom: 10px; }
+
+
+.ftr__bars {
+  position: absolute;
+  left: var(--edge);
+  right: var(--edge);
+  top: calc(var(--ftr-band-top) + 176px);
+  height: 16px;
+  display: flex;
+  gap: 6px;
+}
+
+.ftr__bar {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-left: 10px;
+  background: var(--green);
+  color: #fff;
+  transition: background 0.18s, color 0.18s;
+}
+
+.ftr__bar:hover {
+  background: var(--ink);
+}
+
+.ftr__navi:focus-visible,
+.ftr__bar:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 2px;
+}
+
+.ftr__lbl {
+  position: absolute;
+  line-height: 10px;
+}
+
+.ftr__project { left: var(--edge); top: calc(100% - var(--ftr-foot)); }
+.ftr__no { left: 11.5104%; top: calc(100% - var(--ftr-foot)); }
+.ftr__slash { left: 11.5104%; top: calc(100% - 150px); }
+.ftr__copy { left: var(--edge); top: calc(100% - 44px); }
+
+.ftr__ref {
+  position: absolute;
+  left: 43.2292%;
+  top: calc(100% - var(--ftr-foot));
+  display: flex;
+  gap: 10px;
+  line-height: 10px;
+}
+
+.ftr__aside {
+  position: absolute;
+  left: 16.25%;
+  top: calc(100% - 151px);
+  line-height: 12px;
+}
+
+.ftr__notes {
+  position: absolute;
+  left: 50.2083%;
+  top: calc(100% - var(--ftr-foot));
+  width: 301px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.ftr__note {
+  display: flex;
+}
+
+.ftr__n {
+  flex: 0 0 21px;
+  line-height: 11px;
+}
+
+.ftr__note p,
+.ftr__where p {
+  line-height: 11px;
+  white-space: nowrap;
+}
+
+.ftr__where {
+  position: absolute;
+  right: 11px;
+  top: calc(100% - var(--ftr-foot));
+  width: 120px;
+  display: flex;
+}
+
+.ftr__where > div {
+  flex: 1 1 auto;
+  text-align: right;
+}
+
+@media (max-height: 800px) {
+  .ftr {
+    --ftr-title-h: 240px;
+    --ftr-title-gap: 30px;
+    --ftr-band-h: 130px;
+    --ftr-foot: 230px;
+  }
+
+  .ftr__last {
+    font-size: 116px;
+  }
+
+  .ftr__sign {
+    font-size: 124px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ftr__sky {
+    animation: none;
+  }
+
+  .ftr__last > span,
+  .ftr__sign {
+    clip-path: none;
+  }
+
+  .ftr.is-in .ftr__last > span,
+  .ftr.is-in .ftr__sign {
+    animation: none;
+  }
+}

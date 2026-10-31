@@ -1,0 +1,433 @@
+/* Block 01's instrument panel. Geometry is the reference's: 283px panels
+   10px from each edge, coordinates at 32.9% of the height. */
+
+.hud {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  color: var(--ink);
+}
+
+/* the panel is the first thing on screen: each block slides in from its
+   own edge, unblurring as it lands, a beat apart, and is never taken away;
+   its lines decode from noise at the same time (textLife decodeIn) */
+.hud > * {
+  --from: -36px;
+  animation: hud-in 0.75s var(--ease-osmo) both;
+  animation-delay: calc(var(--h, 0) * 55ms);
+}
+
+.hud__coord--r,
+.hud__ticker,
+.hud__ledger,
+.hud__scroll {
+  --from: 36px;
+}
+
+@keyframes hud-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    translate: var(--from) 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    translate: 0 0;
+    clip-path: inset(0 -10% 0 0);
+  }
+}
+
+.hud__sep {
+  color: var(--slate);
+  opacity: 0.6;
+}
+
+.hud__map {
+  position: absolute;
+  left: var(--edge);
+  top: var(--edge);
+  width: var(--panel);
+}
+
+.hud__mapbox {
+  position: relative;
+  width: var(--panel);
+  height: 142px;
+  overflow: hidden;
+}
+
+/* a still hairline hatch: drafting paper, not a scan */
+.hud__mapbox::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    105deg,
+    rgba(5, 5, 5, 0.09) 0,
+    rgba(5, 5, 5, 0.09) 0.5px,
+    transparent 0.5px,
+    transparent 5px
+  );
+}
+
+.hud__corner,
+.hud__dot3 {
+  width: 3px;
+  height: 3px;
+  background: var(--ink);
+}
+
+.hud__corner {
+  position: absolute;
+}
+
+.hud__corner--tl { left: 0; top: 0; }
+.hud__corner--tr { right: 0; top: 0; }
+.hud__corner--bl { left: 0; bottom: 0; }
+.hud__corner--br { right: 0; bottom: 0; }
+
+.hud__mini {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: auto;
+  height: 68px;
+  transform: translate(-50%, -62%);
+  filter: brightness(0);
+}
+
+.hud__dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 3px;
+  background: var(--grass);
+  will-change: transform;
+}
+
+.hud__xy {
+  position: absolute;
+  bottom: 0;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px;
+  background: var(--ink);
+  color: #fff;
+}
+
+.hud__xy--x { left: 0; }
+.hud__xy--y { right: 0; }
+
+.hud__xy b {
+  font-weight: inherit;
+}
+
+.hud__xy span {
+  min-width: 18px;
+  text-align: right;
+  font-size: 9px;
+}
+
+.hud__maplabels {
+  position: relative;
+  height: 16px;
+  margin-top: 10px;
+}
+
+.hud__maplabels p {
+  position: absolute;
+  white-space: nowrap;
+}
+
+.hud__maplabels .r1 { top: 0; }
+.hud__maplabels .r2 { top: 11px; }
+.hud__maplabels .l { left: 0; }
+.hud__maplabels .i1 { left: 22px; }
+.hud__maplabels .r { right: 26px; text-align: right; }
+.hud__maplabels .r.r1 { right: 0; }
+
+.hud__coord {
+  position: absolute;
+  top: 32.9%;
+  width: var(--panel);
+  display: flex;
+  justify-content: space-between;
+}
+
+.hud__coord--l { left: var(--edge); }
+.hud__coord--r { right: var(--edge); }
+
+.hud__panel {
+  position: absolute;
+  left: var(--edge);
+  bottom: 90px;
+  width: var(--panel);
+  height: 212px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.hud__brackets {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: var(--ink);
+}
+
+.hud__panelbody {
+  width: 219px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.hud__row {
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+}
+
+.hud__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hud__cellA { width: 65px; }
+
+.hud__cellB {
+  width: 94px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hud__cellB .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.hud__dots {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.hud__row2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.hud__meta {
+  width: 94px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.hud__pair {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+}
+
+.hud__meta .hud__pair + .hud__pair {
+  margin-top: -26px;
+}
+
+.hud__pair .l { width: 39px; }
+
+.hud__pair .r {
+  width: 42px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.hud__pair .r.cf-mono {
+  font-size: 9px;
+}
+
+.hud__year {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+}
+
+.hud__reg {
+  width: 10px;
+  height: 10px;
+}
+
+.hud__progress {
+  position: absolute;
+  left: var(--edge);
+  bottom: 38px;
+  width: var(--panel);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hud__ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+}
+
+.hud__track {
+  position: relative;
+  height: 5px;
+  margin-top: 15px;
+}
+
+.hud__slashes {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--panel);
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 5px;
+  letter-spacing: -1.5px;
+}
+
+.hud__slashes--dim {
+  color: rgba(5, 5, 5, 0.1);
+}
+
+.hud__fill.is-resetting {
+  transition: width 0.65s var(--ease-osmo);
+}
+
+.hud__fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 5px;
+  width: 0;
+  overflow: hidden;
+}
+
+.hud__fill .hud__slashes {
+  color: var(--green);
+}
+
+.hud__scroll {
+  position: absolute;
+  right: var(--edge);
+  bottom: 38px;
+}
+
+.hud__ticker {
+  position: absolute;
+  top: var(--edge);
+  right: var(--edge);
+  width: var(--panel);
+  height: 16px;
+  background: rgba(5, 5, 5, 0.06);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.hud__tick {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: rgba(5, 5, 5, 0.55);
+  animation: hud-run 10s linear infinite;
+  will-change: transform;
+}
+
+.hud__tickitem {
+  padding: 0 16px 0 6px;
+}
+
+.hud__tick .s {
+  margin-left: 28px;
+  color: rgba(5, 5, 5, 0.25);
+}
+
+@keyframes hud-run {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+/* the ledger rolls upward forever and fades out toward the coordinates */
+.hud__ledger {
+  position: absolute;
+  top: 53px;
+  right: var(--edge);
+  width: var(--panel);
+  height: calc(32.9% - 63px);
+  overflow: hidden;
+  mask-image: linear-gradient(180deg, #000 0%, #000 5%, transparent 92%);
+}
+
+.hud__track2 {
+  animation: hud-roll 18s linear infinite;
+  will-change: transform;
+}
+
+@keyframes hud-roll {
+  to { transform: translateY(-50%); }
+}
+
+.hud__grp {
+  display: flex;
+  align-items: flex-start;
+}
+
+.hud__name {
+  flex: 0 0 90px;
+  padding-top: 5px;
+}
+
+.hud__list {
+  flex: 1 1 auto;
+}
+
+.hud__row3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15px;
+  color: rgba(5, 5, 5, 0.55);
+}
+
+.hud__row3 > p:last-child {
+  text-align: right;
+  font-size: 9px;
+}
+
+.hud__tot,
+.hud__tot > p:last-child {
+  color: var(--ink);
+  font-size: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hud > * {
+    animation: none;
+    opacity: 1;
+    filter: none;
+  }
+
+  .hud__tick,
+  .hud__track2 {
+    animation: none;
+  }
+}

@@ -7,9 +7,9 @@ import { NAME, EMAIL, EMAIL_SPOKEN } from './content'
 // something the code does: src/analytics.js (PostHog), main.jsx (Vercel
 // Analytics), the LUT's Stripe link + api/stripe-webhook.js (Resend), and the
 // cal.com booking link on /call. Change this page when any of those change.
-const UPDATED = '3 October 2026'
+export const UPDATED = '3 October 2026'
 
-const sections = [
+export const sections = [
   {
     title: 'Analytics',
     body: 'PostHog and Vercel Analytics count page views, where visitors came from, clicks and time on the page. No session recordings, no ads, and nothing is sold. PostHog keeps an anonymous id in your browser’s local storage so a repeat visit counts once.',

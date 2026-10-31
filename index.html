@@ -2,17 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Matthew Park" />
     <link rel="icon" type="image/svg+xml" href="/favicon-doodle.svg" />
-    <!-- One face for the whole page: Poor Story (SIL OFL), self-hosted Latin
-         slice, preloaded so it is in hand before React paints any text. -->
+    <!-- All SIL OFL: Saira Semi Condensed + JetBrains Mono for the small
+         type (standing in for PP Supply), and the F1-titles trio: Archivo
+         Expanded for surnames, Mrs Saint Delafield for the signature,
+         Michroma for numbers. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="preload"
-      href="/fonts/poor-story-latin.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800&family=JetBrains+Mono:wght@400&family=Michroma&family=Mrs+Saint+Delafield&family=Saira+Semi+Condensed:wght@400;600;700&display=swap"
     />
+    <script>
+      // Decided before the first paint: whether the intro runs (skipped with
+      // ?skip and under reduced motion; the LUT, call and privacy pages never
+      // hold for it).
+      ;(function () {
+        var html = document.documentElement
+        var q = location.search
+        var legacy = /^\/(lut|call|privacy)/.test(location.pathname)
+        var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+        if (!reduced && !legacy && !/[?&]skip(&|=|$)/.test(q)) html.className += ' is-loading'
+      })()
+    </script>
     <title>Matthew Park</title>
     <meta
       name="description"
@@ -29,10 +46,10 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://matthewnpark.com/og-simple.jpg" />
     <link rel="canonical" href="https://matthewnpark.com/" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#f7f7f4" />
     <style>
       /* first paint only: white before the CSS arrives */
-      html, body { background-color: #ffffff; margin: 0; }
+      html, body { background-color: #f7f7f4; margin: 0; }
     </style>
   </head>
   <body>

@@ -1,0 +1,166 @@
+/* The bottom bar and the tennis-ball cursor. */
+
+.cf-plus {
+  width: 6px;
+  height: 6.667px;
+  flex: none;
+}
+
+.cf-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28px;
+  z-index: 600;
+  background: var(--ui-bar);
+  display: flex;
+  align-items: center;
+  font-size: var(--ui-14);
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.cf-bar__left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-left: var(--edge);
+}
+
+.cf-bar__btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ui-grey);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+
+.cf-bar__btn:hover,
+.cf-bar__btn.is-current {
+  color: #fff;
+}
+
+.cf-bar__btn:focus-visible,
+.cf-bar__mail:focus-visible {
+  outline: 1px solid var(--grass);
+  outline-offset: 3px;
+}
+
+.cf-bar__clock {
+  margin-left: auto;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ui-grey);
+  user-select: none;
+}
+
+.cf-bar__icon {
+  width: 9px;
+  height: 9px;
+}
+
+.cf-bar__mark {
+  width: 5px;
+  height: 5px;
+  margin-left: 6px;
+  background: var(--grass);
+  animation: cf-blink 1s steps(1) infinite;
+}
+
+@keyframes cf-blink {
+  50% { opacity: 0.25; }
+}
+
+.cf-bar__time {
+  font-variant-numeric: tabular-nums;
+}
+
+.cf-bar__mail {
+  height: 20px;
+  margin-right: 4px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  color: var(--ui-ink);
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s;
+}
+
+.cf-bar__mail:hover {
+  background: var(--ui-grey);
+}
+
+.cf-bar__mail.is-copied {
+  background: var(--green);
+  color: #fff;
+}
+
+/* ---- the tennis-ball cursor --------------------------------------------- */
+
+html.has-ball,
+html.has-ball * {
+  cursor: none !important;
+}
+
+/* the ball's trail: one light-green line along its recent path */
+.cf-wind {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cf-ball {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform;
+}
+
+.cf-ball.is-on {
+  opacity: 1;
+}
+
+.cf-ball svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transition: scale 0.25s var(--ease-out);
+}
+
+.cf-ball.is-over svg {
+  scale: 1.7;
+}
+
+.cf-ball.is-down svg {
+  scale: 1.25 0.8;
+}
+
+.cf-ball__felt {
+  fill: #dbe94a;
+  stroke: rgba(5, 5, 5, 0.18);
+  stroke-width: 0.8;
+}
+
+.cf-ball__seam {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}

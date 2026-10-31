@@ -1,0 +1,144 @@
+/* Case-file site: tokens and globals.
+   Measurements follow the reference's own system: 10px uppercase type set on a
+   5px line box, -0.4px tracking, 10px edges, 283px panels. */
+
+:root {
+  --ink: #050505;
+  --paper: #efefec;
+  --white: #f7f7f4;
+  --green: #00653a;
+  --grass: #2fbf71;
+  --fog: #afafaf;
+  --slate: #6e6e6e;
+  --label: #636363;
+  --ui-ink: #393939;
+  --ui-grey: #c8c8c8;
+  --ui-bar: #393939;
+
+  --f-main: 'Saira Semi Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+  /* the F1-titles trio: heavy extended surnames, a signature, wide numbers */
+  --f-wide: 'Archivo', 'Arial Black', sans-serif;
+  --f-sign: 'Mrs Saint Delafield', 'Snell Roundhand', cursive;
+  --f-num: 'Michroma', 'Eurostile', sans-serif;
+
+  --ui-10: 10px;
+  --ui-14: 14px;
+  --track: -0.04em;
+  --edge: 10px;
+  --panel: 283px;
+
+  --ease-osmo: cubic-bezier(0.625, 0.05, 0, 1);
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/* phones: no rubber-band, no tap flash, no text-size bumps on rotate */
+html {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--f-main);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+body * {
+  box-sizing: border-box;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--green);
+  color: var(--white);
+}
+
+.cf-ui {
+  font-size: var(--ui-10);
+  line-height: 0.5;
+  letter-spacing: -0.4px;
+  text-transform: uppercase;
+}
+
+.cf-mono {
+  font-family: var(--f-mono);
+  font-feature-settings: 'zero' 1, 'tnum' 1;
+}
+
+/* Lines blur in on arrival, staggered by --i. Held while the intro runs. */
+.anim-line {
+  opacity: 0;
+  filter: blur(7px);
+  animation: cf-line-in 0.52s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * var(--line-step, 42ms) + var(--group-delay, 0ms));
+}
+
+html.is-loading .anim-line {
+  animation-play-state: paused;
+}
+
+@keyframes cf-line-in {
+  to {
+    opacity: var(--in-opacity, 1);
+    filter: blur(0);
+  }
+}
+
+/* the speed bands for page changes, above everything but the cursor */
+.cf-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 920;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.cf-sheet > span {
+  position: relative;
+  flex: 1 1 0;
+  margin-bottom: -1px; /* no hairline seams between bands */
+  background: var(--green);
+  will-change: transform;
+}
+
+/* each band drags a thin speed line off its leading edge */
+.cf-sheet > span::after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 38%;
+  width: 22vw;
+  height: 2px;
+  background: linear-gradient(90deg, var(--grass), rgba(47, 191, 113, 0));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-line {
+    animation: none;
+    opacity: var(--in-opacity, 1);
+    filter: none;
+  }
+
+}

@@ -1,0 +1,261 @@
+/* The phone layout. Loaded last so every rule here wins at equal
+   specificity; deleting the import leaves the desktop site untouched.
+   720px is the breakpoint fx/figure.js and IndexPage.jsx also use.
+
+   Rooms are fixed to the viewport, so they take the dynamic height (dvh)
+   that follows Safari's toolbar, and pad for the notch and home bar. */
+
+@media (max-width: 720px) {
+  :root {
+    --edge: 12px;
+    --safe-b: env(safe-area-inset-bottom, 0px);
+    --bar-h: calc(34px + var(--safe-b));
+  }
+
+  /* ---- bar: rooms and mail, clock dropped for room ------------------- */
+
+  .cf-bar {
+    height: var(--bar-h);
+    padding-bottom: var(--safe-b);
+    font-size: 12px;
+  }
+
+  .cf-bar__clock {
+    display: none;
+  }
+
+  .cf-bar__left {
+    flex: 1;
+  }
+
+  .cf-bar__btn,
+  .cf-bar__mail {
+    min-height: 34px;
+  }
+
+  .cf-bar__mail {
+    height: 24px;
+    min-height: 0;
+    margin-right: 8px;
+  }
+
+  /* ---- HUD: the ticker on top, the gauge at the bottom, nothing else - */
+
+  .hud__map,
+  .hud__coord,
+  .hud__panel,
+  .hud__ledger {
+    display: none;
+  }
+
+  .hud__ticker {
+    top: calc(env(safe-area-inset-top, 0px) + 10px);
+    left: var(--edge);
+    right: var(--edge);
+    width: auto;
+  }
+
+  .hud__progress {
+    left: var(--edge);
+    bottom: calc(var(--bar-h) + 12px);
+    width: 46vw;
+  }
+
+  .hud__slashes {
+    width: 46vw;
+  }
+
+  .hud__scroll {
+    right: var(--edge);
+    bottom: calc(var(--bar-h) + 12px);
+  }
+
+  /* ---- the driver card -------------------------------------------- */
+
+  .ttl__track span {
+    font-size: 70vw;
+  }
+
+  .ttl__ghost {
+    top: 10vh;
+  }
+
+  .ttl__num {
+    font-size: 22px;
+  }
+
+  .ttl__num--tl {
+    left: var(--edge);
+    top: 8vh;
+  }
+
+  .ttl__num--br {
+    right: var(--edge);
+    bottom: auto;
+    top: 8vh;
+  }
+
+  .ttl__team {
+    left: 0;
+    right: 0;
+    top: calc(8vh + 34px);
+    margin-right: 0;
+    text-align: center;
+    font-size: 11px;
+  }
+
+  .ttl__lock {
+    top: auto;
+    bottom: calc(var(--bar-h) + 15vh);
+  }
+
+  .ttl__first {
+    font-size: 11vw;
+  }
+
+  .ttl__last {
+    font-size: 12vw;
+  }
+
+  /* ---- case-file copy: one centred column, readable over him ------- */
+
+  .about__column {
+    mix-blend-mode: difference;
+    color: #fff;
+    font-size: 9px;
+  }
+
+  .about__line[data-side='l'],
+  .about__line[data-side='r'] {
+    left: 0;
+    right: 0;
+    justify-content: center;
+  }
+
+  /* ---- block 02 ---------------------------------------------------- */
+
+  .b2__corner--r,
+  .b2__words,
+  .b2__tag,
+  .b2__na {
+    display: none;
+  }
+
+  .b2__top {
+    left: auto;
+    right: var(--edge);
+    width: auto;
+  }
+
+  .b2__num {
+    position: relative;
+    left: auto;
+    top: 0;
+    font-size: 54px;
+    transform: none;
+    writing-mode: vertical-rl;
+  }
+
+  .b2__back {
+    height: 105dvh;
+    bottom: -30dvh;
+  }
+
+  .b2__cols {
+    gap: 28px;
+  }
+
+  .reel {
+    top: auto;
+    bottom: calc(var(--bar-h) + 70px);
+    width: 38vw;
+    height: 22dvh;
+  }
+
+  .reel--l { left: var(--edge); }
+  .reel--r { right: var(--edge); }
+
+  .reel__cap {
+    top: calc(100% + 14px);
+  }
+
+  /* ---- footer: lockup, court, links, then the notes in a column ---- */
+
+  .ftr {
+    --ftr-title-h: 24dvh;
+    --ftr-title-gap: 0px;
+    --ftr-band-h: 120px;
+  }
+
+  .ftr__sign {
+    font-size: 11vw;
+  }
+
+  .ftr__last {
+    font-size: 12vw;
+  }
+
+  .ftr__nav {
+    left: 12%;
+  }
+
+  .ftr__project,
+  .ftr__no,
+  .ftr__slash,
+  .ftr__ref,
+  .ftr__aside {
+    display: none;
+  }
+
+  .ftr__notes {
+    left: var(--edge);
+    right: var(--edge);
+    top: calc(var(--ftr-band-top) + 214px);
+    width: auto;
+    gap: 22px;
+  }
+
+  .ftr__where {
+    top: calc(var(--ftr-band-top) + 214px);
+  }
+
+  .ftr__copy {
+    top: auto;
+    bottom: calc(var(--bar-h) + 14px);
+  }
+
+  .ftr__dots,
+  .ftr__glow {
+    display: none;
+  }
+
+  /* ---- gallery ----------------------------------------------------- */
+
+  .gal__panel {
+    top: calc(env(safe-area-inset-top, 0px) + 10px);
+    width: auto;
+    right: var(--edge);
+    grid-template-columns: 40px 1fr;
+    column-gap: 14px;
+    row-gap: 10px;
+  }
+
+  .gal__logo {
+    width: 36px;
+    height: 36px;
+    grid-row: span 2;
+  }
+
+  .gal__list {
+    display: none;
+  }
+
+  .gal__nav {
+    grid-column: 1 / -1;
+    height: 34px;
+  }
+
+  .gal__box img {
+    max-width: 92vw;
+  }
+}

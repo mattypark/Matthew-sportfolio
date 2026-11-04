@@ -167,6 +167,56 @@ export const footer = {
   rights: `©${new Date().getFullYear()} all rights reserved`,
 }
 
+// ---- the gear, the 3D scene after the footer --------------------------------
+export const gearScene = { label: 'What I carry' }
+
+// One story per object; the racket and the ball share tennis. Placeholder
+// lines until he sends his own. `nodes` are the object names in the glb.
+export const gear = [
+  {
+    id: 'tennis',
+    nodes: ['racket', 'ball'],
+    name: 'Tennis',
+    line: 'Varsity, and on court since I was nine',
+    notes: ['Placeholder: the racket I play with', 'Placeholder: the shot I am still fixing'],
+  },
+  {
+    id: 'iphone',
+    nodes: ['iphone'],
+    name: 'iPhone',
+    line: 'Where every app I build gets tested first',
+    notes: ['Placeholder: Nudgy lives here', 'Placeholder: half the channel is shot on it'],
+  },
+  {
+    id: 'fx30',
+    nodes: ['fx30'],
+    name: 'Sony FX30',
+    line: 'What I shoot the channel on',
+    notes: ['Placeholder: the lens on it', 'Placeholder: a video it made'],
+  },
+  {
+    id: 'journal',
+    nodes: ['journal'],
+    name: 'Journal',
+    line: 'What I am thinking, most days',
+    notes: [],
+  },
+  {
+    id: 'macbook',
+    nodes: ['macbook'],
+    name: 'MacBook Pro',
+    line: 'Where the building happens',
+    notes: ['Placeholder: what is open on it right now', 'Placeholder: too many terminals'],
+  },
+  {
+    id: 'lightstick',
+    nodes: ['lightstick'],
+    name: 'Lightstick',
+    line: 'CORTIS. I am a COER',
+    notes: ['Placeholder: the first show', 'Placeholder: the song on repeat'],
+  },
+]
+
 // ---- work page -------------------------------------------------------------
 // Image paths are placeholders until he sends screenshots; a cell without one
 // draws its own title card.

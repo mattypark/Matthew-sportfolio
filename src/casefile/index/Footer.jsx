@@ -61,17 +61,18 @@ const Footer = forwardRef(function Footer(_props, ref) {
   const moving = useMemo(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches, [])
 
   useImperativeHandle(ref, () => ({
-    // clip: the speed-band clip-path; level: how far the bands have come
+    // clip: the speed-band clip-path; level: how far the bands have come;
+    // covered: the gear is fully over it, so it can stop drawing
     // mx, my: the pointer in px, for the glow and the dot grid
     pointer(mx, my) {
       root.current?.style.setProperty('--mx', `${mx}px`)
       root.current?.style.setProperty('--my', `${my}px`)
     },
-    update(clip, level) {
+    update(clip, level, covered = false) {
       const el = root.current
       if (!el) return
-      el.style.visibility = level > 0 ? 'visible' : 'hidden'
-      if (level <= 0) return
+      el.style.visibility = level > 0 && !covered ? 'visible' : 'hidden'
+      if (level <= 0 || covered) return
       el.style.clipPath = clip
       // once the title has written itself it stays written: toggling this
       // back off near the threshold restarted every letter

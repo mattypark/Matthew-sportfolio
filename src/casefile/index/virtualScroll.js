@@ -17,16 +17,20 @@ export function createVirtualScroll(el, { max = 0, settle = 0.11, touchSpeed = 1
   let last = performance.now()
   let touchY = null
   let glide = null // { from, to, t0, ms } while an automatic move runs
+  let held = false // a panel is open over the page; the page stays put
   const listeners = new Set()
 
   const clamp = (v) => Math.min(limit, Math.max(0, v))
   // while a glide runs, input is ignored: it is a scene change, not a scroll
   const push = (dy) => {
-    if (glide) return
+    if (glide || held) return
     target = clamp(target + dy)
   }
+  // a panel marked data-own-scroll scrolls itself, natively
+  const ownScroll = (e) => e.target instanceof Element && e.target.closest('[data-own-scroll]')
 
   const onWheel = (e) => {
+    if (ownScroll(e)) return
     e.preventDefault()
     // line-mode wheels (Firefox) report lines, not pixels
     const dy = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaY
@@ -36,7 +40,7 @@ export function createVirtualScroll(el, { max = 0, settle = 0.11, touchSpeed = 1
     touchY = e.touches[0].clientY
   }
   const onTouchMove = (e) => {
-    if (touchY === null) return
+    if (touchY === null || ownScroll(e)) return
     const y = e.touches[0].clientY
     push((touchY - y) * touchSpeed)
     touchY = y
@@ -104,6 +108,16 @@ export function createVirtualScroll(el, { max = 0, settle = 0.11, touchSpeed = 1
     },
     get gliding() {
       return glide !== null
+    },
+    /** Moves the target by dy, kept inside lo..hi (a pinch in the gear). */
+    nudge(dy, lo = 0, hi = limit) {
+      if (glide || held) return
+      target = clamp(Math.min(hi, Math.max(lo, target + dy)))
+    },
+    /** Freezes the page under an open panel; input resumes on release. */
+    hold(on) {
+      held = on
+      if (on) target = current
     },
     /** Plays the scroll from here to v over ms, on its own. */
     glideTo(v, ms) {

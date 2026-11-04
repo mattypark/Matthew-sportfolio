@@ -13,7 +13,7 @@ const TRAVEL_SPIN = 2.2 // extra degrees per px travelled
 const TRAIL_MS = 260 // how much of the path the line remembers
 const TRAIL_W = 5 // px at the ball end
 const TRAIL_RGB = '155, 227, 180' // light grass green
-const CLICKABLE = 'a, button, [role="button"], .wcard[href], .gal__shot'
+const CLICKABLE = 'a, button, [role="button"], .wcard[href], .gal__shot, [data-hot]'
 
 export default function BallCursor() {
   const ball = useRef(null)

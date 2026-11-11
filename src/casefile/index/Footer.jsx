@@ -8,6 +8,7 @@
 import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react'
 import { GoLink } from '../ui/transition.jsx'
 import { PlusMark } from '../ui/Bar.jsx'
+import { SocialIcon } from '../ui/SocialIcon.jsx'
 import { EMAIL, contactLabel, footer, skills, socials, title } from '../content.js'
 
 const NAV = [
@@ -123,6 +124,16 @@ const Footer = forwardRef(function Footer(_props, ref) {
         <a className="ftr__bar" href={`mailto:${EMAIL}`}>
           {contactLabel}
         </a>
+      </div>
+
+      <div className="ftr__handles">
+        {socials.map((s) => (
+          <a className="ftr__handle" key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={`${s.label}: ${s.handle}`}>
+            <SocialIcon name={s.label} size={18} />
+            <span className="ftr__handle-txt cf-mono">{s.handle}</span>
+          </a>
+        ))}
+        <span className="ftr__handle" aria-hidden="true" />
       </div>
 
       <p className="ftr__lbl ftr__project">{footer.left[0][0]}</p>

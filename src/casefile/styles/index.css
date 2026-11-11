@@ -944,6 +944,56 @@ html.is-loading .ttl * {
   text-align: right;
 }
 
+.ftr__handles {
+  position: absolute;
+  left: var(--edge);
+  right: var(--edge);
+  top: calc(var(--ftr-band-top) + 210px);
+  display: flex;
+  gap: 6px;
+}
+
+.ftr__handle {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding-left: 10px;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+
+.ftr__handle svg {
+  color: var(--green);
+  transition: color 0.18s;
+}
+
+.ftr__handle-txt {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 11px;
+}
+
+.ftr__handle:hover,
+.ftr__handle:hover svg {
+  color: var(--ink);
+}
+
+.ftr__handle:focus-visible {
+  outline: 1px solid var(--green);
+  outline-offset: 3px;
+}
+
+/* phones: the bars above already say IG / TT / …, and the notes start right under them */
+@media (max-width: 720px) {
+  .ftr__handles {
+    display: none;
+  }
+}
+
 .ftr__skills {
   position: absolute;
   right: 11px;

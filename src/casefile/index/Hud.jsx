@@ -5,7 +5,8 @@
 
 import { forwardRef, useImperativeHandle, useRef } from 'react'
 import { FIGURE_SRC } from '../fx/figure.js'
-import { PLACE, hud, ledger } from '../content.js'
+import { PLACE, hud, ledger, socials } from '../content.js'
+import { SocialIcon } from '../ui/SocialIcon.jsx'
 
 const SLASHES = '/'.repeat(120)
 
@@ -207,6 +208,16 @@ const Hud = forwardRef(function Hud(_props, ref) {
           ))}
         </div>
       </div>
+
+      <nav className="hud__social" style={{ '--h': 7 }} aria-label="Socials">
+        {socials.map((s) => (
+          <a className="hud__soc" key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={`${s.label}: ${s.handle}`}>
+            <SocialIcon name={s.label} size={13} />
+            <span className="hud__soc-name">{s.label}</span>
+            <span className="hud__soc-handle cf-mono">{s.handle}</span>
+          </a>
+        ))}
+      </nav>
 
       <p className="hud__scroll" style={{ '--h': 7 }}>{hud.scroll}</p>
     </div>

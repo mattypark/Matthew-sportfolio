@@ -41,10 +41,10 @@ export const building = [
 export const cta = { label: 'Email me to say hi', href: `mailto:${EMAIL}` }
 
 export const socials = [
-  { label: 'Instagram', href: 'https://www.instagram.com/matty.park/' },
-  { label: 'TikTok', href: 'https://www.tiktok.com/@mattparxy' },
-  { label: 'YouTube', href: 'https://www.youtube.com/@Matty_park' },
-  { label: 'X', href: 'https://x.com/MattyparkW' },
-  { label: 'GitHub', href: 'https://github.com/mattypark' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/matthew-park-487889350/' },
+  { label: 'Instagram', handle: '@matty.park', href: 'https://www.instagram.com/matty.park/' },
+  { label: 'TikTok', handle: '@mattparxy', href: 'https://www.tiktok.com/@mattparxy' },
+  { label: 'YouTube', handle: '@Matty_park', href: 'https://www.youtube.com/@Matty_park' },
+  { label: 'X', handle: '@MattyparkW', href: 'https://x.com/MattyparkW' },
+  { label: 'GitHub', handle: 'mattypark', href: 'https://github.com/mattypark' },
+  { label: 'LinkedIn', handle: 'Matthew Park', href: 'https://www.linkedin.com/in/matthew-park-487889350/' },
 ]

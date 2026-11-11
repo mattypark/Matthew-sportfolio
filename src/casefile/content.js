@@ -92,8 +92,29 @@ export const hud = {
   scroll: 'Scroll',
 }
 
+// What he codes in and what he's good at. Only what his repos and record show: Nudgy is Swift + TypeScript on
+// Cloudflare, the web work is React / Next.js on Supabase, the 3D here is Three.js; Prayer Lock and the content numbers
+// are the record above.
+export const skills = {
+  code: [
+    ['Swift, SwiftUI', 'iOS + Mac'],
+    ['TypeScript', 'daily'],
+    ['React, Next.js', 'web'],
+    ['Cloudflare, Supabase', 'backend'],
+    ['Three.js', '3D'],
+  ],
+  good: [
+    ['Growth marketing', '7x'],
+    ['Short-form video', '30m views'],
+    ['Product design', 'daily'],
+    ['Shipping apps', 'App Store'],
+  ],
+}
+
 // The right-hand ledger: what he has made, one fact per row.
 export const ledger = [
+  { name: 'Code', rows: skills.code },
+  { name: 'Good at', rows: skills.good },
   {
     name: 'Nudgy',
     rows: [
@@ -116,7 +137,7 @@ export const ledger = [
   {
     name: 'Content',
     rows: [
-      ['Followers', '75k'],
+      ['Followers', '75k+'],
       ['Views', '30m'],
     ],
   },
@@ -228,7 +249,7 @@ export const work = [
   { id: 'bayouguard', name: 'BayouGuard', year: '2026', kind: 'Flood app' },
   { id: 'vocoder', name: 'Hand Vocoder', year: '2026', kind: 'Interaction' },
   { id: 'media', name: 'Media AI Agent', year: '2026', kind: 'Agent' },
-  { id: 'content', name: 'Content', year: '2024—', kind: '75k followers' },
+  { id: 'content', name: 'Content', year: '2024—', kind: '75k+ followers' },
 ]
 
 // ---- gallery ---------------------------------------------------------------

@@ -8,7 +8,7 @@
 import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react'
 import { GoLink } from '../ui/transition.jsx'
 import { PlusMark } from '../ui/Bar.jsx'
-import { EMAIL, contactLabel, footer, socials, title } from '../content.js'
+import { EMAIL, contactLabel, footer, skills, socials, title } from '../content.js'
 
 const NAV = [
   { to: '/', label: 'Index' },
@@ -17,7 +17,11 @@ const NAV = [
 
 const IN_AT = 0.6 // share of the sweep after which the title starts writing
 
-const instagram = socials.find((s) => s.label === 'Instagram')
+// A/B (his rule 30): A has the skills in the side ledger only (desktop); B also lists them here, for phones too.
+const SKILLS_IN_FOOTER = new URLSearchParams(window.location.search).get('skills') === 'b'
+
+// Phones fit seven bars only with short names (index.css swaps them under 720px).
+const SHORT = { Instagram: 'IG', TikTok: 'TT', YouTube: 'YT', X: 'X', GitHub: 'GH', LinkedIn: 'IN' }
 
 // A doubles court from above, in the band's own 1400 x 170 units.
 function Court({ moving }) {
@@ -111,9 +115,12 @@ const Footer = forwardRef(function Footer(_props, ref) {
       </div>
 
       <div className="ftr__bars">
-        <a className="ftr__bar" href={instagram.href} target="_blank" rel="noreferrer">
-          {instagram.label}
-        </a>
+        {socials.map((s) => (
+          <a className="ftr__bar" key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}>
+            <span className="ftr__full">{s.label}</span>
+            <span className="ftr__short" aria-hidden="true">{SHORT[s.label] ?? s.label}</span>
+          </a>
+        ))}
         <a className="ftr__bar" href={`mailto:${EMAIL}`}>
           {contactLabel}
         </a>
@@ -152,6 +159,15 @@ const Footer = forwardRef(function Footer(_props, ref) {
           <p>{footer.right[1]}</p>
         </div>
       </div>
+
+      {SKILLS_IN_FOOTER && (
+        <div className="ftr__skills">
+          <p className="ftr__skills-h">Code</p>
+          <p>{skills.code.map(([what]) => what).join(' · ')}</p>
+          <p className="ftr__skills-h">Good at</p>
+          <p>{skills.good.map(([what]) => what).join(' · ')}</p>
+        </div>
+      )}
 
       <p className="ftr__lbl ftr__copy">{footer.rights}</p>
     </footer>

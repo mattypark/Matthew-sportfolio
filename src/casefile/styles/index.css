@@ -846,6 +846,34 @@ html.is-loading .ttl * {
   background: var(--ink);
 }
 
+.ftr__bar {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ftr__short {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .ftr__bar {
+    padding-left: 6px;
+  }
+
+  .ftr__full {
+    display: none;
+  }
+
+  .ftr__short {
+    display: inline;
+  }
+
+  /* the email bar keeps its whole joke */
+  .ftr__bar:last-child {
+    flex-grow: 2.4;
+  }
+}
+
 .ftr__navi:focus-visible,
 .ftr__bar:focus-visible {
   outline: 1px solid #fff;
@@ -914,6 +942,35 @@ html.is-loading .ttl * {
 .ftr__where > div {
   flex: 1 1 auto;
   text-align: right;
+}
+
+.ftr__skills {
+  position: absolute;
+  right: 11px;
+  top: calc(100% - var(--ftr-foot) + 60px);
+  width: 300px;
+  text-align: right;
+  line-height: 11px;
+}
+
+.ftr__skills-h {
+  margin-top: 14px;
+  opacity: 0.55;
+}
+
+.ftr__skills-h:first-child {
+  margin-top: 0;
+}
+
+@media (max-width: 720px) {
+  .ftr__skills {
+    left: var(--edge);
+    right: var(--edge);
+    top: auto;
+    bottom: calc(var(--bar-h) + 48px);
+    width: auto;
+    text-align: left;
+  }
 }
 
 @media (max-height: 800px) {

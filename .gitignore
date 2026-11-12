@@ -36,3 +36,6 @@ private/*.cube
 
 # screenshots and boards (device-board output)
 build/
+
+# his own picks for the tech section, shrunk into public/casefile/tech by scripts/tech/build_tech.py
+tech-photos/

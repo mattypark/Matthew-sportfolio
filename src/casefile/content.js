@@ -176,6 +176,23 @@ export const block2 = {
   ],
 }
 
+// ---- tech: how it's built (src/casefile/tech) -------------------------------
+// One word per kind of thing he makes; the pictures behind it are tagged with the same kind
+// (scripts/tech/build_tech.py). `formation` is used by version B only (?tech=b).
+export const tech = {
+  label: 'How it is built',
+  items: [
+    { kind: 'iphone', name: 'iPhone', stack: 'SwiftUI, Live Activities', formation: 'field' },
+    { kind: 'ai', name: 'AI', stack: 'Agents, model routing, evals', formation: 'grid' },
+    { kind: 'web', name: 'Web', stack: 'React, Next.js, Vite', formation: 'roll' },
+    { kind: '3d', name: '3D', stack: 'Three.js, Blender', formation: 'ring' },
+    { kind: 'code', name: 'Code', stack: 'TypeScript, Swift, GLSL', formation: 'trail' },
+    { kind: 'brand', name: 'Brand', stack: 'Nudgy, start to finish', formation: 'field' },
+    // shows once there are photos in tech-photos/me (scripts/tech/build_tech.py)
+    { kind: 'me', name: 'Me', stack: 'Tennis since nine, sax, Kentucky', formation: 'field' },
+  ],
+}
+
 // ---- footer ----------------------------------------------------------------
 export const footer = {
   notes: [

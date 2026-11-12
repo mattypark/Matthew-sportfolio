@@ -1,0 +1,279 @@
+/* How it's built (src/casefile/tech): premotio's categories layout. The words stack down the left
+   beside a ruler, the picture field fills the screen behind them, and the speed bands bring the
+   whole room in over block 02 the way the footer comes in over it. */
+
+.tech {
+  position: fixed;
+  inset: 0;
+  z-index: 52;
+  visibility: hidden;
+  background: #efefed;
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.tech__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tech__label {
+  position: absolute;
+  left: var(--edge);
+  top: var(--edge);
+  line-height: 11px;
+  opacity: 0.6;
+}
+
+.tech__ticks {
+  position: absolute;
+  left: var(--edge);
+  top: 14vh;
+  bottom: 14vh;
+  width: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tech__ticks > span {
+  display: block;
+  height: 1px;
+  background: var(--ink);
+  transform-origin: left center;
+  transform: scaleX(0.35);
+  opacity: 0.25;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.35s;
+}
+
+.tech__list {
+  position: absolute;
+  left: calc(var(--edge) + 52px);
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tech__item {
+  display: flex;
+  align-items: center;
+  gap: 0.18em;
+  font-family: var(--f-main);
+  font-size: clamp(44px, 10.2vh, 118px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  opacity: 0.28;
+  cursor: default;
+  outline: none;
+  transition: opacity 0.3s;
+}
+
+.tech__item.is-on {
+  opacity: 1;
+}
+
+/* premotio's reveal: each letter rises out of its own line, row by row */
+.tech__name {
+  display: inline-flex;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+
+.tech__ch {
+  display: inline-block;
+  transform: translateY(108%);
+  transition: transform 0.75s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: calc(var(--row) * 70ms + var(--i) * 28ms);
+}
+
+.tech.is-in .tech__ch {
+  transform: none;
+}
+
+/* Amount: premotio's slider capsule, the track filling black up to the value */
+.tech__amount {
+  align-items: center;
+  gap: 12px;
+  padding: 4px 16px;
+  font-size: 13px;
+  min-width: 230px;
+}
+
+.tech__amount input {
+  appearance: none;
+  flex: 1;
+  height: 28px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #e6e6e4 var(--fill), transparent var(--fill));
+  cursor: pointer;
+}
+
+.tech__amount input::-webkit-slider-thumb {
+  appearance: none;
+  width: 2px;
+  height: 18px;
+  background: var(--ink);
+}
+
+.tech__amount input::-moz-range-thumb {
+  width: 2px;
+  height: 18px;
+  border: 0;
+  background: var(--ink);
+}
+
+.tech__amount output {
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+  text-align: right;
+}
+
+.tech__arrow {
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+  transform: translateX(-0.4em);
+  opacity: 0;
+  transition: width 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s;
+}
+
+.tech__item.is-on .tech__arrow {
+  width: 0.9em;
+  transform: none;
+  opacity: 1;
+}
+
+.tech__item:focus-visible .tech__name {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.12em;
+}
+
+.tech__stack {
+  position: absolute;
+  left: calc(var(--edge) + 52px);
+  bottom: calc(var(--bar-h, 40px) + 24px);
+  line-height: 11px;
+}
+
+/* premotio's pills: white capsules, the chosen half filled black */
+.tech__pills {
+  position: absolute;
+  right: var(--edge);
+  bottom: calc(var(--bar-h, 40px) + 16px);
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+
+.tech__pill {
+  display: flex;
+  padding: 4px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.tech__pill button {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 9px 16px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+
+.tech__pill button[aria-pressed='true'] {
+  background: var(--ink);
+  color: #fff;
+}
+
+.tech__pill button:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech__ch {
+    transform: none;
+    transition: none;
+  }
+
+  .tech__pill button,
+  .tech__ticks > span,
+  .tech__item,
+  .tech__arrow {
+    transition: none;
+  }
+}
+
+/* phones: the list sits at the top and the collage gathers under it */
+@media (max-width: 720px) {
+  .tech__ticks {
+    display: none;
+  }
+
+  /* the words stay readable over the field */
+  .tech::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 72%;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(#efefed 0%, #efefed 66%, #efefed00 100%);
+  }
+
+  .tech__label,
+  .tech__list,
+  .tech__stack {
+    z-index: 2;
+  }
+
+  .tech__stack {
+    padding: 6px 8px;
+    margin-left: -8px;
+    background: #efefed;
+  }
+
+  .tech__list {
+    left: var(--edge);
+    top: calc(var(--edge) + 34px);
+    transform: none;
+  }
+
+  .tech__item {
+    font-size: clamp(30px, 6.2vh, 52px);
+  }
+
+  .tech__stack {
+    left: var(--edge);
+    bottom: calc(var(--bar-h, 40px) + 64px);
+  }
+
+  .tech__pills {
+    left: var(--edge);
+    right: var(--edge);
+    flex-wrap: wrap;
+  }
+
+  .tech__amount {
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+
+  .tech__pill button {
+    padding: 8px 12px;
+  }
+}

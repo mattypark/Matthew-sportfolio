@@ -1,0 +1,255 @@
+[
+  {
+    "kind": "ai",
+    "src": "/casefile/tech/drop-ai-01.webp",
+    "w": 736,
+    "h": 1600
+  },
+  {
+    "kind": "ai",
+    "src": "/casefile/tech/drop-ai-02.webp",
+    "w": 1206,
+    "h": 1305
+  },
+  {
+    "kind": "iphone",
+    "src": "/casefile/tech/drop-iphone-01.webp",
+    "w": 1200,
+    "h": 652
+  },
+  {
+    "kind": "iphone",
+    "src": "/casefile/tech/drop-iphone-02.webp",
+    "w": 603,
+    "h": 1311
+  },
+  {
+    "kind": "iphone",
+    "src": "/casefile/tech/drop-iphone-03.webp",
+    "w": 736,
+    "h": 1600
+  },
+  {
+    "kind": "iphone",
+    "src": "/casefile/tech/drop-iphone-04.webp",
+    "w": 736,
+    "h": 1600
+  },
+  {
+    "kind": "iphone",
+    "src": "/casefile/tech/drop-iphone-05.webp",
+    "w": 1206,
+    "h": 1305
+  },
+  {
+    "kind": "me",
+    "src": "/casefile/tech/drop-me-01.webp",
+    "w": 700,
+    "h": 632
+  },
+  {
+    "kind": "me",
+    "src": "/casefile/tech/drop-me-02.webp",
+    "w": 700,
+    "h": 666
+  },
+  {
+    "kind": "me",
+    "src": "/casefile/tech/drop-me-03.webp",
+    "w": 512,
+    "h": 653
+  },
+  {
+    "kind": "me",
+    "src": "/casefile/tech/drop-me-04.webp",
+    "w": 700,
+    "h": 991
+  },
+  {
+    "kind": "me",
+    "src": "/casefile/tech/drop-me-05.webp",
+    "w": 1200,
+    "h": 1126
+  },
+  {
+    "kind": "me",
+    "src": "/casefile/tech/drop-me-06.webp",
+    "w": 900,
+    "h": 753
+  },
+  {
+    "kind": "me",
+    "src": "/casefile/tech/drop-me-07.webp",
+    "w": 640,
+    "h": 855
+  },
+  {
+    "kind": "web",
+    "src": "/casefile/tech/drop-web-01.webp",
+    "w": 739,
+    "h": 1600
+  },
+  {
+    "kind": "web",
+    "src": "/casefile/tech/drop-web-02.webp",
+    "w": 1600,
+    "h": 1000
+  },
+  {
+    "kind": "web",
+    "src": "/casefile/tech/drop-web-03.webp",
+    "w": 739,
+    "h": 1600
+  },
+  {
+    "kind": "web",
+    "src": "/casefile/tech/drop-web-04.webp",
+    "w": 1600,
+    "h": 1000
+  },
+  {
+    "kind": "web",
+    "src": "/casefile/tech/drop-web-05.webp",
+    "w": 739,
+    "h": 1600
+  },
+  {
+    "kind": "web",
+    "src": "/casefile/tech/drop-web-06.webp",
+    "w": 1600,
+    "h": 1000
+  },
+  {
+    "kind": "3d",
+    "src": "/casefile/tech/3d-01.webp",
+    "w": 1600,
+    "h": 617
+  },
+  {
+    "kind": "3d",
+    "src": "/casefile/tech/3d-02.webp",
+    "w": 1105,
+    "h": 1600
+  },
+  {
+    "kind": "3d",
+    "src": "/casefile/tech/3d-03.webp",
+    "w": 912,
+    "h": 1600
+  },
+  {
+    "kind": "3d",
+    "src": "/casefile/tech/3d-04.webp",
+    "w": 1440,
+    "h": 1152
+  },
+  {
+    "kind": "3d",
+    "src": "/casefile/tech/3d-05.webp",
+    "w": 1440,
+    "h": 1152
+  },
+  {
+    "kind": "3d",
+    "src": "/casefile/tech/3d-06.webp",
+    "w": 1440,
+    "h": 1152
+  },
+  {
+    "kind": "3d",
+    "src": "/casefile/tech/3d-07.webp",
+    "w": 356,
+    "h": 682
+  },
+  {
+    "kind": "brand",
+    "src": "/casefile/tech/brand-01.webp",
+    "w": 1600,
+    "h": 900
+  },
+  {
+    "kind": "brand",
+    "src": "/casefile/tech/brand-02.webp",
+    "w": 1600,
+    "h": 533
+  },
+  {
+    "kind": "brand",
+    "src": "/casefile/tech/brand-03.webp",
+    "w": 1600,
+    "h": 800
+  },
+  {
+    "kind": "brand",
+    "src": "/casefile/tech/brand-04.webp",
+    "w": 1024,
+    "h": 1024
+  },
+  {
+    "kind": "brand",
+    "src": "/casefile/tech/brand-05.webp",
+    "w": 849,
+    "h": 810
+  },
+  {
+    "kind": "brand",
+    "src": "/casefile/tech/brand-06.webp",
+    "w": 960,
+    "h": 960
+  },
+  {
+    "kind": "brand",
+    "src": "/casefile/tech/brand-07.webp",
+    "w": 960,
+    "h": 960
+  },
+  {
+    "kind": "code",
+    "src": "/casefile/tech/code-01.webp",
+    "w": 720,
+    "h": 415,
+    "lang": "swift"
+  },
+  {
+    "kind": "code",
+    "src": "/casefile/tech/code-02.webp",
+    "w": 720,
+    "h": 315,
+    "lang": "ts"
+  },
+  {
+    "kind": "code",
+    "src": "/casefile/tech/code-03.webp",
+    "w": 720,
+    "h": 340,
+    "lang": "ts"
+  },
+  {
+    "kind": "code",
+    "src": "/casefile/tech/code-04.webp",
+    "w": 720,
+    "h": 440,
+    "lang": "js"
+  },
+  {
+    "kind": "code",
+    "src": "/casefile/tech/code-05.webp",
+    "w": 720,
+    "h": 340,
+    "lang": "glsl"
+  },
+  {
+    "kind": "ai",
+    "src": "/casefile/tech/code-06.webp",
+    "w": 720,
+    "h": 440,
+    "lang": "ts"
+  },
+  {
+    "kind": "ai",
+    "src": "/casefile/tech/code-07.webp",
+    "w": 720,
+    "h": 390,
+    "lang": "ts"
+  }
+]

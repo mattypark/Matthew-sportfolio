@@ -8,6 +8,7 @@ import './casefile/styles/ui.css'
 import './casefile/styles/hud.css'
 import './casefile/styles/index.css'
 import './casefile/styles/rooms.css'
+import './casefile/styles/tech.css'
 import './casefile/styles/phone.css'
 
 // The site is the case file in src/casefile (branch casefile-2026).

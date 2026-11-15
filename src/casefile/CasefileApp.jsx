@@ -18,6 +18,9 @@ import IndexPage from './index/IndexPage.jsx'
 
 const GalleryPage = lazy(() => import('./pages/GalleryPage.jsx'))
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage.jsx'))
+const VolumePage = lazy(() => import('./volume/VolumePage.jsx'))
+const LutPage = lazy(() => import('./lut/LutPage.jsx'))
+const LutThanksPage = lazy(() => import('./lut/LutThanksPage.jsx'))
 const LegacyPage = lazy(() => import('../simple/LegacyPages.jsx'))
 
 const PRELOAD = [clipSrc(0)]
@@ -45,9 +48,10 @@ export default function CasefileApp() {
             <Routes>
               <Route path="/" element={<IndexPage />} />
               <Route path="/gallery" element={<GalleryPage />} />
-              {/* the shop is retired; /lut and /call stay live for past buyers */}
-              <Route path="/lut" element={<LegacyPage page="lut" />} />
-              <Route path="/lut/thanks" element={<LegacyPage page="lut-thanks" />} />
+              <Route path="/volume" element={<VolumePage />} />
+              {/* the LUT sells here in the case file's dress; Stripe's link returns to /lut/thanks */}
+              <Route path="/lut" element={<LutPage />} />
+              <Route path="/lut/thanks" element={<LutThanksPage />} />
               <Route path="/call" element={<LegacyPage page="call" />} />
               <Route path="/privacy" element={<PrivacyPage />} />
               {/* every other path, /work and /404 included, lands on the index */}

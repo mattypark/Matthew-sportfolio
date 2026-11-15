@@ -8,11 +8,14 @@
 //   3  block 02              his back on the lawn, the words rising
 //   4  how it's built        bands sweep the tech room in; the scroll steps down its list
 //   5  the way out           black bands sweep the footer in from the right
+//   6  the gear              once the footer is in, it fades away and the
+//                            3D bench slides down from the top and zooms
+//                            in on its own; the scroll after pushes in
 //
 // The loop writes straight to the DOM through refs. Nothing here goes
 // through React state per frame.
 
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { createVirtualScroll } from './virtualScroll.js'
 import { CLIP_FRAMES, drawFigure, extentsAt, figureRect, loadClip, nearestFrame } from '../fx/figure.js'
 import { bandClip } from '../fx/bands.js'
@@ -22,6 +25,8 @@ import Title from './Title.jsx'
 import Block2 from './Block2.jsx'
 import Footer from './Footer.jsx'
 import TechSection from '../tech/TechSection.jsx'
+import GearStage from '../gear/GearStage.jsx'
+import { GEAR_IN, GEAR_MS, GEAR_RUN } from '../gear/phase.js'
 import { caseFile } from '../content.js'
 
 const LINE_PITCH = 9.5 // 5px line box + 4.5px gap, the reference's rhythm
@@ -36,6 +41,8 @@ const FOOTER_LEN = 1.0
 const HUD_FADE_BY = 0.5
 const PHONE = 720 // px: below this the copy is one centred column (index.css)
 const HANDOVER_MS = 1300 // the band sweep plays on its own once the gauge is full
+const GEAR_PREFETCH = 0.3 // share of the footer sweep at which the 3D starts loading
+const PINCH_GAIN = 9 // a pinch's deltas are small; spreading the fingers pushes in
 
 const clamp01 = (v) => Math.min(1, Math.max(0, v))
 
@@ -48,6 +55,15 @@ export default function IndexPage() {
   const b2 = useRef(null)
   const ftr = useRef(null)
   const tech = useRef(null)
+  const gearStage = useRef(null)
+  const scrollRef = useRef(null)
+  const phasesRef = useRef(null)
+  const onStory = useCallback((open) => scrollRef.current?.hold(open), [])
+  // a pinch moves the camera along the same push in as the scroll, never out of the scene
+  const onPinch = useCallback((dy) => {
+    const p = phasesRef.current
+    if (p) scrollRef.current?.nudge(-dy * PINCH_GAIN, p.s5, p.s6)
+  }, [])
 
   useEffect(() => {
     const el = stage.current
@@ -64,8 +80,11 @@ export default function IndexPage() {
     let lastV = 0
 
     const scroll = createVirtualScroll(el)
+    scrollRef.current = scroll
+    if (import.meta.env.DEV) window.__cfScroll = scroll
 
     let pitch = LINE_PITCH
+    let gearOn = true
     const measure = () => {
       vw = window.innerWidth
       vh = window.innerHeight
@@ -78,8 +97,14 @@ export default function IndexPage() {
       const s3 = s2 + vh * B2_LEN
       const st = s3 + vh * TECH_LEN
       const s4 = st + vh * FOOTER_LEN
-      phases = { s1, s2, s3, st, s4 }
-      scroll.setMax(s4)
+      // phones end on the footer: the 3D is a desktop screen only
+      gearOn = vw >= PHONE
+      const s5 = s4 + (gearOn ? vh * GEAR_IN : 0)
+      const s6 = s5 + (gearOn ? vh * GEAR_RUN : 0)
+      phases = { s1, s2, s3, st, s4, s5, s6 }
+      phasesRef.current = phases
+      scroll.setMax(s6)
+      if (import.meta.env.DEV) window.__cfPhases = phases
       lastFrame = -1 // force a redraw at the new size
     }
     measure()
@@ -93,6 +118,7 @@ export default function IndexPage() {
       hud.current?.pointer(e.clientX / vw, e.clientY / vh)
       ftr.current?.pointer(e.clientX, e.clientY)
       tech.current?.pointer(e.clientX / vw, e.clientY / vh)
+      gearStage.current?.pointer(e.clientX, e.clientY)
     }
     window.addEventListener('resize', onResize)
     window.addEventListener('pointermove', onMove)
@@ -115,12 +141,15 @@ export default function IndexPage() {
 
     // ---- per frame -------------------------------------------------------
     const off = scroll.on((v) => {
-      const { s1, s2, s3, st, s4 } = phases
+      const { s1, s2, s3, st, s4, s5, s6 } = phases
       // the gauge filling is the cue: crossing its end in either direction
       // plays the whole hand-over, so the bands never hang half way
       if (!scroll.gliding) {
         if (lastV <= s1 && v > s1 && v < s2) scroll.glideTo(s2, HANDOVER_MS)
         else if (lastV >= s2 && v < s2 && v > s1) scroll.glideTo(s1, HANDOVER_MS)
+        // the footer filling the screen is the gear's cue, the same way
+        else if (lastV <= s4 && v > s4 && v < s5) scroll.glideTo(s5, GEAR_MS)
+        else if (lastV >= s5 && v < s5 && v > s4) scroll.glideTo(s4, GEAR_MS)
       }
       lastV = v
       const travel = Math.min(v, s1)
@@ -128,6 +157,8 @@ export default function IndexPage() {
       const techIn = clamp01((v - s3) / (vh * TECH_IN))
       const techAt = clamp01((v - s3 - vh * TECH_IN) / (st - s3 - vh * TECH_IN))
       const foot = clamp01((v - st) / (s4 - st))
+      const gearIn = gearOn ? clamp01((v - s4) / (s5 - s4)) : 0
+      const gearLocal = gearOn ? clamp01((v - s5) / Math.max(1, s6 - s5)) : 0
       // the field's pictures start loading once block 02 is up
       if (v > s2) tech.current?.prepare()
 
@@ -136,7 +167,9 @@ export default function IndexPage() {
       hud.current?.fade(1 - clamp01(hand / HUD_FADE_BY))
       b2.current?.update({ clip: bandClip(hand), travel: Math.max(0, v - s2), foot: techIn, vh })
       tech.current?.update({ clip: bandClip(techIn), level: techIn, progress: techAt, covered: foot >= 1 })
-      ftr.current?.update(bandClip(foot, { dir: 'rtl' }), foot)
+      ftr.current?.update(bandClip(foot, { dir: 'rtl' }), foot, gearStage.current?.covers(gearIn))
+      if (gearOn && foot > GEAR_PREFETCH) gearStage.current?.prefetch()
+      gearStage.current?.update(gearIn, gearLocal)
 
       // the clip runs from the top of the page until the lawn has fully
       // covered him, so it never stands frozen while the bands sweep in
@@ -189,6 +222,11 @@ export default function IndexPage() {
       stopLoading()
       stopTextLife()
       scroll.destroy()
+      scrollRef.current = null
+      if (import.meta.env.DEV) {
+        delete window.__cfScroll
+        delete window.__cfPhases
+      }
       window.removeEventListener('resize', onResize)
       window.removeEventListener('pointermove', onMove)
       window.removeEventListener('cf:load', onLoad)
@@ -215,6 +253,7 @@ export default function IndexPage() {
       <Block2 ref={b2} />
       <TechSection ref={tech} />
       <Footer ref={ftr} />
+      <GearStage ref={gearStage} onStory={onStory} onPinch={onPinch} />
     </main>
   )
 }

@@ -1,0 +1,703 @@
+/* Volume (src/casefile/volume): the reference's lofi drive-video cover, measured off his
+   screenshot (2026-11-15) at a 1830 px frame and scaled with the viewport. Its type: a heavy
+   condensed grotesk for the number and heads (Barlow Condensed / Semi Condensed), Helvetica for
+   everything else, wide-tracked caps for the labels. Its colours are swapped for the site's. */
+
+.vol {
+  --vol-bg: var(--paper);
+  --vol-ink: #1a1a1a;
+  --vol-soft: #5d5d5a;
+  --vol-line: #bdbdb8;
+  --vol-card: rgba(247, 247, 244, 0.55);
+  --vol-map: rgba(5, 5, 5, 0.07);
+  --vol-pad: clamp(16px, 5.7vw, 104px);
+  --f-vol-num: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --f-vol-head: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
+  --f-vol-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  position: fixed;
+  inset: 0 0 28px;
+  overflow-y: auto;
+  background: var(--vol-bg);
+  color: var(--vol-ink);
+  font-family: var(--f-vol-body);
+}
+
+/* the cover's paper: a fixed grain over everything, multiplied in */
+.vol::before {
+  content: '';
+  position: fixed;
+  inset: 0 0 28px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.32;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.44 0 0 0 0 0.42 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.vol--night {
+  --vol-bg: #0b0c0b;
+  --vol-ink: #ecece8;
+  --vol-soft: #9a9a95;
+  --vol-line: #3a3b39;
+  --vol-card: rgba(255, 255, 255, 0.03);
+  --vol-map: rgba(255, 255, 255, 0.07);
+}
+
+.vol--night::before {
+  mix-blend-mode: screen;
+  opacity: 0.12;
+}
+
+.vol__in {
+  position: relative;
+  max-width: 1830px;
+  margin: 0 auto;
+  padding: clamp(24px, 2.6vw, 48px) var(--vol-pad) 64px;
+}
+
+/* ---- the rule ------------------------------------------------------------ */
+.vol__rule {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--vol-ink);
+  font-size: clamp(11px, 0.85vw, 15px);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+
+.vol__issue {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  letter-spacing: 0.22em;
+}
+
+.vol__issue-bar {
+  display: flex;
+  width: clamp(48px, 4.4vw, 80px);
+  height: 10px;
+}
+
+.vol__issue-bar b {
+  flex: 1;
+  background: #83694d;
+}
+
+.vol__issue-bar b + b {
+  background: #0e0f17;
+}
+
+/* ---- the hero ----------------------------------------------------------- */
+.vol__hero {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(14px, 1.4vw, 26px);
+  padding: clamp(22px, 2.6vw, 48px) 0 clamp(26px, 2.4vw, 44px);
+}
+
+.vol__num {
+  font-family: var(--f-vol-num);
+  font-weight: 700;
+  font-size: clamp(104px, 11.6vw, 214px);
+  /* the worn mask only covers the box, so the box takes the glyphs' full height */
+  line-height: 1;
+  margin: -0.11em 0 -0.12em;
+  letter-spacing: -0.015em;
+  color: #2b2b29;
+  /* worn print: the ink drops out in speckles, like the reference's stamped number */
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.4 0 0 0 2.45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.4 0 0 0 2.45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+}
+
+.vol--night .vol__num {
+  color: #d9d9d4;
+}
+
+.vol__title {
+  position: relative;
+  z-index: 1;
+  padding-top: 2px;
+}
+
+.vol__title h1 {
+  margin: 0;
+  font-family: var(--f-vol-head);
+  font-weight: 700;
+  font-size: clamp(26px, 2.15vw, 40px);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.vol__coords {
+  margin-top: clamp(12px, 1.2vw, 20px);
+  font-size: clamp(14px, 1.05vw, 19px);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--vol-soft);
+}
+
+.vol__strip {
+  display: flex;
+  gap: 2px;
+  margin-top: clamp(16px, 1.5vw, 26px);
+}
+
+.vol__strip .sw {
+  width: clamp(40px, 3.2vw, 58px);
+  height: clamp(9px, 0.65vw, 12px);
+}
+
+/* the light blue is the photo's smallest colour, so it gets the smallest chip */
+.vol__strip .sw:last-child {
+  width: clamp(18px, 1.5vw, 28px);
+}
+
+.vol__tag {
+  margin-top: clamp(16px, 1.5vw, 26px);
+  font-size: clamp(11px, 0.85vw, 15px);
+  line-height: 1.6;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+}
+
+.sw {
+  position: relative;
+  background: var(--c);
+  transition: transform 0.4s var(--ease-osmo);
+}
+
+/* a hovered swatch lifts and names its colour, like a paint chip */
+.sw em {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 6px);
+  font-style: normal;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--vol-soft);
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+
+.vol__strip .sw:hover {
+  transform: translateY(-3px);
+}
+
+.vol__strip .sw:hover em {
+  opacity: 1;
+}
+
+.vol-map {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 42%;
+  height: 100%;
+}
+
+.vol-map__land {
+  fill: var(--vol-map);
+}
+
+.vol-map__pin,
+.vol-map__ping {
+  fill: #8fbcc6; /* the door window's light blue, from the photo */
+}
+
+.vol-map__pin {
+  stroke: #0e0f17;
+  stroke-width: 0.35;
+}
+
+.vol-stamp {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: clamp(96px, 8.4vw, 154px);
+  translate: 0 -50%;
+  rotate: calc(-8deg + var(--spin, 0deg));
+  z-index: 1;
+  color: var(--vol-soft);
+}
+
+.vol-stamp__ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-dasharray: 1 0;
+}
+
+.vol-stamp__ring--thin {
+  stroke-width: 0.8;
+}
+
+.vol-stamp text {
+  fill: currentColor;
+  font-family: var(--f-vol-body);
+  text-transform: uppercase;
+}
+
+.vol-stamp__big {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.vol-stamp__mid {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.vol-stamp__small {
+  font-size: 6.5px;
+  letter-spacing: 0.18em;
+}
+
+.vol-stamp__diamond {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+}
+
+.vol-stamp__mark {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.vol-stamp__dash {
+  stroke: currentColor;
+  stroke-width: 0.8;
+}
+
+.vol-stamp__dot {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.8;
+}
+
+/* ---- the picture -------------------------------------------------------- */
+.vol__media {
+  display: grid;
+  grid-template-columns: clamp(22px, 2vw, 37px) 1fr;
+  column-gap: clamp(20px, 2.1vw, 40px);
+}
+
+.vol__column {
+  display: grid;
+  grid-template-rows: 0.45fr repeat(4, 1fr) auto;
+}
+
+.vol__ball {
+  width: 100%;
+  margin-top: clamp(18px, 2vw, 34px);
+  color: #b88246; /* the platform's amber, where the reference has its red */
+}
+
+.vol__photo {
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--fog);
+}
+
+.vol__photo img {
+  display: block;
+  transform: scale(1.08);
+  will-change: transform;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ---- the fact and the card ---------------------------------------------- */
+.vol__foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
+  column-gap: clamp(28px, 3.4vw, 64px);
+  align-items: start;
+  padding-top: clamp(18px, 1.6vw, 30px);
+  padding-left: calc(clamp(22px, 2vw, 37px) + clamp(20px, 2.1vw, 40px));
+}
+
+.vol__fact h2 {
+  margin: 0 0 clamp(10px, 1vw, 18px);
+  font-family: var(--f-vol-head);
+  font-weight: 700;
+  font-size: clamp(22px, 1.65vw, 31px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.vol__fact p {
+  font-size: clamp(14px, 0.9vw, 16.5px);
+  line-height: 1.2;
+}
+
+.vol-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  border: 1px solid var(--vol-line);
+  border-top: 1px solid var(--vol-ink);
+  background: var(--vol-card);
+  font-size: clamp(11px, 0.72vw, 13px);
+  text-transform: uppercase;
+  color: var(--vol-soft);
+}
+
+.vol-card__left {
+  border-right: 1px solid var(--vol-line);
+}
+
+.vol-card__row {
+  padding: clamp(10px, 0.9vw, 16px) clamp(12px, 1.1vw, 20px);
+}
+
+.vol-card__row + .vol-card__row {
+  border-top: 1px solid var(--vol-line);
+}
+
+.vol-card__row--flag {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.vol-card p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.vol-card__strong {
+  font-size: 1.16em;
+  color: var(--vol-ink);
+}
+
+.vol-card__coords {
+  font-size: 1.1em;
+  white-space: nowrap;
+  text-transform: none;
+  color: var(--vol-ink);
+  margin-bottom: 4px !important;
+}
+
+.vol-flag {
+  width: clamp(30px, 2.1vw, 40px);
+  flex: none;
+}
+
+.vol-card__right {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: clamp(6px, 0.5vw, 10px) clamp(12px, 1.1vw, 20px) clamp(10px, 0.9vw, 16px);
+  min-height: clamp(110px, 8.4vw, 156px);
+}
+
+.vol-card__sign {
+  font-family: var(--f-sign);
+  font-size: clamp(34px, 2.6vw, 50px);
+  line-height: 1.1;
+  text-transform: none;
+  color: var(--vol-ink);
+  rotate: -4deg;
+  transform-origin: left center;
+}
+
+.vol-card__brand {
+  align-self: end;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+.vol-card__line {
+  font-size: 0.92em;
+}
+
+.vol-card__mark {
+  font-family: var(--f-vol-head);
+  font-weight: 700;
+  font-size: clamp(16px, 1.15vw, 21px);
+  color: var(--vol-ink);
+  letter-spacing: 0.02em;
+}
+
+.vol-card__mark span {
+  font-size: 0.6em;
+  vertical-align: 0.2em;
+  color: #b88246;
+}
+
+.vol-barcode {
+  flex: 1 0 96px;
+  max-width: 44%;
+  height: clamp(14px, 1vw, 18px);
+  fill: var(--vol-ink);
+}
+
+/* ---- arrival (volume/motion.js adds .is-moving, then .is-in) ---------------
+   In order: the rule draws, the number and name glitch in, the map traces its
+   coastlines and fills, the photo wipes open, the swatches fill one by one, the
+   stamp lands. The fact and the card arrive when scrolled to. Without
+   .is-moving (reduced motion) every part simply shows. */
+
+.vol.is-moving .vol__rule {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.9s var(--ease-osmo);
+}
+
+.vol.is-in .vol__rule {
+  clip-path: inset(0 0 0 0);
+}
+
+/* the number and the name stay dark until their scramble starts (motion.js) */
+.vol.is-moving .vol__num,
+.vol.is-moving .vol__title h1 {
+  opacity: 0;
+  transition: opacity 0.05s linear 0.35s;
+}
+
+.vol.is-moving .vol__title h1 {
+  transition-delay: 0.5s;
+}
+
+.vol.is-in .vol__num,
+.vol.is-in .vol__title h1 {
+  opacity: 1;
+}
+
+.is-glitching {
+  text-shadow: 2px 0 rgba(143, 188, 198, 0.9), -2px 0 rgba(184, 130, 70, 0.75);
+  animation: vol-jitter 0.11s steps(2) infinite;
+}
+
+@keyframes vol-jitter {
+  50% {
+    transform: translateX(1.5px) skewX(-5deg);
+  }
+}
+
+.vol.is-moving .vol__coords,
+.vol.is-moving .vol__tag {
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-out) 0.7s, letter-spacing 1.1s var(--ease-osmo) 0.7s;
+}
+
+.vol.is-moving .vol__tag {
+  letter-spacing: 0.9em;
+  transition-delay: 1.2s;
+}
+
+.vol.is-in .vol__coords,
+.vol.is-in .vol__tag {
+  opacity: 1;
+}
+
+.vol.is-in .vol__tag {
+  letter-spacing: 0.42em;
+}
+
+/* the map: coastlines trace on, then the land fills and the line lets go */
+.vol.is-moving .vol-map__land {
+  stroke: var(--vol-soft);
+  stroke-width: 0.6px;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  fill-opacity: 0;
+  stroke-opacity: 0.6;
+  transition:
+    stroke-dashoffset 2.6s cubic-bezier(0.45, 0, 0.2, 1) 0.4s,
+    fill-opacity 1.2s ease 2.4s,
+    stroke-opacity 1s ease 2.8s;
+}
+
+.vol.is-in .vol-map__land {
+  stroke-dashoffset: 0;
+  fill-opacity: 1;
+  stroke-opacity: 0;
+}
+
+.vol-map__pin,
+.vol-map__ping {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.vol.is-moving .vol-map__pin {
+  scale: 0;
+  transition: scale 0.5s cubic-bezier(0.34, 1.8, 0.64, 1) 2.7s;
+}
+
+.vol.is-in .vol-map__pin {
+  scale: 1;
+}
+
+.vol.is-in .vol-map__ping {
+  animation: vol-ping 2.4s ease-out 3s infinite;
+}
+
+.vol-map__ping {
+  opacity: 0;
+}
+
+@keyframes vol-ping {
+  0% {
+    opacity: 0.7;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 5;
+  }
+}
+
+/* the photo wipes open left to right; motion.js leans it with the pointer */
+.vol.is-moving .vol__photo {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.3s var(--ease-osmo) 0.5s;
+}
+
+.vol.is-in .vol__photo {
+  clip-path: inset(0 0 0 0);
+}
+
+/* the swatches: the strip fills left to right, then the column top to bottom */
+.vol.is-moving .sw {
+  scale: 0 1;
+  transform-origin: left center;
+  transition: scale 0.6s var(--ease-osmo) calc(0.9s + var(--i) * 0.16s), transform 0.4s var(--ease-osmo);
+}
+
+.vol.is-moving .vol__column .sw {
+  scale: 1 0;
+  transform-origin: center top;
+}
+
+.vol.is-in .sw,
+.vol.is-in .vol__column .sw {
+  scale: 1 1;
+}
+
+.vol.is-moving .vol__ball {
+  opacity: 0;
+  rotate: -200deg;
+  transition: opacity 0.4s ease 2.2s, rotate 1s var(--ease-osmo) 2.2s;
+}
+
+.vol.is-in .vol__ball {
+  opacity: 1;
+  rotate: 0deg;
+}
+
+/* the stamp lands like a stamp: big, then down hard */
+.vol.is-moving .vol-stamp {
+  opacity: 0;
+  scale: 1.6;
+  transition: opacity 0.2s ease 1.9s, scale 0.45s cubic-bezier(0.5, 0, 0.2, 1.4) 1.9s;
+}
+
+.vol.is-in .vol-stamp {
+  opacity: 1;
+  scale: 1;
+}
+
+/* below the fold: they rise as they come into view */
+.vol.is-moving .vol__fact,
+.vol.is-moving .vol-card {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s var(--ease-out), transform 0.9s var(--ease-osmo);
+}
+
+.vol.is-moving .vol-card {
+  transition-delay: 0.12s;
+}
+
+.vol.is-moving .vol__fact.is-in,
+.vol.is-moving .vol-card.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* the signature writes itself, then the barcode prints */
+.vol.is-moving .vol-card__sign {
+  clip-path: inset(-20% 100% -20% 0);
+  transition: clip-path 1.5s cubic-bezier(0.45, 0, 0.3, 1) 0.5s;
+}
+
+.vol.is-moving .vol-card.is-in .vol-card__sign {
+  clip-path: inset(-20% -10% -20% 0);
+}
+
+.vol.is-moving .vol-barcode {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.7s steps(18) 1.6s;
+}
+
+.vol.is-moving .vol-card.is-in .vol-barcode {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ---- tablets and phones ------------------------------------------------- */
+@media (max-width: 900px) {
+  .vol-map {
+    width: 60%;
+    opacity: 0.8;
+  }
+
+  .vol__foot {
+    grid-template-columns: 1fr;
+    row-gap: 28px;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .vol__hero {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .vol-map {
+    width: 100%;
+    height: 46%;
+  }
+
+  .vol-stamp {
+    top: 6px;
+    translate: none;
+    width: 88px;
+  }
+
+  .vol__photo {
+    aspect-ratio: 4 / 5;
+  }
+
+  .vol__tag {
+    letter-spacing: 0.3em;
+  }
+
+  .vol-card {
+    grid-template-columns: 1fr;
+  }
+
+  .vol-card__left {
+    border-right: 0;
+    border-bottom: 1px solid var(--vol-line);
+  }
+}

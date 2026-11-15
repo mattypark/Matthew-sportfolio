@@ -10,6 +10,7 @@ import { EMAIL, TIME_ZONE, contactLabel } from '../content.js'
 const ROOMS = [
   { to: '/', label: 'Index' },
   { to: '/gallery', label: 'Gallery' },
+  { to: '/volume', label: 'Volume' },
 ]
 
 const COPIED_MS = 1400

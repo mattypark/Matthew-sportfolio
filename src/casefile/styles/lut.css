@@ -1,0 +1,391 @@
+/* The LUT room (src/casefile/lut): the Volume cover's layout (volume.css) with
+   the grade's own colours, the buy button, the tone curves and the before/after. */
+
+.lut {
+  --lut-red: #832619;
+  --lut-teal: #5a898a;
+  --lut-cream: #a49476;
+}
+
+.lut__issue-bar b {
+  background: var(--lut-cream);
+}
+
+.lut__issue-bar b + b {
+  background: var(--lut-red);
+}
+
+/* the sweater and the lamp are the grade's accents, so they get the small chips */
+.lut__strip .sw:nth-child(n + 5) {
+  width: clamp(18px, 1.5vw, 28px);
+}
+
+.lut .vol__column {
+  grid-template-rows: 0.45fr 0.45fr repeat(4, 1fr) auto;
+}
+
+.lut__column {
+  display: contents;
+}
+
+.lut__ball {
+  color: var(--lut-red);
+}
+
+/* ---- price and the buy button ------------------------------------------- */
+.lut__price {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.2vw, 22px);
+  margin-top: clamp(18px, 1.6vw, 28px);
+}
+
+.lut__amount {
+  font-family: var(--f-vol-num);
+  font-weight: 700;
+  font-size: clamp(38px, 3vw, 56px);
+  line-height: 0.9;
+}
+
+.lut-buy {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px 11px 18px;
+  background: var(--vol-ink);
+  color: var(--paper);
+  font-family: var(--f-vol-body);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  text-decoration: none;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* hover: the sweater's red wipes in from the left */
+.lut-buy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--lut-red);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s var(--ease-osmo);
+}
+
+.lut-buy:hover::before,
+.lut-buy:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.lut-buy b {
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0;
+  transition: transform 0.45s var(--ease-osmo);
+}
+
+.lut-buy:hover b {
+  transform: rotate(90deg);
+}
+
+.lut-buy:focus-visible {
+  outline: 2px solid var(--lut-teal);
+  outline-offset: 3px;
+}
+
+.lut-buy--off {
+  background: transparent;
+  color: var(--vol-soft);
+  border: 1px dashed var(--vol-line);
+}
+
+.lut-buy--card {
+  width: 100%;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+/* ---- tone curves, where Volume has its map -------------------------------- */
+.lut-curves {
+  top: 14%;
+  right: clamp(150px, 13vw, 240px);
+  width: 22%;
+  height: 72%;
+  opacity: 0.9;
+}
+
+.lut-curves__grid path,
+.lut-curves__grid rect {
+  fill: none;
+  stroke: var(--vol-line);
+  stroke-width: 0.35;
+}
+
+.lut-curves__id {
+  fill: none;
+  stroke: var(--vol-soft);
+  stroke-width: 0.35;
+  stroke-dasharray: 1.4 1.4;
+}
+
+.lut-curve {
+  fill: none;
+  stroke-width: 0.9;
+  stroke-linecap: round;
+}
+
+.lut-curve--r { stroke: var(--lut-red); }
+.lut-curve--g { stroke: var(--lut-cream); }
+.lut-curve--b { stroke: var(--lut-teal); }
+
+.vol.is-moving .lut-curve {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.6s cubic-bezier(0.45, 0, 0.2, 1);
+}
+
+.vol.is-moving .lut-curve--g { transition-delay: 0.6s; }
+.vol.is-moving .lut-curve--b { transition-delay: 0.85s; }
+.vol.is-moving .lut-curve--r { transition-delay: 1.1s; }
+
+.vol.is-in .lut-curve {
+  stroke-dashoffset: 0;
+}
+
+.vol.is-moving .lut-curves__grid,
+.vol.is-moving .lut-curves__id {
+  opacity: 0;
+  transition: opacity 0.8s ease 0.3s;
+}
+
+.vol.is-in .lut-curves__grid,
+.vol.is-in .lut-curves__id {
+  opacity: 1;
+}
+
+/* ---- the before / after -------------------------------------------------- */
+.lut-compare {
+  margin: 0;
+}
+
+.lut-compare__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #08080e;
+  touch-action: none;
+  user-select: none;
+  cursor: ew-resize;
+}
+
+.lut-compare__frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.lut-compare__missing {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fog);
+}
+
+.lut-compare__tag {
+  position: absolute;
+  top: 14px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+.lut-compare__tag--l { left: 16px; }
+.lut-compare__tag--r { right: 16px; }
+
+.lut-compare__line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--paper);
+  outline: none;
+}
+
+.lut-compare__knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  translate: -50% -50%;
+  background: var(--paper);
+  color: var(--vol-ink);
+  transition: scale 0.3s var(--ease-osmo);
+}
+
+.lut-compare__knob path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lut-compare__frame:hover .lut-compare__knob,
+.lut-compare__line:focus-visible .lut-compare__knob {
+  scale: 1.15;
+}
+
+.lut-compare__line:focus-visible .lut-compare__knob {
+  outline: 2px solid var(--lut-teal);
+  outline-offset: 2px;
+}
+
+.lut-compare__cap {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 10px;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--vol-soft);
+}
+
+.lut-compare__cap span + span {
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-align: right;
+}
+
+.vol.is-moving .lut-compare__frame {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.3s var(--ease-osmo) 0.5s;
+}
+
+.vol.is-in .lut-compare__frame {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ---- install, questions --------------------------------------------------- */
+.lut__q {
+  margin-top: clamp(28px, 2.6vw, 44px) !important;
+}
+
+.lut__ledger {
+  margin: 0;
+}
+
+.lut__ledger div {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.32fr) 1fr;
+  gap: 4px 24px;
+  padding: 12px 0;
+  border-top: 1px solid var(--vol-line);
+}
+
+.lut__ledger dt {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.lut__ledger dd {
+  margin: 0;
+  font-size: clamp(14px, 0.9vw, 16px);
+  line-height: 1.35;
+  color: var(--vol-soft);
+}
+
+.lut__contact {
+  margin-top: 18px !important;
+  font-size: 13px !important;
+  color: var(--vol-soft);
+}
+
+.lut__contact a,
+.lut-thanks a:not(.lut-buy) {
+  color: var(--vol-ink);
+  text-underline-offset: 3px;
+}
+
+.lut-card .vol-card__row:last-child {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* ---- thanks --------------------------------------------------------------- */
+.lut-thanks {
+  padding: clamp(40px, 6vw, 110px) 0;
+  max-width: 620px;
+}
+
+.lut-thanks h1 {
+  font-size: clamp(54px, 6.4vw, 118px) !important;
+  line-height: 0.92 !important;
+}
+
+.lut-thanks .vol__strip {
+  margin: clamp(18px, 1.6vw, 28px) 0;
+}
+
+.lut-thanks__body {
+  margin-bottom: 26px !important;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.lut-thanks__warn {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--lut-red);
+}
+
+.lut-thanks__note {
+  margin-top: 28px !important;
+  padding-top: 16px;
+  border-top: 1px solid var(--vol-line);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--vol-soft);
+}
+
+.lut-thanks__back {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--vol-ink);
+}
+
+@media (max-width: 600px) {
+  .lut-curves {
+    display: none;
+  }
+
+  .lut__ledger div {
+    grid-template-columns: 1fr;
+  }
+
+  .lut__price {
+    flex-wrap: wrap;
+  }
+}

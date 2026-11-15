@@ -9,7 +9,10 @@ import './casefile/styles/hud.css'
 import './casefile/styles/index.css'
 import './casefile/styles/rooms.css'
 import './casefile/styles/tech.css'
+import './casefile/styles/gear.css'
 import './casefile/styles/phone.css'
+import './casefile/styles/volume.css'
+import './casefile/styles/lut.css'
 
 // The site is the case file in src/casefile (branch casefile-2026).
 //

@@ -35,71 +35,79 @@ export default function VolumePage() {
   useEffect(() => startVolumeMotion(root.current), [])
   return (
     <main className={`vol${night ? ' vol--night' : ''}`} ref={root}>
-      <div className="vol__in">
-        <header className="vol__rule">
-          <span className="vol__kicker">{v.kicker}</span>
-          <span className="vol__issue">
-            {v.number}
-            <i className="vol__issue-bar" aria-hidden="true">
-              <b />
-              <b />
-            </i>
-          </span>
-        </header>
-
-        <section className="vol__hero">
-          <p className="vol__num" aria-label={`Volume ${v.number}`}>
-            {v.number}
-          </p>
-          <div className="vol__title">
-            <h1>{v.name}</h1>
-            <p className="vol__coords">{v.coords}</p>
-            <div className="vol__strip" aria-hidden="true">
-              {STRIP.map((c, i) => (
-                <span key={c.name} className="sw" style={{ '--i': i, '--c': c.hex }}>
-                  <em>{c.hex}</em>
-                </span>
-              ))}
-            </div>
-            <p className="vol__tag">
-              {v.tagline[0]}
-              <br />
-              {v.tagline[1]}
-            </p>
-          </div>
-          <WorldMap pin={v.pin} className="vol-map" />
-          <Stamp {...v.stamp} />
-        </section>
-
-        <section className="vol__media">
-          <div className="vol__column" aria-hidden="true">
-            {COLUMN.map((c, i) => (
-              <span key={c.name} className="sw" style={{ '--i': i + PHOTO_COLORS.length, '--c': c.hex }} />
-            ))}
-            <BallMark className="vol__ball" />
-          </div>
-          <figure className="vol__photo">
-            <img
-              src={v.photo.src}
-              srcSet={v.photo.srcSet}
-              sizes="(max-width: 600px) 100vw, 86vw"
-              width={v.photo.w}
-              height={v.photo.h}
-              alt={v.photo.alt}
-              decoding="async"
-            />
-          </figure>
-        </section>
-
-        <section className="vol__foot">
-          <div className="vol__fact">
-            <h2>{v.factTitle}</h2>
-            <p>{v.fact}</p>
-          </div>
-          <SpecCard />
-        </section>
-      </div>
+      <VolumeCover />
     </main>
+  )
+}
+
+/// The cover itself, shared by the /volume page and the index's Volume room
+/// (VolumeSection.jsx), which plays it between block 02 and the footer.
+export function VolumeCover({ innerRef }) {
+  return (
+    <div className="vol__in" ref={innerRef}>
+      <header className="vol__rule">
+        <span className="vol__kicker">{v.kicker}</span>
+        <span className="vol__issue">
+          {v.number}
+          <i className="vol__issue-bar" aria-hidden="true">
+            <b />
+            <b />
+          </i>
+        </span>
+      </header>
+
+      <section className="vol__hero">
+        <p className="vol__num" aria-label={`Volume ${v.number}`}>
+          {v.number}
+        </p>
+        <div className="vol__title">
+          <h1>{v.name}</h1>
+          <p className="vol__coords">{v.coords}</p>
+          <div className="vol__strip" aria-hidden="true">
+            {STRIP.map((c, i) => (
+              <span key={c.name} className="sw" style={{ '--i': i, '--c': c.hex }}>
+                <em>{c.hex}</em>
+              </span>
+            ))}
+          </div>
+          <p className="vol__tag">
+            {v.tagline[0]}
+            <br />
+            {v.tagline[1]}
+          </p>
+        </div>
+        <WorldMap pin={v.pin} className="vol-map" />
+        <Stamp {...v.stamp} />
+      </section>
+
+      <section className="vol__media">
+        <div className="vol__column" aria-hidden="true">
+          {COLUMN.map((c, i) => (
+            <span key={c.name} className="sw" style={{ '--i': i + PHOTO_COLORS.length, '--c': c.hex }} />
+          ))}
+          <BallMark className="vol__ball" />
+        </div>
+        <figure className="vol__photo">
+          <img
+            src={v.photo.src}
+            srcSet={v.photo.srcSet}
+            sizes="(max-width: 600px) 100vw, 86vw"
+            width={v.photo.w}
+            height={v.photo.h}
+            alt={v.photo.alt}
+            decoding="async"
+          />
+        </figure>
+      </section>
+
+      <section className="vol__foot">
+        <div className="vol__fact">
+          <h2>{v.factTitle}</h2>
+          <p>{v.fact}</p>
+        </div>
+        <SpecCard />
+      </section>
+    </div>
   )
 }
 

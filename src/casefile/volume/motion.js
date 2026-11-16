@@ -35,8 +35,18 @@ export function glitchText(el, { ms = 700, hold = 0 } = {}) {
 
 const lerp = (a, b, k) => a + (b - a) * k
 
-export function startVolumeMotion(root) {
-  if (!root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return () => {}
+/// `scroller` is the element that scrolls the cover: the page itself on /volume,
+/// or null on the index, where the cover rides the index's own scroll and
+/// `getScroll` reports how far down it is.
+/// With `autoplay: false` the cover waits in its start state until the
+/// returned stop function's `.play()` is called (the index plays it when its
+/// bands have brought the room in).
+export function startVolumeMotion(root, { scroller = root, getScroll = null, autoplay = true } = {}) {
+  if (!root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const none = () => {}
+    none.play = () => {}
+    return none
+  }
   root.classList.add('is-moving')
   const q = (s) => root.querySelector(s)
   const timers = []
@@ -47,14 +57,21 @@ export function startVolumeMotion(root) {
   const num = q('.vol__num')
   const coords = q('.vol__coords')
   ;[name, num, coords].forEach((el) => el && (el.dataset.text = el.textContent))
-  later(120, () => glitchText(num, { ms: 900, hold: 250 }))
-  later(380, () => glitchText(name, { ms: 760, hold: 120 }))
-  later(700, () => glitchText(coords, { ms: 900 }))
-  // the start state has to be painted once before .is-in, or nothing transitions
-  void root.offsetWidth
-  let inRaf = requestAnimationFrame(() => {
-    inRaf = requestAnimationFrame(() => root.classList.add('is-in'))
-  })
+  let inRaf = 0
+  let played = false
+  const play = () => {
+    if (played) return
+    played = true
+    later(120, () => glitchText(num, { ms: 900, hold: 250 }))
+    later(380, () => glitchText(name, { ms: 760, hold: 120 }))
+    later(700, () => glitchText(coords, { ms: 900 }))
+    // the start state has to be painted once before .is-in, or nothing transitions
+    void root.offsetWidth
+    inRaf = requestAnimationFrame(() => {
+      inRaf = requestAnimationFrame(() => root.classList.add('is-in'))
+    })
+  }
+  if (autoplay) play()
 
   // the lower parts arrive when they scroll into view
   const io = new IntersectionObserver(
@@ -65,7 +82,7 @@ export function startVolumeMotion(root) {
         if (e.target.matches('.vol__fact')) glitchText(e.target.querySelector('h2'), { ms: 600 })
         io.unobserve(e.target)
       }),
-    { root, threshold: 0.25 },
+    { root: scroller, threshold: 0.25 },
   )
   root.querySelectorAll('.vol__fact, .vol-card').forEach((el) => io.observe(el))
 
@@ -90,16 +107,17 @@ export function startVolumeMotion(root) {
     target.y = 0
   }
   const onScroll = () => {
-    scroll = root.scrollTop
+    scroll = scroller.scrollTop
   }
   window.addEventListener('pointermove', onMove)
   document.addEventListener('pointerleave', onLeave)
-  root.addEventListener('scroll', onScroll, { passive: true })
+  scroller?.addEventListener('scroll', onScroll, { passive: true })
 
   let raf = 0
   const frame = () => {
     now.x = lerp(now.x, target.x, 0.08)
     now.y = lerp(now.y, target.y, 0.08)
+    if (getScroll) scroll = getScroll()
     now.s = lerp(now.s, scroll, 0.14)
     if (photo) {
       // the photo is 8% bigger than its frame, so it can lean and drift without showing an edge
@@ -113,7 +131,7 @@ export function startVolumeMotion(root) {
   }
   raf = requestAnimationFrame(frame)
 
-  return () => {
+  const stop = () => {
     cancelAnimationFrame(raf)
     cancelAnimationFrame(inRaf)
     timers.forEach(clearTimeout)
@@ -121,8 +139,10 @@ export function startVolumeMotion(root) {
     hoverables.forEach((el) => el.removeEventListener('pointerenter', onHover))
     window.removeEventListener('pointermove', onMove)
     document.removeEventListener('pointerleave', onLeave)
-    root.removeEventListener('scroll', onScroll)
+    scroller?.removeEventListener('scroll', onScroll)
     ;[name, num, coords].forEach((el) => el?.dataset.text && (el.textContent = el.dataset.text))
     root.classList.remove('is-moving', 'is-in')
   }
+  stop.play = play
+  return stop
 }

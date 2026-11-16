@@ -701,3 +701,29 @@
     border-bottom: 1px solid var(--vol-line);
   }
 }
+
+/* ---- on the index (volume/VolumeSection.jsx) -------------------------------
+   The same cover, held in a fixed room the index's bands sweep in over block 02.
+   The index's scroll moves the cover's contents, so the room itself never scrolls. */
+.vsec {
+  position: fixed;
+  inset: 0;
+  z-index: 52;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+.vol--section {
+  position: absolute;
+  inset: 0 0 28px;
+  overflow: hidden;
+}
+
+.vol--section::before {
+  position: absolute;
+  inset: 0;
+}
+
+.vol--section .vol__in {
+  will-change: transform;
+}

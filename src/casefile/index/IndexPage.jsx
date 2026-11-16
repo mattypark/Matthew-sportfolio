@@ -6,7 +6,7 @@
 //   2  the hand-over         when the gauge hits 100 the green speed bands
 //                            play block 02 in on their own
 //   3  block 02              his back on the lawn, the words rising
-//   4  how it's built        bands sweep the tech room in; the scroll steps down its list
+//   4  volume               bands sweep the Volume cover in; the scroll carries it up
 //   5  the way out           black bands sweep the footer in from the right
 //   6  the gear              once the footer is in, it fades away and the
 //                            3D bench slides down from the top and zooms
@@ -24,7 +24,7 @@ import Hud from './Hud.jsx'
 import Title from './Title.jsx'
 import Block2 from './Block2.jsx'
 import Footer from './Footer.jsx'
-import TechSection from '../tech/TechSection.jsx'
+import VolumeSection from '../volume/VolumeSection.jsx'
 import GearStage from '../gear/GearStage.jsx'
 import { GEAR_IN, GEAR_MS, GEAR_RUN } from '../gear/phase.js'
 import { caseFile } from '../content.js'
@@ -35,8 +35,9 @@ const END_PAD = 160 // run-out after the last line leaves the top
 const TITLE_OUT = 0.5 // viewport heights of scroll that carry the name off
 const HANDOVER_LEN = 1.1 // viewport heights
 const B2_LEN = 1.1
-const TECH_IN = 0.7 // viewport heights for the bands to bring the tech room in
-const TECH_LEN = 3.4 // its whole stay, the sweep included: about 0.4 of a screen per word
+const VOL_IN = 0.7 // viewport heights for the bands to bring the Volume cover in
+const VOL_HOLD = 0.35 // it plays its arrival before the scroll starts carrying it
+const VOL_REST = 0.3 // and rests on its bottom before the footer comes
 const FOOTER_LEN = 1.0
 const HUD_FADE_BY = 0.5
 const PHONE = 720 // px: below this the copy is one centred column (index.css)
@@ -54,7 +55,9 @@ export default function IndexPage() {
   const title = useRef(null)
   const b2 = useRef(null)
   const ftr = useRef(null)
-  const tech = useRef(null)
+  const volume = useRef(null)
+  const remeasure = useRef(() => {})
+  const onVolumeResize = useCallback(() => remeasure.current(), [])
   const gearStage = useRef(null)
   const scrollRef = useRef(null)
   const phasesRef = useRef(null)
@@ -95,7 +98,8 @@ export default function IndexPage() {
       const s1 = vh + lines.length * pitch + END_PAD
       const s2 = s1 + vh * HANDOVER_LEN
       const s3 = s2 + vh * B2_LEN
-      const st = s3 + vh * TECH_LEN
+      const volTravel = volume.current?.overflow() ?? 0
+      const st = s3 + vh * (VOL_IN + VOL_HOLD + VOL_REST) + volTravel
       const s4 = st + vh * FOOTER_LEN
       // phones end on the footer: the 3D is a desktop screen only
       gearOn = vw >= PHONE
@@ -108,16 +112,13 @@ export default function IndexPage() {
       lastFrame = -1 // force a redraw at the new size
     }
     measure()
-    if (window.location.hash === '#how-it-is-built') {
-      scroll.to(phases.s3 + vh * TECH_IN, { immediate: true })
-      tech.current?.prepare()
-    }
+    remeasure.current = measure
+    if (window.location.hash === '#volume') scroll.to(phases.s3 + vh * VOL_IN, { immediate: true })
 
     const onResize = () => measure()
     const onMove = (e) => {
       hud.current?.pointer(e.clientX / vw, e.clientY / vh)
       ftr.current?.pointer(e.clientX, e.clientY)
-      tech.current?.pointer(e.clientX / vw, e.clientY / vh)
       gearStage.current?.pointer(e.clientX, e.clientY)
     }
     window.addEventListener('resize', onResize)
@@ -154,19 +155,18 @@ export default function IndexPage() {
       lastV = v
       const travel = Math.min(v, s1)
       const hand = clamp01((v - s1) / (s2 - s1))
-      const techIn = clamp01((v - s3) / (vh * TECH_IN))
-      const techAt = clamp01((v - s3 - vh * TECH_IN) / (st - s3 - vh * TECH_IN))
+      const volIn = clamp01((v - s3) / (vh * VOL_IN))
+      const volTravel = st - s3 - vh * (VOL_IN + VOL_HOLD + VOL_REST)
+      const volAt = volTravel > 0 ? clamp01((v - s3 - vh * (VOL_IN + VOL_HOLD)) / volTravel) : 0
       const foot = clamp01((v - st) / (s4 - st))
       const gearIn = gearOn ? clamp01((v - s4) / (s5 - s4)) : 0
       const gearLocal = gearOn ? clamp01((v - s5) / Math.max(1, s6 - s5)) : 0
-      // the field's pictures start loading once block 02 is up
-      if (v > s2) tech.current?.prepare()
 
       title.current?.update({ out: v / (vh * TITLE_OUT), drift: v })
       if (!loading) hud.current?.progress(travel / s1)
       hud.current?.fade(1 - clamp01(hand / HUD_FADE_BY))
-      b2.current?.update({ clip: bandClip(hand), travel: Math.max(0, v - s2), foot: techIn, vh })
-      tech.current?.update({ clip: bandClip(techIn), level: techIn, progress: techAt, covered: foot >= 1 })
+      b2.current?.update({ clip: bandClip(hand), travel: Math.max(0, v - s2), foot: volIn, vh })
+      volume.current?.update({ clip: bandClip(volIn), level: volIn, progress: volAt, covered: foot >= 1 })
       ftr.current?.update(bandClip(foot, { dir: 'rtl' }), foot, gearStage.current?.covers(gearIn))
       if (gearOn && foot > GEAR_PREFETCH) gearStage.current?.prefetch()
       gearStage.current?.update(gearIn, gearLocal)
@@ -251,7 +251,7 @@ export default function IndexPage() {
       </div>
       <Hud ref={hud} />
       <Block2 ref={b2} />
-      <TechSection ref={tech} />
+      <VolumeSection ref={volume} onResize={onVolumeResize} />
       <Footer ref={ftr} />
       <GearStage ref={gearStage} onStory={onStory} onPinch={onPinch} />
     </main>
